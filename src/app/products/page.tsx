@@ -4,6 +4,8 @@ import { desc } from "drizzle-orm";
 import ProductCard from "@/components/ProductCard";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Katalog Produk",
   description: "Lihat koleksi lengkap produk herbal Sin Herbal. Herbal alami berkualitas untuk kesehatan Anda.",

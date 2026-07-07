@@ -1,12 +1,12 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { pgTable, text, integer, boolean, timestamp } from "drizzle-orm/pg-core";
 
-export const categories = sqliteTable("categories", {
+export const categories = pgTable("categories", {
   id: text("id").primaryKey(),
   name: text("name").notNull().unique(),
   slug: text("slug").notNull().unique(),
 });
 
-export const products = sqliteTable("products", {
+export const products = pgTable("products", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   slug: text("slug").notNull().unique(),
@@ -15,12 +15,12 @@ export const products = sqliteTable("products", {
   images: text("images").notNull(),
   categoryId: text("category_id").notNull().references(() => categories.id),
   stock: integer("stock").notNull().default(0),
-  featured: integer("featured", { mode: "boolean" }).notNull().default(false),
-  createdAt: text("created_at").notNull(),
-  updatedAt: text("updated_at").notNull(),
+  featured: boolean("featured").notNull().default(false),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export const orders = sqliteTable("orders", {
+export const orders = pgTable("orders", {
   id: text("id").primaryKey(),
   customer: text("customer").notNull(),
   email: text("email").notNull(),
@@ -32,11 +32,11 @@ export const orders = sqliteTable("orders", {
   status: text("status").notNull().default("pending"),
   total: integer("total").notNull(),
   paymentId: text("payment_id"),
-  createdAt: text("created_at").notNull(),
-  updatedAt: text("updated_at").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export const orderItems = sqliteTable("order_items", {
+export const orderItems = pgTable("order_items", {
   id: text("id").primaryKey(),
   orderId: text("order_id").notNull().references(() => orders.id),
   productId: text("product_id").notNull().references(() => products.id),
