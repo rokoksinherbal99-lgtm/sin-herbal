@@ -14,6 +14,8 @@ export async function POST(req: NextRequest) {
     price: item.price,
   }));
 
+  const now = new Date().toISOString();
+
   db.insert(orders).values({
     id: orderId,
     customer: body.customer,
@@ -24,6 +26,8 @@ export async function POST(req: NextRequest) {
     province: body.province,
     postalCode: body.postalCode,
     total: body.total,
+    createdAt: now,
+    updatedAt: now,
   }).run();
 
   db.insert(orderItems).values(itemRows).run();

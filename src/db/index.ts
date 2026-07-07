@@ -1,6 +1,9 @@
-import { drizzle } from "drizzle-orm/neon-serverless";
-import { Pool } from "@neondatabase/serverless";
+import Database from "better-sqlite3";
+import { drizzle } from "drizzle-orm/better-sqlite3";
 import * as schema from "./schema";
+import path from "path";
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle(pool, { schema });
+const dbPath = path.join(process.cwd(), "src", "db", "sqlite.db");
+const sqlite = new Database(dbPath);
+sqlite.pragma("journal_mode = WAL");
+export const db = drizzle(sqlite, { schema });
