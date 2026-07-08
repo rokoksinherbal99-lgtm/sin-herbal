@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/utils";
 import { useToast } from "@/components/Toast";
-import { Search, ChevronDown, ChevronUp, Plus } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 interface OrderItem {
@@ -77,6 +77,18 @@ export default function AdminOrdersPage() {
       fetchOrders();
     } catch (err: any) {
       toast(err.message || "Gagal mengubah status", "error");
+    }
+  };
+
+  const deleteOrder = async (id: string) => {
+    if (!confirm("Hapus pesanan ini?")) return;
+    try {
+      const res = await fetch(`/api/admin/orders/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error();
+      toast("Pesanan berhasil dihapus");
+      fetchOrders();
+    } catch {
+      toast("Gagal menghapus pesanan", "error");
     }
   };
 
@@ -160,17 +172,22 @@ export default function AdminOrdersPage() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 flex items-center gap-2">
-                  <label className="text-sm text-gray-500">Ubah Status:</label>
-                  <select
-                    value={order.status}
-                    onChange={(e) => updateStatus(order.id, e.target.value)}
-                    className="rounded-lg border px-3 py-1 text-sm"
-                  >
-                    {STATUSES.map((s) => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm text-gray-500">Ubah Status:</label>
+                    <select
+                      value={order.status}
+                      onChange={(e) => updateStatus(order.id, e.target.value)}
+                      className="rounded-lg border px-3 py-1 text-sm"
+                    >
+                      {STATUSES.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <button onClick={() => deleteOrder(order.id)} className="flex items-center gap-1 text-sm text-red-500 hover:text-red-700">
+                    <Trash2 className="h-4 w-4" /> Hapus
+                  </button>
                 </div>
               </div>
             )}

@@ -1,21 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MapPin, Phone, Mail, MessageCircle, Send } from "lucide-react";
 
-const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE || "6281234567890";
-const DISPLAY_PHONE = `0${WA_PHONE.slice(2, 5)}-${WA_PHONE.slice(5, 9)}-${WA_PHONE.slice(9)}`;
+function formatPhone(phone: string) {
+  const cleaned = phone.replace(/\D/g, "");
+  return `0${cleaned.slice(2, 5)}-${cleaned.slice(5, 9)}-${cleaned.slice(9)}`;
+}
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [settings, setSettings] = useState({
+    wa_phone: "6281383863456",
+    address: "Ruko Sentra Niaga Blok A1 No. 5, Pakisaji, Malang 65162",
+    email: "info@sinherbal.com",
+  });
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((data) => setSettings((prev) => ({ ...prev, ...data })))
+      .catch(() => {});
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const text = `Halo Sin Herbal!%0A%0ANama: ${form.name}%0AEmail: ${form.email}%0APesan: ${form.message}`;
-    window.open(`https://wa.me/${WA_PHONE}?text=${text}`, "_blank");
+    window.open(`https://wa.me/${settings.wa_phone}?text=${text}`, "_blank");
     setSent(true);
   };
+
+  const phoneDisplay = formatPhone(settings.wa_phone);
 
   return (
     <div>
@@ -38,10 +54,10 @@ export default function ContactPage() {
         <div className="mx-auto max-w-4xl px-4 grid gap-10 md:grid-cols-2">
           <div className="space-y-6">
             {[
-              { icon: MapPin, title: "Alamat", content: "Ruko Sentra Niaga Blok A1 No. 5, Jl. Raya Malang–Surabaya KM 43, Pakisaji, Malang 65162", href: null },
-              { icon: Phone, title: "Telepon", content: DISPLAY_PHONE, href: `tel:${WA_PHONE}` },
-              { icon: MessageCircle, title: "WhatsApp", content: DISPLAY_PHONE, href: `https://wa.me/${WA_PHONE}` },
-              { icon: Mail, title: "Email", content: "info@sinherbal.com", href: "mailto:info@sinherbal.com" },
+              { icon: MapPin, title: "Alamat", content: settings.address, href: null },
+              { icon: Phone, title: "Telepon", content: phoneDisplay, href: `tel:${settings.wa_phone}` },
+              { icon: MessageCircle, title: "WhatsApp", content: phoneDisplay, href: `https://wa.me/${settings.wa_phone}` },
+              { icon: Mail, title: "Email", content: settings.email, href: `mailto:${settings.email}` },
             ].map((item) => (
               <div key={item.title} className="card-hover flex items-start gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-sm">

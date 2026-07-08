@@ -1,14 +1,22 @@
 "use client";
 
 import { MessageCircle, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const PHONE = process.env.NEXT_PUBLIC_WA_PHONE || "6281234567890";
 const MESSAGE = "Halo Sin Herbal, saya ingin order produk.";
 
 export default function WhatsAppButton() {
   const [open, setOpen] = useState(false);
-  const waUrl = `https://wa.me/${PHONE}?text=${encodeURIComponent(MESSAGE)}`;
+  const [phone, setPhone] = useState("6281383863456");
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((data) => { if (data.wa_phone) setPhone(data.wa_phone); })
+      .catch(() => {});
+  }, []);
+
+  const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(MESSAGE)}`;
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">

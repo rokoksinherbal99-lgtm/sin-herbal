@@ -51,6 +51,12 @@ CREATE TABLE IF NOT EXISTS order_items (
   quantity INTEGER NOT NULL,
   price INTEGER NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS settings (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
 `;
 
 export async function migrate() {
@@ -65,6 +71,17 @@ export async function seed() {
     { id: "cat-1", name: "Rokok Herbal", slug: "rokok-herbal" },
     { id: "cat-2", name: "Minuman & Suplemen", slug: "minuman-suplemen" },
   ]);
+
+  const existingSettings = await db.select().from(schema.settings);
+  if (existingSettings.length === 0) {
+    await db.insert(schema.settings).values([
+      { key: "wa_phone", value: "6281383863456" },
+      { key: "address", value: "Ruko Sentra Niaga Blok A1 No. 5, Pakisaji, Malang 65162" },
+      { key: "email", value: "info@sinherbal.com" },
+      { key: "shipping_info", value: "Gratis ongkir untuk area tertentu (syarat & ketentuan berlaku)" },
+      { key: "operating_hours", value: "Senin - Sabtu 08.00 - 17.00\nMinggu 09.00 - 14.00" },
+    ]);
+  }
 
   await db.insert(schema.products).values([
     { id: "p1", name: "Rokok Sin Herbal Original", slug: "rokok-sin-herbal-original", description: "Rokok herbal original dengan campuran bahan alami pilihan. Dikemas secara tradisional dengan komposisi herbal premium yang memberikan rasa khas dan nikmat. Produk legal terdaftar di Bea dan Cukai.", price: 25000, images: "/images/product-1.svg", categoryId: "cat-1", productType: "Rokok Herbal SKT", manufacturer: "PR UD Putra Bintang Timur, Malang", stock: 50, featured: true },
@@ -82,5 +99,6 @@ export async function teardown() {
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS products;
     DROP TABLE IF EXISTS categories;
+    DROP TABLE IF EXISTS settings;
   `);
 }

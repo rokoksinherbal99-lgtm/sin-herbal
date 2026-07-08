@@ -186,7 +186,7 @@ export default async function HomePage() {
             <h2 className="text-3xl font-bold text-white md:text-4xl">Siap Order?</h2>
             <p className="mt-3 text-lg text-emerald-100/80">Hubungi kami via WhatsApp untuk pesan atau jadi reseller.</p>
             <a
-              href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6281234567890"}`}
+              href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456"}`}
               target="_blank"
               className="btn-primary mt-8 gap-2.5 bg-white text-emerald-800 shadow-xl hover:bg-emerald-50 hover:from-white hover:to-white hover:text-emerald-700"
             >

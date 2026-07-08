@@ -19,6 +19,7 @@ export default function Header() {
     { href: "/", label: "Beranda" },
     { href: "/products", label: "Produk" },
     { href: "/harga", label: "Harga" },
+    { href: "/cek-ongkir", label: "Cek Ongkir" },
     { href: "/tentang-kami", label: "Tentang" },
     { href: "/faq", label: "FAQ" },
     { href: "/kontak", label: "Kontak" },

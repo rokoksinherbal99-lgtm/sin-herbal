@@ -1,23 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { formatPrice } from "@/lib/utils";
 import { MessageCircle, CreditCard, ChevronLeft, ShoppingBag } from "lucide-react";
 
-const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE || "6281234567890";
-
 export default function CheckoutPage() {
   const { items, total, clearCart } = useCart();
   const router = useRouter();
+  const [waPhone, setWaPhone] = useState("6281383863456");
   const [form, setForm] = useState({
     customer: "", email: "", phone: "", address: "", city: "", province: "", postalCode: "",
   });
   const [loading, setLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"wa" | "midtrans">("wa");
-  const midtransAvailable = false; // belum dikonfigurasi
+  const midtransAvailable = false;
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((data) => { if (data.wa_phone) setWaPhone(data.wa_phone); })
+      .catch(() => {});
+  }, []);
 
   const update = (field: string, value: string) => setForm((prev) => ({ ...prev, [field]: value }));
 
@@ -35,7 +41,7 @@ export default function CheckoutPage() {
       if (paymentMethod === "wa") {
         const msg = `Halo Sin Herbal!%0A%0ASaya ingin order:%0A${items.map((i) => `- ${i.name} x${i.quantity} = Rp ${(i.price * i.quantity).toLocaleString("id-ID")}`).join("%0A")}%0A%0ATotal: Rp ${total.toLocaleString("id-ID")}%0A%0ANama: ${form.customer}%0AEmail: ${form.email}%0ATelp: ${form.phone}%0AAlamat: ${form.address}, ${form.city}, ${form.province} ${form.postalCode}%0A%0AOrder ID: ${order.id}`;
         clearCart();
-        router.push(`https://wa.me/${WA_PHONE}?text=${msg}`);
+        router.push(`https://wa.me/${waPhone}?text=${msg}`);
       } else {
         const payRes = await fetch("/api/payments/midtrans", {
           method: "POST",

@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
-import { eq } from "drizzle-orm";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
 
-const ALLOWED_KEYS = ["wa_phone_number_id", "wa_access_token", "wa_verify_token", "wa_business_phone", "wa_admin_phone"];
+const ALLOWED_KEYS = [
+  "wa_phone_number_id", "wa_access_token", "wa_verify_token", "wa_business_phone", "wa_admin_phone",
+  "wa_phone", "address", "email", "shipping_info", "operating_hours",
+];
 
 export async function GET(req: Request) {
   if (!checkAuth(req)) return unauthorized();

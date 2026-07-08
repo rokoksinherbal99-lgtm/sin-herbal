@@ -1,10 +1,52 @@
 import Link from "next/link";
 import { Leaf, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { db } from "@/db";
+import { settings } from "@/db/schema";
 
-const WA_NUMBER = process.env.NEXT_PUBLIC_WA_PHONE || "6281234567890";
-const DISPLAY_PHONE = `0${WA_NUMBER.slice(2, 5)}-${WA_NUMBER.slice(5, 9)}-${WA_NUMBER.slice(9)}`;
+const DEFAULTS: Record<string, string> = {
+  wa_phone: "6281383863456",
+  address: "Ruko Sentra Niaga Blok A1 No. 5, Pakisaji, Malang 65162",
+  email: "info@sinherbal.com",
+  shipping_info: "Gratis ongkir untuk area tertentu (syarat & ketentuan berlaku)",
+  operating_hours: "Senin - Sabtu 08.00 - 17.00\nMinggu 09.00 - 14.00",
+};
 
-export default function Footer() {
+async function getSettings() {
+  try {
+    const rows = await db.select().from(settings);
+    const result = { ...DEFAULTS };
+    for (const row of rows) {
+      if (row.key in result) {
+        result[row.key as keyof typeof result] = row.value;
+      }
+    }
+    return result;
+  } catch {
+    return DEFAULTS;
+  }
+}
+
+function formatPhone(phone: string) {
+  const cleaned = phone.replace(/\D/g, "");
+  return `0${cleaned.slice(2, 5)}-${cleaned.slice(5, 9)}-${cleaned.slice(9)}`;
+}
+
+function parseHours(hours: string) {
+  const lines = hours.split("\n").filter(Boolean);
+  if (lines.length >= 2) {
+    return lines.map((line) => {
+      const [days, ...rest] = line.split(" ");
+      return { days, hours: rest.join(" ") };
+    });
+  }
+  return [{ days: "Senin - Sabtu", hours: "08.00 - 17.00" }, { days: "Minggu", hours: "09.00 - 14.00" }];
+}
+
+export default async function Footer() {
+  const s = await getSettings();
+  const phoneDisplay = formatPhone(s.wa_phone);
+  const hours = parseHours(s.operating_hours);
+
   return (
     <footer className="border-t border-gray-100 bg-gray-50">
       <div className="relative mx-auto max-w-6xl px-4">
@@ -48,35 +90,30 @@ export default function Footer() {
               <ul className="mt-4 space-y-3">
                 <li className="flex items-start gap-2.5 text-sm text-gray-500">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                  Ruko Sentra Niaga Blok A1 No. 5, Malang
+                  {s.address}
                 </li>
                 <li className="flex items-center gap-2.5 text-sm text-gray-500">
                   <Phone className="h-4 w-4 shrink-0 text-emerald-600" />
-                  {DISPLAY_PHONE}
+                  {phoneDisplay}
                 </li>
                 <li className="flex items-center gap-2.5 text-sm text-gray-500">
                   <Mail className="h-4 w-4 shrink-0 text-emerald-600" />
-                  info@sinherbal.com
+                  {s.email}
                 </li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold text-gray-900">Jam Operasional</h4>
               <ul className="mt-4 space-y-3">
-                <li className="flex items-start gap-2.5 text-sm text-gray-500">
-                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                  <div>
-                    <p>Senin - Sabtu</p>
-                    <p className="font-medium text-gray-700">08.00 - 17.00</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5 text-sm text-gray-500">
-                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                  <div>
-                    <p>Minggu</p>
-                    <p className="font-medium text-gray-700">09.00 - 14.00</p>
-                  </div>
-                </li>
+                {hours.map((h, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm text-gray-500">
+                    <Clock className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+                    <div>
+                      <p>{h.days}</p>
+                      <p className="font-medium text-gray-700">{h.hours}</p>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

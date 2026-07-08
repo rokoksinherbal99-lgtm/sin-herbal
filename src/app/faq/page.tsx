@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronDown, HelpCircle } from "lucide-react";
 import Link from "next/link";
 
-const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE || "6281234567890";
-const DISPLAY_PHONE = `0${WA_PHONE.slice(2, 5)}-${WA_PHONE.slice(5, 9)}-${WA_PHONE.slice(9)}`;
+function formatPhone(phone: string) {
+  const cleaned = phone.replace(/\D/g, "");
+  return `0${cleaned.slice(2, 5)}-${cleaned.slice(5, 9)}-${cleaned.slice(9)}`;
+}
 
-const faqs = [
+const faqs = (displayPhone: string) => [
   {
     q: "Apakah bisa kirim ke seluruh Indonesia?",
     a: "Ya, kami melayani pengiriman ke seluruh Indonesia melalui jasa ekspedisi terpercaya. Ongkir gratis untuk area tertentu, hubungi kami untuk detailnya.",
@@ -22,7 +24,7 @@ const faqs = [
   },
   {
     q: "Bagaimana cara pesan?",
-    a: `Anda bisa memesan melalui website ini, atau menghubungi kami via WhatsApp di ${DISPLAY_PHONE}.`,
+    a: `Anda bisa memesan melalui website ini, atau menghubungi kami via WhatsApp di ${displayPhone}.`,
   },
   {
     q: "Apa saja manfaat produk Sin Herbal?",
@@ -36,6 +38,17 @@ const faqs = [
 
 export default function FAQPage() {
   const [open, setOpen] = useState<number | null>(null);
+  const [waPhone, setWaPhone] = useState("6281383863456");
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((data) => { if (data.wa_phone) setWaPhone(data.wa_phone); })
+      .catch(() => {});
+  }, []);
+
+  const displayPhone = formatPhone(waPhone);
+  const allFaqs = faqs(displayPhone);
 
   return (
     <div>
@@ -52,7 +65,7 @@ export default function FAQPage() {
 
       <section className="py-16">
         <div className="mx-auto max-w-3xl px-4 space-y-3">
-          {faqs.map((faq, i) => (
+          {allFaqs.map((faq, i) => (
             <div key={i} className={`overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all ${open === i ? "shadow-md" : ""}`}>
               <button
                 onClick={() => setOpen(open === i ? null : i)}

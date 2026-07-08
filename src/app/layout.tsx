@@ -47,7 +47,7 @@ const jsonLd = {
   image: `${BASE_URL}/images/product-1.svg`,
   address: { "@type": "PostalAddress", addressCountry: "ID" },
   contactPoint: { "@type": "ContactPoint", telephone: "+62-812-3456-7890", contactType: "customer service" },
-  sameAs: [`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6281234567890"}`],
+  sameAs: [`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456"}`],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
