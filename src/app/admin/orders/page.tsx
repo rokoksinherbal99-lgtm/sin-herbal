@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/utils";
 import { useToast } from "@/components/Toast";
-import { Search, ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
-import Link from "next/link";
+import { Search, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 
 interface OrderItem {
   id: string; name: string; quantity: number; price: number;
@@ -16,7 +15,7 @@ interface Order {
 }
 
 const STATUSES = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
-const SOURCES = ["website", "facebook", "whatsapp"];
+const SOURCES = ["website", "whatsapp"];
 
 const statusColor: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-700",
@@ -28,13 +27,11 @@ const statusColor: Record<string, string> = {
 
 const sourceBadge: Record<string, string> = {
   website: "bg-sky-100 text-sky-700",
-  facebook: "bg-indigo-100 text-indigo-700",
   whatsapp: "bg-emerald-100 text-emerald-700",
 };
 
 const sourceLabel: Record<string, string> = {
   website: "Website",
-  facebook: "Facebook",
   whatsapp: "WhatsApp",
 };
 
@@ -99,12 +96,7 @@ export default function AdminOrdersPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Pesanan</h1>
-        <Link href="/admin/orders/facebook" className="btn-primary flex items-center gap-2 text-sm">
-          <Plus className="h-4 w-4" /> Tambah Pesanan FB
-        </Link>
-      </div>
+      <h1 className="text-2xl font-bold text-gray-800">Pesanan</h1>
       <div className="mt-4 flex items-center gap-4">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />

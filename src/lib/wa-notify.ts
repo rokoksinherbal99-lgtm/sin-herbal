@@ -4,7 +4,6 @@ import { eq } from "drizzle-orm";
 
 const SOURCE_LABEL: Record<string, string> = {
   website: "Website",
-  facebook: "Facebook",
   whatsapp: "WhatsApp",
 };
 
