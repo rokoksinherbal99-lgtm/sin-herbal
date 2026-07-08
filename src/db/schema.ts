@@ -14,6 +14,8 @@ export const products = pgTable("products", {
   price: integer("price").notNull(),
   images: text("images").notNull(),
   categoryId: text("category_id").notNull().references(() => categories.id),
+  productType: text("product_type").notNull().default("Herbal"),
+  manufacturer: text("manufacturer").default("PR UD Putra Bintang Timur, Malang"),
   stock: integer("stock").notNull().default(0),
   featured: boolean("featured").notNull().default(false),
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -32,7 +34,16 @@ export const orders = pgTable("orders", {
   status: text("status").notNull().default("pending"),
   total: integer("total").notNull(),
   paymentId: text("payment_id"),
+  source: text("source").notNull().default("website"),
+  platformData: text("platform_data"),
+  notes: text("notes"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const settings = pgTable("settings", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
