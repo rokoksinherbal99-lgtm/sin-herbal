@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { Package, ShoppingBag, LayoutDashboard, Settings, LogOut, Menu, X } from "lucide-react";
+import { Package, ShoppingBag, LayoutDashboard, LogOut, Menu, X } from "lucide-react";
 import { ToastProvider } from "@/components/Toast";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -36,7 +36,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/products", label: "Produk", icon: Package },
     { href: "/admin/orders", label: "Pesanan", icon: ShoppingBag },
-    { href: "/admin/settings", label: "Pengaturan", icon: Settings },
   ];
 
   return (

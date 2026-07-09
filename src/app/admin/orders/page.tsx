@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/utils";
 import { useToast } from "@/components/Toast";
-import { Search, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
+import { Search, ChevronDown, ChevronUp } from "lucide-react";
 
 interface OrderItem {
   id: string; name: string; quantity: number; price: number;
@@ -11,11 +11,10 @@ interface OrderItem {
 
 interface Order {
   id: string; customer: string; email: string; total: number; status: string;
-  source: string; createdAt: string; items: OrderItem[];
+  createdAt: string; items: OrderItem[];
 }
 
 const STATUSES = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
-const SOURCES = ["website", "whatsapp"];
 
 const statusColor: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-700",
@@ -25,22 +24,11 @@ const statusColor: Record<string, string> = {
   cancelled: "bg-red-100 text-red-700",
 };
 
-const sourceBadge: Record<string, string> = {
-  website: "bg-sky-100 text-sky-700",
-  whatsapp: "bg-emerald-100 text-emerald-700",
-};
-
-const sourceLabel: Record<string, string> = {
-  website: "Website",
-  whatsapp: "WhatsApp",
-};
-
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
-  const [sourceFilter, setSourceFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -77,21 +65,8 @@ export default function AdminOrdersPage() {
     }
   };
 
-  const deleteOrder = async (id: string) => {
-    if (!confirm("Hapus pesanan ini?")) return;
-    try {
-      const res = await fetch(`/api/admin/orders/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error();
-      toast("Pesanan berhasil dihapus");
-      fetchOrders();
-    } catch {
-      toast("Gagal menghapus pesanan", "error");
-    }
-  };
-
   const filtered = orders
     .filter((o) => !statusFilter || o.status === statusFilter)
-    .filter((o) => !sourceFilter || o.source === sourceFilter)
     .filter((o) => !search || o.customer.toLowerCase().includes(search.toLowerCase()) || o.email.toLowerCase().includes(search.toLowerCase()) || o.id.includes(search));
 
   return (
@@ -102,10 +77,6 @@ export default function AdminOrdersPage() {
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Cari customer, email, atau ID..." className="w-full rounded-lg border py-2 pl-9 pr-3 text-sm" />
         </div>
-        <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)} className="rounded-lg border px-3 py-2 text-sm">
-          <option value="">Semua Sumber</option>
-          {SOURCES.map((s) => <option key={s} value={s}>{sourceLabel[s]}</option>)}
-        </select>
         <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="rounded-lg border px-3 py-2 text-sm">
           <option value="">Semua Status</option>
           {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -119,11 +90,8 @@ export default function AdminOrdersPage() {
               onClick={() => setExpanded(expanded === order.id ? null : order.id)}
               className="flex w-full items-center justify-between px-6 py-4 text-left"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
                 <p className="font-semibold text-gray-800">{order.customer}</p>
-                <span className={`rounded px-2 py-0.5 text-xs font-medium ${sourceBadge[order.source] || "bg-gray-100 text-gray-600"}`}>
-                  {sourceLabel[order.source] || order.source}
-                </span>
                 <span className={`rounded px-2 py-0.5 text-xs font-medium ${statusColor[order.status] || "bg-gray-100 text-gray-600"}`}>
                   {order.status}
                 </span>
@@ -144,14 +112,6 @@ export default function AdminOrdersPage() {
                     <p className="text-gray-800">{order.email}</p>
                   </div>
                   <div>
-                    <p className="text-gray-500">No. Telp</p>
-                    <p className="text-gray-800">{order.email.includes("whatsapp.com") ? order.email.split("@")[0] : "-"}</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-500">Sumber</p>
-                    <p className="text-gray-800">{sourceLabel[order.source] || order.source}</p>
-                  </div>
-                  <div>
                     <p className="text-gray-500">ID Pesanan</p>
                     <p className="text-gray-800 font-mono text-xs">{order.id}</p>
                   </div>
@@ -164,28 +124,23 @@ export default function AdminOrdersPage() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <label className="text-sm text-gray-500">Ubah Status:</label>
-                    <select
-                      value={order.status}
-                      onChange={(e) => updateStatus(order.id, e.target.value)}
-                      className="rounded-lg border px-3 py-1 text-sm"
-                    >
-                      {STATUSES.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <button onClick={() => deleteOrder(order.id)} className="flex items-center gap-1 text-sm text-red-500 hover:text-red-700">
-                    <Trash2 className="h-4 w-4" /> Hapus
-                  </button>
+                <div className="mt-4 flex items-center gap-2">
+                  <label className="text-sm text-gray-500">Ubah Status:</label>
+                  <select
+                    value={order.status}
+                    onChange={(e) => updateStatus(order.id, e.target.value)}
+                    className="rounded-lg border px-3 py-1 text-sm"
+                  >
+                    {STATUSES.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
             )}
           </div>
         ))}
-        {!loading && filtered.length === 0 && <p className="py-12 text-center text-gray-400">{search || statusFilter || sourceFilter ? "Tidak ada pesanan yang cocok." : "Belum ada pesanan."}</p>}
+        {!loading && filtered.length === 0 && <p className="py-12 text-center text-gray-400">{search || statusFilter ? "Tidak ada pesanan yang cocok." : "Belum ada pesanan."}</p>}
       </div>
     </div>
   );

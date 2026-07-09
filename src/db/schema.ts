@@ -15,7 +15,7 @@ export const products = pgTable("products", {
   images: text("images").notNull(),
   categoryId: text("category_id").notNull().references(() => categories.id),
   productType: text("product_type").notNull().default("Herbal"),
-  manufacturer: text("manufacturer").default("PR UD Putra Bintang Timur, Malang"),
+  manufacturer: text("manufacturer"),
   stock: integer("stock").notNull().default(0),
   featured: boolean("featured").notNull().default(false),
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -34,16 +34,7 @@ export const orders = pgTable("orders", {
   status: text("status").notNull().default("pending"),
   total: integer("total").notNull(),
   paymentId: text("payment_id"),
-  source: text("source").notNull().default("website"),
-  platformData: text("platform_data"),
-  notes: text("notes"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
-
-export const settings = pgTable("settings", {
-  key: text("key").primaryKey(),
-  value: text("value").notNull(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
@@ -53,4 +44,10 @@ export const orderItems = pgTable("order_items", {
   productId: text("product_id").notNull().references(() => products.id),
   quantity: integer("quantity").notNull(),
   price: integer("price").notNull(),
+});
+
+export const settings = pgTable("settings", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
