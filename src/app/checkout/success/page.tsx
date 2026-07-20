@@ -1,6 +1,12 @@
 import Link from "next/link";
-import { CheckCircle, Search, MessageCircle, Landmark, Building2, Copy } from "lucide-react";
+import { CheckCircle, Search } from "lucide-react";
 import { BankInfo } from "./bank-info";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Pesanan Berhasil",
+  robots: { index: false },
+};
 
 interface Props {
   searchParams: Promise<{ orderId: string; total: string }>;

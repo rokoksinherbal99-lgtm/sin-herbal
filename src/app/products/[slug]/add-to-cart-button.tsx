@@ -4,11 +4,8 @@ import { MessageCircle } from "lucide-react";
 import { generateSingleProductMessage } from "@/lib/wa-message";
 
 interface Props {
-  id: string;
   name: string;
   price: number;
-  image: string;
-  slug: string;
   disabled?: boolean;
 }
 

@@ -115,11 +115,8 @@ export default async function ProductDetailPage({ params }: Props) {
             </div>
           </div>
           <AddToCartButton
-            id={product.id}
             name={product.name}
             price={product.price}
-            image={product.images}
-            slug={product.slug}
             disabled={product.stock < 1}
           />
         </div>

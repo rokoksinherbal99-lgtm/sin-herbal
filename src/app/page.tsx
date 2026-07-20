@@ -9,6 +9,12 @@ import HomeFAQ from "@/components/HomeFAQ";
 import BannerSlider from "@/components/BannerSlider";
 import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/AnimateIn";
 import { Package, ShieldCheck, Truck, BadgeCheck, ChevronRight, MessageCircle, Leaf, DollarSign, FileText, MapPin, Store } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sin Herbal — Toko Herbal Alami Terpercaya",
+  description: "Toko herbal terpercaya menyediakan berbagai produk herbal alami berkualitas. Belanja herbal online aman & mudah di Sin Herbal.",
+};
 
 export const dynamic = "force-dynamic";
 
