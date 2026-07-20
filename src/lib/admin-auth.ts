@@ -17,14 +17,8 @@ if (ADMIN_PASSWORD && ADMIN_PASSWORD.length < 8) {
   console.warn("ADMIN_PASSWORD is too short (min 8 characters). Please set a stronger password.");
 }
 
-const loginAttempts = new Map<string, { count: number; reset: number }>();
-
 export function hashToken(password: string): string {
   return crypto.createHash("sha256").update(password + SALT).digest("hex");
-}
-
-export function getEnvPasswordHash(): string {
-  return hashToken(ADMIN_PASSWORD || "");
 }
 
 export async function createSession(): Promise<string> {
@@ -36,20 +30,6 @@ export async function createSession(): Promise<string> {
     expiresAt: new Date(Date.now() + SESSION_DURATION),
   });
   return id;
-}
-
-export async function validateSession(sessionId: string): Promise<boolean> {
-  try {
-    const [row] = await db.select().from(sessions).where(eq(sessions.id, sessionId)).limit(1);
-    if (!row) return false;
-    if (new Date(row.expiresAt) < new Date()) {
-      await db.delete(sessions).where(eq(sessions.id, sessionId));
-      return false;
-    }
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 export async function destroySession(sessionId: string): Promise<void> {
@@ -69,12 +49,25 @@ export async function checkAuth(req: Request): Promise<boolean> {
   const cookie = req.headers.get("cookie") || "";
   const match = cookie.match(/(?:^|;\s*)admin_token=([^;]+)/);
   if (!match) return false;
-  return validateSession(match[1]);
+  try {
+    const [row] = await db.select().from(sessions).where(eq(sessions.id, match[1])).limit(1);
+    if (!row) return false;
+    if (new Date(row.expiresAt) < new Date()) {
+      await db.delete(sessions).where(eq(sessions.id, match[1]));
+      return false;
+    }
+    await db.update(sessions).set({ expiresAt: new Date(Date.now() + SESSION_DURATION) }).where(eq(sessions.id, match[1]));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function unauthorized() {
   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 }
+
+const loginAttempts = new Map<string, { count: number; reset: number }>();
 
 export function checkLoginRateLimit(req: Request): NextResponse | null {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
@@ -100,8 +93,4 @@ export function checkLoginRateLimit(req: Request): NextResponse | null {
 
 export function getAdminUsername(): string {
   return ADMIN_USERNAME;
-}
-
-export function isPasswordStrong(password: string): boolean {
-  return password.length >= 8;
 }

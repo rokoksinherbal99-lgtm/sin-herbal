@@ -9,14 +9,25 @@ export async function GET() {
   try {
     const allProducts = await db.select().from(products);
 
-    const urls = [
+    const staticPages = [
       { loc: "", priority: "1.0", changefreq: "daily" },
       { loc: "/products", priority: "0.9", changefreq: "daily" },
-      { loc: "/cart", priority: "0.3", changefreq: "monthly" },
-      { loc: "/checkout", priority: "0.3", changefreq: "monthly" },
+      { loc: "/harga", priority: "0.5", changefreq: "weekly" },
+      { loc: "/cek-ongkir", priority: "0.4", changefreq: "monthly" },
+      { loc: "/lacak-pesanan", priority: "0.4", changefreq: "monthly" },
+      { loc: "/faq", priority: "0.6", changefreq: "weekly" },
+      { loc: "/tentang-kami", priority: "0.7", changefreq: "monthly" },
+      { loc: "/kontak", priority: "0.5", changefreq: "monthly" },
+      { loc: "/transparansi", priority: "0.3", changefreq: "monthly" },
+      { loc: "/ritual", priority: "0.3", changefreq: "monthly" },
+      { loc: "/journal", priority: "0.6", changefreq: "weekly" },
+    ];
+
+    const urls = [
+      ...staticPages,
       ...allProducts.map((p) => ({
         loc: `/products/${p.slug}`,
-        priority: "0.8",
+        priority: "0.8" as const,
         changefreq: "weekly" as const,
       })),
     ];
