@@ -14,9 +14,9 @@ export const products = pgTable("products", {
   price: integer("price").notNull(),
   images: text("images").notNull(),
   categoryId: text("category_id").notNull().references(() => categories.id),
-  productType: text("product_type").notNull().default("Herbal"),
   manufacturer: text("manufacturer"),
   stock: integer("stock").notNull().default(0),
+  batch_number: text("batch_number"),
   featured: boolean("featured").notNull().default(false),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
@@ -50,4 +50,32 @@ export const settings = pgTable("settings", {
   key: text("key").primaryKey(),
   value: text("value").notNull(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const auditLogs = pgTable("audit_logs", {
+  id: text("id").primaryKey(),
+  userId: text("user_id"),
+  action: text("action").notNull(),
+  targetType: text("target_type").notNull(),
+  targetId: text("target_id").notNull(),
+  oldValue: text("old_value"),
+  newValue: text("new_value"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const sessions = pgTable("sessions", {
+  id: text("id").primaryKey(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  expiresAt: timestamp("expires_at").notNull(),
+});
+
+export const testimonials = pgTable("testimonials", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  text: text("text").notNull(),
+  productId: text("product_id").references(() => products.id),
+  city: text("city").notNull(),
+  rating: integer("rating").notNull().default(5),
+  visible: boolean("visible").notNull().default(true),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });

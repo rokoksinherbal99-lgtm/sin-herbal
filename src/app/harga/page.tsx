@@ -31,7 +31,7 @@ export default async function PriceListPage() {
   for (const r of rows) {
     const catName = r.categories?.name || "Lainnya";
     if (!grouped[catName]) grouped[catName] = { category: catName, items: [] };
-    grouped[catName].items.push({ name: r.products.name, type: r.products.productType || "-", price: r.products.price });
+    grouped[catName].items.push({ name: r.products.name, type: "-", price: r.products.price });
   }
 
   return (

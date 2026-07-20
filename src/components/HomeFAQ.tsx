@@ -4,10 +4,11 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 const faqs = [
-  { q: "Apakah bisa kirim ke seluruh Indonesia?", a: "Ya, kami melayani pengiriman ke seluruh Indonesia melalui jasa ekspedisi terpercaya." },
-  { q: "Apakah produknya original?", a: "100% original. Kami distributor resmi. Garansi uang kembali jika tidak original." },
-  { q: "Bagaimana cara pesan?", a: "Pesan via website atau WhatsApp. Kami proses cepat dan antar ke seluruh Indonesia." },
-  { q: "Apa manfaat produk Sin Herbal?", a: "Terbuat dari bahan alami, tanpa nikotin, tidak adiktif, aman dikonsumsi." },
+  { q: "Apakah bisa kirim ke seluruh Indonesia?", a: "Tentu saja, selain mudah dalam pemesanannya, juga kami mudah dalam pengiriman karena mendukung ekspedisi ekspress yang mampu menjangkau seluruh Indonesia." },
+  { q: "Apakah produknya ori?", a: "Kami hanya menyediakan produk dengan kualitas 100% original sehingga sangat terjamin. Ini karena kami adalah agen resmi produk Sin." },
+  { q: "Apakah ada garansi?", a: "Tentu saja semua produk yang kami pasarkan dilengkapi dengan jaminan garansi resmi, garansi uang kembali jika produk tidak ori, tidak sampai ke lokasi, atau pun rusak." },
+  { q: "Bagaimana cara pesan nya?", a: "Cukup mudah, Anda hanya perlu menghubungi kami melalui kontak yang ada di website ini baik via telepon maupun WhatsApp, ataupun pesan melalui website ini." },
+  { q: "Apa khasiat kopi mega remeng?", a: "Kopi Mega Remeng sendiri adalah kopi yang dibuat dari biji kopi pilihan, ekstrak nabati dan akar tanaman yang berkhasiat menghilangkan pengaruh kafein yang terkandung dalam kopi diantaranya Jahe, Adas, Pulosari, Jinten Hitam, Kapulaga dan Madu sehingga Kopi Turkey ini aman diminum bagi penderita diabetes, kolesterol, asam urat, darah tinggi dan penderita penyakit yang lain." },
 ];
 
 export default function HomeFAQ() {
@@ -16,17 +17,17 @@ export default function HomeFAQ() {
   return (
     <div className="space-y-3">
       {faqs.map((faq, i) => (
-        <div key={i} className={`overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all ${open === i ? "shadow-md" : ""}`}>
+        <div key={i} className={`overflow-hidden rounded-sm border border-[#D5E0D3] bg-white shadow-sm transition-all ${open === i ? "shadow-md" : ""}`}>
           <button
             onClick={() => setOpen(open === i ? null : i)}
-            className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition hover:bg-gray-50/50"
+            className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition hover:bg-[#EDF2ED]"
           >
-            <span className="font-semibold text-gray-900">{faq.q}</span>
-            <ChevronDown className={`h-5 w-5 shrink-0 text-gray-400 transition duration-200 ${open === i ? "rotate-180" : ""}`} />
+            <span className="font-serif font-bold text-[#1A3626]">{faq.q}</span>
+            <ChevronDown className={`h-5 w-5 shrink-0 text-[#ABC1A7] transition duration-200 ${open === i ? "rotate-180" : ""}`} strokeWidth={1.5} />
           </button>
           {open === i && (
-            <div className="border-t border-gray-100 px-6 py-5 animate-fade-in">
-              <p className="leading-relaxed text-gray-600">{faq.a}</p>
+            <div className="border-t border-[#D5E0D3] px-6 py-5 animate-fade-in">
+              <p className="font-sans leading-relaxed text-[#5D8356]">{faq.a}</p>
             </div>
           )}
         </div>

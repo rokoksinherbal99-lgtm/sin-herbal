@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { Package, ShoppingBag, LayoutDashboard, LogOut, Menu, X } from "lucide-react";
+import { Package, ShoppingBag, LayoutDashboard, LogOut, Menu, X, MessageSquareText, KeyRound } from "lucide-react";
 import { ToastProvider } from "@/components/Toast";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -22,8 +22,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       .catch(() => setLoading(false));
   }, []);
 
-  const logout = () => {
-    document.cookie = "admin_token=; path=/; max-age=0";
+  const logout = async () => {
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+    } catch {}
     setAuthed(false);
     router.push("/admin");
   };
@@ -36,6 +38,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/products", label: "Produk", icon: Package },
     { href: "/admin/orders", label: "Pesanan", icon: ShoppingBag },
+    { href: "/admin/testimonials", label: "Testimoni", icon: MessageSquareText },
   ];
 
   return (
@@ -67,9 +70,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               );
             })}
           </nav>
-          <button onClick={logout} className="mt-auto flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50">
-            <LogOut className="h-4 w-4" /> Logout
-          </button>
+          <div className="mt-auto space-y-1">
+            <Link href="/admin/change-password" onClick={() => setSidebarOpen(false)} className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-100">
+              <KeyRound className="h-4 w-4" /> Ganti Password
+            </Link>
+            <button onClick={logout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50">
+              <LogOut className="h-4 w-4" /> Logout
+            </button>
+          </div>
         </aside>
         {sidebarOpen && <div className="fixed inset-0 z-30 bg-black/20 md:hidden" onClick={() => setSidebarOpen(false)} />}
         <main className="flex-1 overflow-auto p-8">{children}</main>

@@ -1,200 +1,228 @@
 import Link from "next/link";
+import Image from "next/image";
 import { db } from "@/db";
 import { products, categories } from "@/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import ProductCard from "@/components/ProductCard";
 import Testimonials from "@/components/Testimonials";
 import HomeFAQ from "@/components/HomeFAQ";
-import { Leaf, Shield, Truck, Star, ChevronRight, Sparkles, Package, MessageCircle } from "lucide-react";
+import BannerSlider from "@/components/BannerSlider";
+import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/AnimateIn";
+import { Package, ShieldCheck, Truck, BadgeCheck, ChevronRight, MessageCircle, Leaf, DollarSign, FileText, MapPin, Store } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
+async function queryWithTimeout<T>(fn: () => Promise<T>, ms = 15000): Promise<T> {
+  const timeout = new Promise<never>((_, reject) =>
+    setTimeout(() => reject(new Error("Database query timed out")), ms)
+  );
+  return Promise.race([fn(), timeout]);
+}
+
 export default async function HomePage() {
-  const featuredProducts = await db.select().from(products).where(eq(products.featured, true)).limit(8);
-  const allCategories = await db.select().from(categories);
+  const [featuredProducts, allCategories] = await Promise.all([
+    queryWithTimeout(() => db.select().from(products).where(eq(products.featured, true)).limit(8)),
+    queryWithTimeout(() => db.select().from(categories)),
+  ]);
 
   return (
     <>
-      {/* Hero */}
-      <section className="hero-pattern relative overflow-hidden bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-700 py-24 md:py-32">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-amber-500/10 blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/5 blur-2xl" />
-        </div>
-        <div className="relative mx-auto max-w-6xl px-4 text-center">
-          <div className="animate-fade-in-up">
-            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-200 backdrop-blur-sm">
-              <Sparkles className="h-3.5 w-3.5" />
-              Distributor Resmi Produk Herbal
-            </span>
-          </div>
-          <h1 className="mt-6 animate-fade-in-up stagger-1 text-4xl font-extrabold leading-tight text-white md:text-6xl md:leading-tight">
-            Herbal Alami
-            <br />
-            <span className="bg-gradient-to-r from-amber-200 to-yellow-200 bg-clip-text text-transparent">untuk Hidup Sehat</span>
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl animate-fade-in-up stagger-2 text-lg text-emerald-100/80">
-            100% bahan alami pilihan. Harga terjangkau, kualitas terbaik.
-          </p>
-          <div className="mt-8 flex animate-fade-in-up stagger-3 flex-wrap items-center justify-center gap-4">
-            <Link href="/products" className="btn-primary gap-2 text-base shadow-emerald-500/25">
-              <Package className="h-5 w-5" />
-              Lihat Produk
-            </Link>
-            <Link href="/harga" className="btn-secondary gap-2 text-base border-emerald-400/30 text-emerald-100 hover:text-emerald-800">
-              Daftar Harga
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* 1. Banner Slider */}
+      <BannerSlider />
 
-      {/* Why Choose Us */}
-      <section className="relative py-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-50/50 to-white" />
-        <div className="relative mx-auto max-w-6xl px-4">
-          <div className="text-center">
-            <span className="inline-block rounded-full bg-emerald-100 px-4 py-1 text-sm font-semibold text-emerald-700">Mengapa Kami?</span>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">Mengapa Memilih Sin Herbal?</h2>
-          </div>
-          <div className="mt-12 grid grid-cols-2 gap-6 md:grid-cols-4">
+      {/* 2. Welcome + Why Choose Us */}
+      <section className="py-16 md:py-20">
+        <div className="mx-auto max-w-6xl px-4">
+          <FadeInUp>
+            <div className="text-center">
+              <p className="font-serif text-sm uppercase tracking-[0.2em] text-[#5D8356]">Welcome to Our Site</p>
+              <h2 className="mt-2 font-serif text-4xl font-bold tracking-tight text-[#1A3626] md:text-5xl">Sin Herbal</h2>
+              <div className="mx-auto mt-4 h-px max-w-[60px] bg-[#ABC1A7]" />
+              <p className="mt-4 font-serif text-lg italic text-[#2C4C3B]">Agen Resmi Produk Sin</p>
+              <p className="mt-1 font-sans text-sm text-[#5D8356]">Alternatif rokok alami</p>
+            </div>
+          </FadeInUp>
+          <div className="mt-12 grid gap-8 border-t border-[#D5E0D3] pt-12 sm:grid-cols-2 md:grid-cols-4">
             {[
-              { icon: Leaf, title: "100% Alami", desc: "Bahan herbal pilihan terbaik dari nusantara" },
-              { icon: Shield, title: "Produk Original", desc: "Terdaftar resmi Bea & Cukai" },
-              { icon: Truck, title: "Gratis Ongkir", desc: "Syarat & ketentuan berlaku" },
-              { icon: Star, title: "Harga Terjangkau", desc: "Kualitas premium, harga bersahabat" },
-            ].map((item, i) => (
-              <div key={item.title} className={`card-hover group rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm stagger-${i + 1}`}>
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-200 transition group-hover:shadow-emerald-300 group-hover:scale-110">
-                  <item.icon className="h-7 w-7 text-white" />
+              { icon: Package, title: "Pilihan Produk Lengkap", desc: "Berbagai varian rokok herbal dan minuman serbuk kemasan sachet tersedia untuk Anda." },
+              { icon: DollarSign, title: "Harga Termurah", desc: "Kami memberikan penawaran harga terbaik dan paling ekonomis di kelasnya." },
+              { icon: ShieldCheck, title: "100% Original", desc: "Semua produk dijamin keasliannya. Kami adalah distributor resmi produk Sin." },
+              { icon: Truck, title: "Pengiriman Aman & Cepat", desc: "Dukung ekspedisi express yang mampu menjangkau seluruh wilayah Indonesia." },
+            ].map((item) => (
+              <div key={item.title} className="group text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#EDF2ED] transition group-hover:bg-[#D5E0D3]">
+                  <item.icon className="h-7 w-7 text-[#2C4C3B]" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{item.desc}</p>
+                <h3 className="mt-4 font-serif font-bold text-[#1A3626]">{item.title}</h3>
+                <p className="mt-1 font-sans text-sm leading-relaxed text-[#5D8356]">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Kategori Produk */}
-      <section className="py-20">
+      {/* 3. Best Seller */}
+      <section className="bg-white py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center">
-            <span className="inline-block rounded-full bg-amber-100 px-4 py-1 text-sm font-semibold text-amber-700">Kategori</span>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">Kategori Produk</h2>
+          <FadeInUp>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <span className="font-serif text-sm uppercase tracking-[0.2em] text-[#5D8356]">— Paling Laris —</span>
+                <h2 className="mt-2 font-serif text-3xl font-bold tracking-tight text-[#1A3626]">Produk Best Seller</h2>
+              </div>
+              <Link href="/products" className="hidden items-center gap-1 font-sans text-sm font-semibold text-[#2C4C3B] transition hover:text-[#1A3626] sm:inline-flex">
+                Semua Produk <ChevronRight className="h-4 w-4" strokeWidth={1.5} />
+              </Link>
+            </div>
+          </FadeInUp>
+          <StaggerContainer className="mt-10 grid grid-cols-2 gap-5 md:grid-cols-4">
+            {featuredProducts.map((p) => (
+              <StaggerItem key={p.id}>
+                <ProductCard id={p.id} name={p.name} slug={p.slug} price={p.price} image={p.images} stock={p.stock} />
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+          <div className="mt-8 text-center sm:hidden">
+            <Link href="/products" className="inline-flex items-center gap-1 border border-[#ABC1A7] px-6 py-3 font-sans text-sm font-semibold text-[#2C4C3B] transition hover:bg-[#EDF2ED]">
+              Semua Produk <ChevronRight className="h-4 w-4" strokeWidth={1.5} />
+            </Link>
           </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
+        </div>
+      </section>
+
+      {/* 4. Categories */}
+      <section className="py-16 md:py-20">
+        <div className="mx-auto max-w-6xl px-4">
+          <FadeInUp>
+            <div className="text-center">
+              <span className="font-serif text-sm uppercase tracking-[0.2em] text-[#5D8356]">— Kategori Produk —</span>
+              <h2 className="mt-2 font-serif text-3xl font-bold tracking-tight text-[#1A3626]">Menyediakan Rokok dan Minuman Serbuk Kemasan Sachet</h2>
+            </div>
+          </FadeInUp>
+          <StaggerContainer className="mt-10 grid gap-6 md:grid-cols-2">
             {allCategories.map((cat, i) => (
+              <StaggerItem key={cat.id}>
+                <Link
+                  href={`/products?cat=${cat.slug}`}
+                  className="group relative flex items-center overflow-hidden rounded-sm border border-[#D5E0D3] bg-white p-8 transition-all duration-300 hover:border-[#ABC1A7]/50 hover:shadow-lg md:p-10"
+                >
+                  <div className="flex items-center gap-6">
+                    <span className="font-serif text-5xl font-bold text-[#ABC1A7]/40 md:text-7xl">0{i + 1}</span>
+                    <div>
+                      <h3 className="font-serif text-2xl font-bold tracking-tight text-[#1A3626] md:text-3xl">{cat.name}</h3>
+                      <span className="mt-2 inline-flex items-center gap-1 font-sans text-sm font-semibold text-[#2C4C3B] transition group-hover:gap-2">
+                        View <ChevronRight className="h-4 w-4" strokeWidth={1.5} />
+                      </span>
+                    </div>
+                  </div>
+                  <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[#EDF2ED] opacity-50 transition group-hover:scale-150" />
+                </Link>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
+
+      {/* 5. Testimonials */}
+      <Testimonials />
+
+      {/* 6. Keunggulan Produk */}
+      <section className="bg-white py-16 md:py-20">
+        <div className="mx-auto max-w-6xl px-4">
+          <FadeInUp>
+            <div className="text-center">
+              <span className="font-serif text-sm uppercase tracking-[0.2em] text-[#5D8356]">— Keunggulan Produk —</span>
+              <h2 className="mt-2 font-serif text-3xl font-bold tracking-tight text-[#1A3626]">Mengapa Memilih Produk Kami</h2>
+              <div className="mx-auto mt-4 h-px max-w-[60px] bg-[#ABC1A7]" />
+            </div>
+          </FadeInUp>
+          <div className="mt-12 grid gap-8 md:grid-cols-3">
+            {[
+              { icon: BadgeCheck, title: "Terdaftar di Direktorat Jenderal Bea dan Cukai", desc: "Produk kami telah terdaftar secara resmi dan diawasi oleh instansi terkait." },
+              { icon: Leaf, title: "Mengandung Rempah-rempah Khas Nusantara", desc: "Dibuat dari bahan-bahan alami pilihan yang tumbuh subur di tanah air." },
+              { icon: DollarSign, title: "Harga Terjangkau dan Ramah di Kantong", desc: "Kualitas premium dengan harga yang bersahabat untuk semua kalangan." },
+            ].map((item) => (
+              <div key={item.title} className="group text-center">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-sm transition group-hover:shadow-md">
+                  <item.icon className="h-9 w-9 text-[#2C4C3B]" strokeWidth={1.5} />
+                </div>
+                <h3 className="mt-5 font-serif text-lg font-bold text-[#1A3626]">{item.title}</h3>
+                <p className="mt-2 font-sans text-sm leading-relaxed text-[#5D8356]">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Tentang Toko */}
+      <section className="py-16 md:py-20">
+        <div className="mx-auto max-w-6xl px-4">
+          <FadeInUp>
+            <div className="text-center">
+              <span className="font-serif text-5xl font-bold italic text-[#1A3626]">Tentang Toko</span>
+            </div>
+          </FadeInUp>
+          <div className="mt-10 grid gap-6 md:grid-cols-4">
+            {[
+              { icon: Store, title: "Profil", desc: "Kenali lebih dekat toko kami", href: "/tentang-kami" },
+              { icon: FileText, title: "Blog Info", desc: "Artikel dan informasi terbaru", href: "/journal" },
+              { icon: MapPin, title: "Contact us", desc: "Hubungi kami untuk informasi lebih", href: "/kontak" },
+              { icon: Package, title: "Product", desc: "Lihat koleksi produk lengkap", href: "/products" },
+            ].map((item) => (
               <Link
-                key={cat.id}
-                href={`/products?cat=${cat.slug}`}
-                className={`group card-hover relative overflow-hidden rounded-2xl p-8 md:p-10 ${i === 0 ? "bg-gradient-to-br from-emerald-600 to-emerald-800" : "bg-gradient-to-br from-amber-600 to-amber-800"}`}
+                key={item.title}
+                href={item.href}
+                className="group overflow-hidden rounded-sm border border-[#D5E0D3] bg-white transition-all duration-200 hover:border-[#ABC1A7]/50 hover:shadow-lg"
               >
-                <div className="pointer-events-none absolute -top-6 -right-6 h-32 w-32 rounded-full bg-white/10" />
-                <div className="pointer-events-none absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-white/5" />
-                <h3 className="relative text-2xl font-bold text-white md:text-3xl">{cat.name}</h3>
-                <p className="relative mt-2 text-white/70">Lihat koleksi produk {cat.name}</p>
-                <span className="relative mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white/90 transition group-hover:gap-3">
-                  Jelajahi <ChevronRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                </span>
+                <div className="aspect-[3/2] bg-gradient-to-br from-[#EDF2ED] to-[#D5E0D3] flex items-center justify-center">
+                  <item.icon className="h-12 w-12 text-[#2C4C3B]/60 transition group-hover:scale-110" strokeWidth={1.5} />
+                </div>
+                <div className="p-5">
+                  <h3 className="font-serif text-lg font-bold text-[#1A3626]">{item.title}</h3>
+                  <p className="mt-1 font-sans text-sm text-[#5D8356]">{item.desc}</p>
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Produk Unggulan / Best Seller */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-20">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="flex items-end justify-between">
-            <div>
-              <span className="inline-block rounded-full bg-emerald-100 px-4 py-1 text-sm font-semibold text-emerald-700">Best Seller</span>
-              <h2 className="mt-3 text-3xl font-bold text-gray-900">Produk Unggulan</h2>
-            </div>
-            <Link href="/products" className="btn-secondary hidden md:inline-flex gap-2 text-sm">
-              Lihat Semua <ChevronRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="mt-10 grid grid-cols-2 gap-5 md:grid-cols-4">
-            {featuredProducts.map((p) => (
-              <ProductCard key={p.id} id={p.id} name={p.name} slug={p.slug} price={p.price} image={p.images} productType={p.productType} stock={p.stock} />
-            ))}
-          </div>
-          <div className="mt-8 text-center md:hidden">
-            <Link href="/products" className="btn-secondary gap-2">
-              Lihat Semua <ChevronRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <Testimonials />
-
-      {/* Keunggulan Produk */}
-      <section className="py-20">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center">
-            <span className="inline-block rounded-full bg-emerald-100 px-4 py-1 text-sm font-semibold text-emerald-700">Keunggulan</span>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">Keunggulan Produk Kami</h2>
-          </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {[
-              { icon: Shield, title: "Terdaftar Resmi", desc: "Produk terdaftar di Direktorat Jenderal Bea dan Cukai. Legalitas terjamin." },
-              { icon: Leaf, title: "Bahan Alami Pilihan", desc: "Mengandung rempah-rempah khas nusantara pilihan dengan kualitas terbaik." },
-              { icon: Sparkles, title: "Kualitas Premium", desc: "Dibuat dengan standar kualitas tinggi. Harga bersaing untuk produk premium." },
-            ].map((item, i) => (
-              <div key={item.title} className={`card-hover group rounded-2xl border border-gray-100 bg-white p-8 shadow-sm stagger-${i + 1}`}>
-                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-200">
-                  <item.icon className="h-7 w-7 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
-                <p className="mt-2 leading-relaxed text-gray-500">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="bg-gradient-to-b from-emerald-50/50 to-white py-20">
+      {/* 8. FAQ */}
+      <section className="bg-white py-16 md:py-20">
         <div className="mx-auto max-w-3xl px-4">
-          <div className="text-center">
-            <span className="inline-block rounded-full bg-emerald-100 px-4 py-1 text-sm font-semibold text-emerald-700">FAQ</span>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">Pertanyaan Umum</h2>
-            <p className="mt-2 text-gray-500">Pertanyaan yang sering diajukan pelanggan kami.</p>
-          </div>
-          <div className="mt-10">
-            <HomeFAQ />
-          </div>
-          <div className="mt-6 text-center">
-            <Link href="/faq" className="btn-secondary gap-2 text-sm">
-              Lihat Semua FAQ <ChevronRight className="h-4 w-4" />
-            </Link>
-          </div>
+          <FadeInUp>
+            <div className="text-center">
+              <span className="font-serif text-sm uppercase tracking-[0.2em] text-[#5D8356]">— FAQ —</span>
+              <h2 className="mt-2 font-serif text-3xl font-bold tracking-tight text-[#1A3626]">Pertanyaan yang Sering Diajukan</h2>
+              <div className="mx-auto mt-4 h-px max-w-[60px] bg-[#ABC1A7]" />
+            </div>
+          </FadeInUp>
+          <FadeInUp delay={0.15}>
+            <div className="mt-10">
+              <HomeFAQ />
+            </div>
+          </FadeInUp>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-800 via-emerald-700 to-emerald-600 py-20">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-10 right-10 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
-          <div className="absolute bottom-10 left-10 h-48 w-48 rounded-full bg-amber-500/10 blur-3xl" />
-        </div>
-        <div className="relative mx-auto max-w-4xl px-4 text-center">
-          <div className="animate-fade-in-up">
-            <h2 className="text-3xl font-bold text-white md:text-4xl">Siap Order?</h2>
-            <p className="mt-3 text-lg text-emerald-100/80">Hubungi kami via WhatsApp untuk pesan atau jadi reseller.</p>
+      {/* 9. CTA */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#1A3626] via-[#2C4C3B] to-[#1A3626] py-20">
+        <div className="absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ABC1A7]/10 blur-3xl" />
+        <div className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-[#81A27B]/10 blur-3xl" />
+        <FadeInUp>
+          <div className="relative mx-auto max-w-4xl px-4 text-center">
+            <h2 className="font-serif text-3xl font-bold tracking-tight text-white md:text-4xl">Mulai Percakapan</h2>
+            <p className="mt-3 font-sans text-lg text-[#D5E0D3]/70">Kami hadir di WhatsApp. Untuk pesanan, pertanyaan, atau sekadar ngobrol tentang daun.</p>
             <a
               href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456"}`}
               target="_blank"
-              className="btn-primary mt-8 gap-2.5 bg-white text-emerald-800 shadow-xl hover:bg-emerald-50 hover:from-white hover:to-white hover:text-emerald-700"
+              className="mt-8 inline-flex items-center gap-2 border border-[#ABC1A7]/30 bg-white px-7 py-3.5 font-sans text-sm font-semibold text-[#1A3626] transition-all duration-200 hover:bg-white active:scale-[0.97]"
             >
-              <MessageCircle className="h-5 w-5" />
-              Hubungi WhatsApp
+              <MessageCircle className="h-5 w-5" strokeWidth={1.5} />
+              Ajak Ngobrol
             </a>
           </div>
-        </div>
+        </FadeInUp>
       </section>
     </>
   );

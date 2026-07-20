@@ -1,57 +1,118 @@
-import { Leaf, Shield, Star, CheckCircle, MessageCircle, Building2 } from "lucide-react";
+import { Leaf, Shield, Star, CheckCircle, MessageCircle, Building2, Heart, Users } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Tentang Kami",
-  description: "Sin Herbal adalah distributor resmi produk herbal berkualitas dengan bahan alami pilihan. 100% original, harga terjangkau, tanpa minimal pembelian.",
+  title: "Tentang Kami - Cerita & Visi Sin Herbal",
+  description: "Kenali lebih dekat Sin Herbal — distributor produk herbal dari Depok. Berawal dari keprihatinan terhadap bahaya rokok tembakau, kami hadirkan alternatif sehat dari bahan alami nusantara.",
 };
 
 export default function AboutPage() {
   return (
     <div>
-      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-800 via-emerald-700 to-emerald-600 py-20">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-amber-500/10 blur-3xl" />
-        </div>
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#1A3626] via-[#2C4C3B] to-[#1A3626] py-20">
+        <div className="hero-blob -top-48 -right-48 h-96 w-96 bg-[#ABC1A7]/15" />
+        <div className="hero-blob -bottom-48 -left-48 h-96 w-96 bg-[#81A27B]/10" />
         <div className="relative mx-auto max-w-4xl px-4 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm shadow-lg">
-            <Building2 className="h-8 w-8 text-white" />
-          </div>
-          <span className="inline-block rounded-full bg-white/10 border border-white/20 px-4 py-1 text-sm font-semibold text-white/90 backdrop-blur-sm">Tentang Kami</span>
-          <h1 className="mt-4 text-4xl font-bold text-white md:text-5xl">Sin Herbal</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-emerald-100/80">
-            Distributor resmi produk herbal berkualitas dengan bahan alami pilihan. 100% original, harga terjangkau.
+          <span className="inline-block rounded-full border border-[#ABC1A7]/30 bg-[#2C4C3B]/60 px-5 py-1 font-serif text-sm font-semibold italic text-[#D5E0D3] backdrop-blur-sm">Tentang Kami</span>
+          <h1 className="mt-6 font-serif text-4xl font-bold tracking-tight text-[white] md:text-5xl">Cerita Sin Herbal</h1>
+          <p className="mx-auto mt-4 max-w-2xl font-sans text-lg text-[#D5E0D3]/70">
+            Berawal dari keprihatinan terhadap dampak rokok tembakau, kami hadirkan alternatif sehat dari rempah-rempah pilihan Nusantara.
           </p>
         </div>
       </section>
 
       <section className="py-20">
-        <div className="mx-auto max-w-4xl px-4 space-y-16">
-          <div className="grid gap-10 md:grid-cols-2">
-            <div className="animate-fade-in-up">
-              <span className="inline-block rounded-full bg-emerald-100 px-4 py-1 text-sm font-semibold text-emerald-700">Produk Kami</span>
-              <h2 className="mt-3 text-2xl font-bold text-gray-900">Bahan Alami Pilihan</h2>
-              <p className="mt-4 leading-relaxed text-gray-600">
-                Produk kami dibuat dari bahan-bahan alami pilihan seperti daun mint, daun sirih, daun kemangi, dan rempah-rempah khas nusantara. Tanpa nikotin, tidak adiktif, dan aman dikonsumsi.
+        <div className="mx-auto max-w-4xl px-4 space-y-20">
+          <div className="grid gap-10 md:grid-cols-2 md:items-center">
+            <div>
+              <span className="inline-block rounded-full border border-[#ABC1A7]/30 bg-[#D5E0D3]/50 px-5 py-1 font-serif text-sm font-semibold italic text-[#2C4C3B]">Awal Mula</span>
+              <h2 className="mt-4 font-serif text-2xl font-bold tracking-tight text-[#1A3626]">Dari Hobi Jadi Misi</h2>
+              <p className="mt-4 font-sans leading-relaxed text-[#5D8356]">
+                Sin Herbal lahir pada tahun 2020 dari keresahan sederhana: tembakau mahal, dampak kesehatannya nyata, dan pilihan herbal yang terjangkau sulit ditemukan.
               </p>
-              <p className="mt-3 leading-relaxed text-gray-600">
-                Kami juga menyediakan minuman serbuk herbal yang merupakan perpaduan kopi pilihan, ekstrak sayuran, dan akar-akar tanaman yang menetralisir efek kafein.
+              <p className="mt-3 font-sans leading-relaxed text-[#5D8356]">
+                Berbekal pengetahuan tentang rempah-rempah khas Indonesia — daun mint, sirih, kemangi, dan jahe — kami mulai meracik sendiri campuran rokok herbal yang nikmat tanpa nikotin berlebih.
+              </p>
+              <p className="mt-3 font-sans leading-relaxed text-[#5D8356]">
+                Apa yang dimulai dari dapur kecil di Abadijaya, Depok, kini melayani ribuan pelanggan di seluruh Indonesia.
               </p>
             </div>
-            <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-sm border border-[#D5E0D3] bg-[white] p-6 text-center">
+                <p className="font-serif text-3xl font-bold text-[#1A3626]">2020</p>
+                <p className="mt-1 font-sans text-sm text-[#5D8356]">Berdiri</p>
+              </div>
+              <div className="rounded-sm border border-[#D5E0D3] bg-[white] p-6 text-center">
+                <p className="font-serif text-3xl font-bold text-[#2C4C3B]">10rb+</p>
+                <p className="mt-1 font-sans text-sm text-[#5D8356]">Pelanggan</p>
+              </div>
+              <div className="rounded-sm border border-[#D5E0D3] bg-[white] p-6 text-center">
+                <p className="font-serif text-3xl font-bold text-[#1A3626]">50+</p>
+                <p className="mt-1 font-sans text-sm text-[#5D8356]">Varian Produk</p>
+              </div>
+              <div className="rounded-sm border border-[#D5E0D3] bg-[white] p-6 text-center">
+                <p className="font-serif text-3xl font-bold text-[#1A3626]">4.9/5</p>
+                <p className="mt-1 font-sans text-sm text-[#5D8356]">Rating</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <span className="inline-block rounded-full border border-[#ABC1A7]/30 bg-[#D5E0D3]/50 px-5 py-1 font-serif text-sm font-semibold italic text-[#2C4C3B]">Visi & Misi</span>
+            <h2 className="mt-4 font-serif text-3xl font-bold tracking-tight text-[#1A3626]">Apa yang Kami Percaya</h2>
+            <div className="organic-divider mx-auto mt-4 max-w-[120px]" />
+          </div>
+          <div className="grid gap-8 md:grid-cols-2">
+            <div className="rounded-sm border border-[#D5E0D3] bg-gradient-to-br from-[#EDF2ED] to-[white] p-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-sm border border-[#ABC1A7]/30 bg-white">
+                <Heart className="h-6 w-6 text-[#2C4C3B]" strokeWidth={1.5} />
+              </div>
+              <h3 className="mt-4 font-serif text-lg font-bold text-[#1A3626]">Visi</h3>
+              <p className="mt-2 font-sans leading-relaxed text-[#5D8356]">
+                Menjadi pelopor gaya hidup herbal di Indonesia dengan menyediakan produk alternatif berkualitas, terjangkau, dan mudah diakses oleh seluruh lapisan masyarakat.
+              </p>
+            </div>
+            <div className="rounded-sm border border-[#D5E0D3] bg-gradient-to-br from-[#EDF2ED] to-[white] p-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-sm border border-[#ABC1A7]/30 bg-white">
+                <Users className="h-6 w-6 text-[#2C4C3B]" strokeWidth={1.5} />
+              </div>
+              <h3 className="mt-4 font-serif text-lg font-bold text-[#1A3626]">Misi</h3>
+              <ul className="mt-2 space-y-2">
+                {["Menyediakan produk herbal 100% bahan alami Nusantara", "Memberikan edukasi tentang manfaat herbal bagi kesehatan", "Mendukung UKM lokal melalui kemitraan distribusi", "Menjaga konsistensi kualitas dan harga terjangkau"].map((m, i) => (
+                  <li key={i} className="flex items-start gap-2 font-sans text-sm text-[#5D8356]">
+                    <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#2C4C3B]" strokeWidth={1.5} />
+                    {m}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="grid gap-10 md:grid-cols-2 md:items-center">
+            <div className="order-last md:order-first">
+              <span className="inline-block rounded-full border border-[#ABC1A7]/30 bg-[#D5E0D3]/50 px-5 py-1 font-serif text-sm font-semibold italic text-[#2C4C3B]">Komitmen Kami</span>
+              <h2 className="mt-4 font-serif text-2xl font-bold tracking-tight text-[#1A3626]">Mengapa Memilih Sin Herbal?</h2>
+              <p className="mt-4 font-sans leading-relaxed text-[#5D8356]">
+                Kami bukan sekadar toko. Setiap produk melewati proses seleksi bahan baku yang ketat. Kami bekerja sama dengan petani rempah lokal untuk memastikan kualitas dan keberlanjutan.
+              </p>
+              <p className="mt-3 font-sans leading-relaxed text-[#5D8356]">
+                Legalitas produk terjamin — tercatat di Direktorat Jenderal Bea dan Cukai. Kami juga melayani pengiriman ke seluruh Indonesia dengan kemasan yang aman dan rapi.
+              </p>
+            </div>
+            <div className="space-y-3">
               {[
-                { icon: CheckCircle, text: "100% Bahan Alami" },
-                { icon: CheckCircle, text: "Produk Original & Terdaftar" },
-                { icon: CheckCircle, text: "Harga Terjangkau" },
-                { icon: CheckCircle, text: "Tanpa Minimal Pembelian" },
-                { icon: CheckCircle, text: "Pengiriman ke Seluruh Indonesia" },
-              ].map((item, i) => (
-                <div key={item.text} className={`card-hover flex items-center gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm stagger-${i + 1}`}>
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-sm">
-                    <item.icon className="h-5 w-5 text-white" />
+                { text: "100% Bahan Alami Nusantara" },
+                { text: "Produk Terdaftar & Legal" },
+                { text: "Harga Langsung Pabrik" },
+                { text: "Tanpa Minimal Pembelian" },
+                { text: "Pengiriman ke Seluruh Indonesia" },
+                { text: "Gratis Ongkir Min. Belanja Rp 100rb" },
+              ].map((item) => (
+                <div key={item.text} className="flex items-center gap-3 rounded-sm border border-[#D5E0D3] bg-[white] p-4 shadow-sm">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#ABC1A7]/30 bg-white">
+                    <CheckCircle className="h-5 w-5 text-[#2C4C3B]" strokeWidth={1.5} />
                   </div>
-                  <span className="font-medium text-gray-800">{item.text}</span>
+                  <span className="font-sans font-medium text-[#1A3626]">{item.text}</span>
                 </div>
               ))}
             </div>
@@ -59,35 +120,33 @@ export default function AboutPage() {
 
           <div className="grid gap-6 md:grid-cols-3">
             {[
-              { icon: Shield, title: "Terdaftar Resmi", desc: "Produk kami terdaftar di Direktorat Jenderal Bea dan Cukai. Legalitas terjamin." },
-              { icon: Leaf, title: "Bahan Alami Pilihan", desc: "Mengandung rempah-rempah khas nusantara dengan kualitas terbaik." },
-              { icon: Star, title: "Harga Terjangkau", desc: "Kualitas premium dengan harga yang ramah di kantong." },
-            ].map((item, i) => (
-              <div key={item.title} className={`card-hover rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm stagger-${i + 1}`}>
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-200">
-                  <item.icon className="h-7 w-7 text-white" />
+              { icon: Shield, title: "Legalitas Terjamin", desc: "Terdaftar di Direktorat Jenderal Bea dan Cukai. Legalitas produk terjamin sepenuhnya." },
+              { icon: Leaf, title: "Bahan Alami Pilihan", desc: "Mengandung rempah-rempah khas nusantara dengan kualitas terbaik tanpa bahan pengawet." },
+              { icon: Star, title: "Harga Terjangkau", desc: "Kualitas premium dengan harga yang ramah di kantong. Langsung dari produsen ke konsumen." },
+            ].map((item) => (
+              <div key={item.title} className="rounded-sm border border-[#D5E0D3] bg-[white] p-6 text-center shadow-sm transition hover:shadow-md">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-sm border border-[#ABC1A7]/30 bg-white">
+                  <item.icon className="h-7 w-7 text-[#2C4C3B]" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
-                <p className="mt-2 text-sm text-gray-500">{item.desc}</p>
+                <h3 className="font-serif text-lg font-bold text-[#1A3626]">{item.title}</h3>
+                <p className="mt-2 font-sans text-sm text-[#5D8356]">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-800 via-emerald-700 to-emerald-600 py-16">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-10 right-10 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
-        </div>
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#1A3626] via-[#2C4C3B] to-[#1A3626] py-16">
+        <div className="hero-blob top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 bg-[#ABC1A7]/10" />
         <div className="relative mx-auto max-w-4xl px-4 text-center">
-          <h2 className="text-3xl font-bold text-white">Jadi Reseller atau Distributor?</h2>
-          <p className="mt-3 text-lg text-emerald-100/80">Hubungi kami via WhatsApp untuk info kemitraan.</p>
+          <h2 className="font-serif text-3xl font-bold tracking-tight text-[white]">Jadi Bagian dari Perjalanan Kami?</h2>
+          <p className="mt-3 font-sans text-lg text-[#D5E0D3]/70">Jadilah reseller atau distributor Sin Herbal. Dapatkan harga khusus dan dukungan pemasaran.</p>
           <a
             href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456"}`}
             target="_blank"
-            className="btn-primary mt-8 gap-2.5 bg-white text-emerald-800 shadow-xl hover:from-white hover:to-white hover:text-emerald-700"
+            className="btn-primary mt-8 inline-flex items-center gap-2 border-[#ABC1A7]/30 bg-[white] text-[#1A3626] hover:bg-white"
           >
-            <MessageCircle className="h-5 w-5" />
+            <MessageCircle className="h-5 w-5" strokeWidth={1.5} />
             Hubungi WhatsApp
           </a>
         </div>

@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 import type { CartItem } from "./types";
+import { useToast } from "@/components/Toast";
 
 interface CartContext {
   items: CartItem[];
@@ -18,6 +19,7 @@ const STORAGE_KEY = "sinherbal_cart";
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  const { addToast } = useToast();
 
   useEffect(() => {
     try {
@@ -43,6 +45,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, item];
     });
+    addToast(`${item.name} berhasil ditambahkan ke keranjang`);
   };
 
   const removeItem = (id: string) => {

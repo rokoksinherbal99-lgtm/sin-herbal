@@ -1,11 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { orders, orderItems, products } from "@/db/schema";
 import { eq, desc, inArray } from "drizzle-orm";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
+import { logAudit } from "@/lib/api/audit";
+import { checkCSRF } from "@/lib/api/security";
 
 export async function GET(req: Request) {
-  if (!checkAuth(req)) return unauthorized();
+  if (!await checkAuth(req)) return unauthorized();
   try {
     const allOrders = await db.select().from(orders).orderBy(desc(orders.createdAt));
     if (allOrders.length === 0) return NextResponse.json([]);
@@ -31,7 +33,32 @@ export async function GET(req: Request) {
 
     const result = allOrders.map((o) => ({ ...o, items: itemsByOrder[o.id] || [] }));
     return NextResponse.json(result);
-  } catch {
+  } catch (err) {
+    console.error("Admin orders GET error:", err);
     return NextResponse.json({ error: "Failed to fetch orders" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  if (!await checkAuth(req)) return unauthorized();
+  const csrfRes = checkCSRF(req);
+  if (csrfRes) return csrfRes;
+
+  try {
+    const { ids } = await req.json();
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return NextResponse.json({ error: "IDs pesanan wajib diisi" }, { status: 400 });
+    }
+
+    await db.delete(orderItems).where(inArray(orderItems.orderId, ids));
+    await db.delete(orders).where(inArray(orders.id, ids));
+
+    await logAudit("bulk_delete_orders", "order", ids.join(","), `Menghapus ${ids.length} pesanan spam`);
+
+    return NextResponse.json({ success: true, deleted: ids.length });
+  } catch (err) {
+    console.error("Admin orders DELETE error:", err);
+    return NextResponse.json({ error: "Gagal menghapus pesanan" }, { status: 500 });
   }
 }

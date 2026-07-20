@@ -3,6 +3,8 @@ import { db } from "@/db";
 import { orders } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
+import { logOrderStatusChange } from "@/lib/api/audit";
+import { checkCSRF } from "@/lib/api/security";
 
 const VALID_STATUSES = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
 
@@ -15,7 +17,9 @@ const VALID_TRANSITIONS: Record<string, string[]> = {
 };
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
-  if (!checkAuth(req)) return unauthorized();
+  if (!await checkAuth(req)) return unauthorized();
+  const csrfRes = checkCSRF(req);
+  if (csrfRes) return csrfRes;
   try {
     const { id } = await params;
     const { status: newStatus } = await req.json();
@@ -35,8 +39,10 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     }
 
     await db.update(orders).set({ status: newStatus, updatedAt: new Date() }).where(eq(orders.id, id));
+    await logOrderStatusChange(id, newStatus);
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (err) {
+    console.error("Admin orders PATCH error:", err);
     return NextResponse.json({ error: "Failed to update order" }, { status: 500 });
   }
 }

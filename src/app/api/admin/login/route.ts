@@ -1,24 +1,59 @@
 import { NextResponse } from "next/server";
-import { checkAuth, hashToken, unauthorized } from "@/lib/admin-auth";
+import { hashToken, checkLoginRateLimit, getAdminUsername, createSession } from "@/lib/admin-auth";
+import { db } from "@/db";
+import { settings } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { logLogin } from "@/lib/api/audit";
+import { checkCSRF } from "@/lib/api/security";
 
 export async function POST(req: Request) {
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-  if (!ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Admin not configured" }, { status: 500 });
-  }
+  try {
+    const csrfRes = checkCSRF(req);
+    if (csrfRes) return csrfRes;
+    const rateLimitRes = checkLoginRateLimit(req);
+    if (rateLimitRes) return rateLimitRes;
 
-  const { password } = await req.json();
-  if (!password || password !== ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+    if (!ADMIN_PASSWORD) {
+      return NextResponse.json({ error: "Admin not configured" }, { status: 500 });
+    }
 
-  const res = NextResponse.json({ success: true });
-  res.cookies.set("admin_token", hashToken(ADMIN_PASSWORD), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 24,
-  });
-  return res;
+    const { username, password } = await req.json();
+
+    if (!username || !password) {
+      return NextResponse.json({ error: "Username dan password wajib diisi" }, { status: 400 });
+    }
+
+    if (username !== getAdminUsername()) {
+      await logLogin(username || "unknown", false);
+      return NextResponse.json({ error: "Username atau password salah" }, { status: 401 });
+    }
+
+    const dbRow = await db.select().from(settings).where(eq(settings.key, "admin_password_hash")).limit(1);
+    const dbHash = dbRow.length > 0 ? dbRow[0].value : null;
+
+    const envMatch = password === ADMIN_PASSWORD;
+    const dbMatch = dbHash ? hashToken(password) === dbHash : false;
+
+    if (!envMatch && !dbMatch) {
+      await logLogin(username, false);
+      return NextResponse.json({ error: "Username atau password salah" }, { status: 401 });
+    }
+
+    await logLogin(username, true);
+
+    const sessionId = await createSession();
+    const res = NextResponse.json({ success: true });
+    res.cookies.set("admin_token", sessionId, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24,
+    });
+    return res;
+  } catch (err) {
+    console.error("Login error:", err);
+    return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });
+  }
 }

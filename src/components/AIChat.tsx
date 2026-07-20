@@ -1,0 +1,121 @@
+"use client";
+
+import { MessageCircle, X, Send, Bot, ChevronDown } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+
+interface Msg {
+  text: string;
+  from: "user" | "bot";
+}
+
+export default function AIChat() {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<Msg[]>([
+    { text: "Halo! Ada yang bisa saya bantu?", from: "bot" },
+  ]);
+  const [input, setInput] = useState("");
+  const [typing, setTyping] = useState(false);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight; }, [messages]);
+
+  const handleSend = async () => {
+    const text = input.trim();
+    if (!text) return;
+    setInput("");
+    setMessages((prev) => [...prev, { text, from: "user" }]);
+    setTyping(true);
+
+    try {
+      const history = messages.slice(-10).map((m) => ({
+        role: m.from === "user" ? "user" as const : "assistant" as const,
+        content: m.text,
+      }));
+
+      const sessionId = localStorage.getItem("chat_session_id") || crypto.randomUUID();
+      if (!localStorage.getItem("chat_session_id")) {
+        localStorage.setItem("chat_session_id", sessionId);
+      }
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, conversationHistory: history, sessionId }),
+      });
+
+      const data = await res.json();
+      setMessages((prev) => [...prev, { text: data.reply || "Maaf, saya tidak bisa menjawab saat ini.", from: "bot" }]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        { text: "Maaf, terjadi kesalahan. Silakan coba lagi.", from: "bot" },
+      ]);
+    } finally {
+      setTyping(false);
+    }
+  };
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+      {open && (
+        <div className="flex w-80 flex-col overflow-hidden rounded-sm border border-[#D5E0D3] bg-white shadow-2xl">
+          <div className="flex items-center justify-between bg-[#1A3626] px-4 py-3">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-sm border border-[#ABC1A7]/30">
+                <Bot className="h-5 w-5 text-[#ABC1A7]" strokeWidth={1.5} />
+              </div>
+              <div>
+                <p className="font-sans text-sm font-bold text-white">Sin Herbal</p>
+                <p className="font-sans text-xs text-[#ABC1A7]/70">Online</p>
+              </div>
+            </div>
+            <button onClick={() => setOpen(false)} className="rounded-sm p-1 transition hover:bg-[#2C4C3B]">
+              <ChevronDown className="h-5 w-5 text-[#ABC1A7]" strokeWidth={1.5} />
+            </button>
+          </div>
+          <div ref={listRef} className="flex h-80 flex-col gap-2 overflow-y-auto p-4">
+            {messages.map((msg, i) => (
+              <div key={i} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}>
+                <div className={`max-w-[80%] rounded-sm px-3.5 py-2.5 font-sans text-sm ${
+                  msg.from === "user"
+                    ? "bg-[#1A3626] text-white"
+                    : "border border-[#D5E0D3] bg-white text-[#5D8356]"
+                }`}>
+                  {msg.text}
+                </div>
+              </div>
+            ))}
+            {typing && (
+              <div className="flex justify-start">
+                <div className="rounded-sm border border-[#D5E0D3] bg-white px-3.5 py-2.5 font-sans text-sm text-[#ABC1A7]">
+                  <span className="animate-pulse">Mengetik...</span>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="flex items-center gap-2 border-t border-[#D5E0D3] p-3">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") handleSend(); }}
+              placeholder="Ketik pesan..."
+              className="flex-1 rounded-sm border border-[#D5E0D3] px-3.5 py-2 font-sans text-sm outline-none transition focus:border-[#ABC1A7]"
+            />
+            <button onClick={handleSend} disabled={!input.trim()} className="flex h-9 w-9 items-center justify-center rounded-sm bg-[#1A3626] text-white transition hover:bg-[#2C4C3B] disabled:opacity-50">
+              <Send className="h-4 w-4" strokeWidth={1.5} />
+            </button>
+          </div>
+        </div>
+      )}
+      <button
+        onClick={() => setOpen(!open)}
+        className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-[#1A3626] text-white shadow-lg shadow-[#2C4C3B]/30 transition-all duration-200 hover:scale-110 hover:shadow-xl active:scale-95"
+      >
+        <span className="absolute -top-1 -right-1 flex h-4 w-4">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ABC1A7] opacity-75" />
+          <span className="relative inline-flex h-4 w-4 rounded-full bg-[#ABC1A7]" />
+        </span>
+        {open ? <X className="h-6 w-6" strokeWidth={1.5} /> : <MessageCircle className="h-6 w-6" strokeWidth={1.5} />}
+      </button>
+    </div>
+  );
+}

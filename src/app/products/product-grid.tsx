@@ -78,7 +78,7 @@ export default function ProductGrid({ products, categories }: { products: Produc
         <>
           <div className="mt-8 grid grid-cols-2 gap-5 md:grid-cols-4">
             {paged.map((p) => (
-              <ProductCard key={p.id} id={p.id} name={p.name} slug={p.slug} price={p.price} image={p.images} productType={p.productType} stock={p.stock} />
+              <ProductCard key={p.id} id={p.id} name={p.name} slug={p.slug} price={p.price} image={p.images} stock={p.stock} />
             ))}
           </div>
 

@@ -5,8 +5,6 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://rokoksin.vercel.ap
 export async function GET() {
   const body = `User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /api/init
 
 Sitemap: ${BASE_URL}/sitemap.xml
 `;
