@@ -42,7 +42,7 @@ export default async function HomePage() {
           <FadeInUp>
             <div className="text-center">
               <p className="font-serif text-sm uppercase tracking-[0.2em] text-[#5D8356]">Welcome to Our Site</p>
-              <h2 className="mt-2 font-serif text-4xl font-bold tracking-tight text-[#1A3626] md:text-5xl">Sin Herbal</h2>
+              <h1 className="mt-2 font-serif text-4xl font-bold tracking-tight text-[#1A3626] md:text-5xl">Sin Herbal</h1>
               <div className="mx-auto mt-4 h-px max-w-[60px] bg-[#ABC1A7]" />
               <p className="mt-4 font-serif text-lg italic text-[#2C4C3B]">Agen Resmi Produk Sin</p>
               <p className="mt-1 font-sans text-sm text-[#5D8356]">Alternatif rokok alami</p>

@@ -7,6 +7,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Shield, Package, CheckCircle } from "lucide-react";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://rokoksin.vercel.app";
 import AddToCartButton from "./add-to-cart-button";
 import ProductCard from "@/components/ProductCard";
 
@@ -41,7 +43,28 @@ export default async function ProductDetailPage({ params }: Props) {
     .orderBy(asc(products.name))
     .limit(4);
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: product.images,
+    sku: product.id,
+    mpn: product.id,
+    brand: { "@type": "Brand", name: "Sin Herbal" },
+    category: product.category.name,
+    offers: {
+      "@type": "Offer",
+      price: product.price / 1000,
+      priceCurrency: "IDR",
+      availability: product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      url: `${BASE_URL}/products/${product.slug}`,
+    },
+  };
+
   return (
+    <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
     <div className="mx-auto max-w-6xl px-4 py-8">
       <nav className="mb-8 text-sm text-gray-400">
         <Link href="/" className="transition hover:text-[#2C4C3B]">Beranda</Link>
@@ -141,5 +164,6 @@ export default async function ProductDetailPage({ params }: Props) {
           </div>
         </section></>)}
     </div>
+    </>
   );
 }
