@@ -14,13 +14,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+    setAuthed(false);
     fetch("/api/admin/check")
       .then((r) => {
         if (r.ok) setAuthed(true);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
+  }, [pathname]);
 
   const logout = async () => {
     try {
