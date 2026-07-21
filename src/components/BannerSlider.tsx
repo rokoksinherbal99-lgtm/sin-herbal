@@ -55,9 +55,9 @@ export default function BannerSlider() {
             <div className="mx-auto flex max-w-6xl flex-col-reverse items-center gap-8 px-4 py-16 md:flex-row md:py-20">
               <div className="flex-1 text-center md:text-left">
                 <p className={`font-serif text-lg italic ${slide.accent}`}>{slide.subtitle}</p>
-                <h1 className="mt-3 font-serif text-4xl font-bold tracking-tight text-white md:text-6xl md:leading-[1.1]">
+                <h2 className="mt-3 font-serif text-4xl font-bold tracking-tight text-white md:text-6xl md:leading-[1.1]">
                   {slide.title}
-                </h1>
+                </h2>
                 <p className="mt-4 max-w-md font-sans text-base leading-relaxed text-white/60 md:text-lg">
                   {slide.description}
                 </p>
