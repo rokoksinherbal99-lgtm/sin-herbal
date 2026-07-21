@@ -4,14 +4,15 @@ import { products } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
 import { validateProductInput, PRODUCT_ALLOWED_FIELDS } from "@/lib/api/validation";
-import { checkRateLimit, checkCSRF } from "@/lib/api/security";
+import { checkCSRF } from "@/lib/api/security";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { logProductUpdate, logProductDelete } from "@/lib/api/audit";
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!await checkAuth(req)) return unauthorized();
   const csrfRes = checkCSRF(req);
   if (csrfRes) return csrfRes;
-  const rl = checkRateLimit(req, 30);
+  const rl = await checkRateLimit(req, 30);
   if (rl) return rl;
   try {
     const { id } = await params;
@@ -44,7 +45,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
   if (!await checkAuth(req)) return unauthorized();
   const csrfRes = checkCSRF(req);
   if (csrfRes) return csrfRes;
-  const rl = checkRateLimit(req, 30);
+  const rl = await checkRateLimit(req, 30);
   if (rl) return rl;
   try {
     const { id } = await params;

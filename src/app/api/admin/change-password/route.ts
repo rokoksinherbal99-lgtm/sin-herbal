@@ -4,14 +4,15 @@ import { db } from "@/db";
 import { settings } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { logPasswordChange } from "@/lib/api/audit";
-import { checkRateLimit, checkCSRF } from "@/lib/api/security";
+import { checkCSRF } from "@/lib/api/security";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: Request) {
   try {
     if (!await checkAuth(req)) return unauthorized();
     const csrfRes = checkCSRF(req);
     if (csrfRes) return csrfRes;
-    const rl = checkRateLimit(req, 10);
+    const rl = await checkRateLimit(req, 10);
     if (rl) return rl;
 
     const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;

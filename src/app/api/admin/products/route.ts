@@ -4,7 +4,8 @@ import { products, categories } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
 import { validateProductInput, PRODUCT_ALLOWED_FIELDS } from "@/lib/api/validation";
-import { checkRateLimit, checkCSRF } from "@/lib/api/security";
+import { checkCSRF } from "@/lib/api/security";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { logProductCreate } from "@/lib/api/audit";
 
 export async function GET(req: Request) {
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
   if (!await checkAuth(req)) return unauthorized();
   const csrfRes = checkCSRF(req);
   if (csrfRes) return csrfRes;
-  const rl = checkRateLimit(req, 30);
+  const rl = await checkRateLimit(req, 30);
   if (rl) return rl;
   try {
     const body = await req.json();

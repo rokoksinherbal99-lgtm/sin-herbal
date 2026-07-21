@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { hashToken, checkLoginRateLimit, getAdminUsername, createSession } from "@/lib/admin-auth";
+import { hashToken, getAdminUsername, createSession } from "@/lib/admin-auth";
+import { checkLoginRateLimit } from "@/lib/rate-limit";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -10,7 +11,7 @@ export async function POST(req: Request) {
   try {
     const csrfRes = checkCSRF(req);
     if (csrfRes) return csrfRes;
-    const rateLimitRes = checkLoginRateLimit(req);
+    const rateLimitRes = await checkLoginRateLimit(req);
     if (rateLimitRes) return rateLimitRes;
 
     const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;

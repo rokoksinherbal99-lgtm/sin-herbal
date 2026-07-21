@@ -67,30 +67,6 @@ export function unauthorized() {
   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 }
 
-const loginAttempts = new Map<string, { count: number; reset: number }>();
-
-export function checkLoginRateLimit(req: Request): NextResponse | null {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
-    || req.headers.get("x-real-ip")
-    || "unknown";
-  const now = Date.now();
-  const entry = loginAttempts.get(ip);
-
-  if (!entry || now > entry.reset) {
-    loginAttempts.set(ip, { count: 1, reset: now + 60_000 });
-    return null;
-  }
-
-  entry.count++;
-  if (entry.count > 5) {
-    return NextResponse.json(
-      { error: "Terlalu banyak percobaan login. Coba lagi dalam 1 menit." },
-      { status: 429 },
-    );
-  }
-  return null;
-}
-
 export function getAdminUsername(): string {
   return ADMIN_USERNAME;
 }

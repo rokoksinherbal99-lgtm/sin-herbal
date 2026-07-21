@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { orders, orderItems } from "@/db/schema";
-import { checkRateLimit, checkCSRF, getClientIp } from "@/lib/api/security";
+import { checkCSRF } from "@/lib/api/security";
+import { checkRateLimit, getClientIp, checkOrderSpam } from "@/lib/rate-limit";
 
 const REQUIRED_FIELDS = ["customer", "email", "phone", "address", "city", "province", "postalCode"];
 const FIVE_MIN = 5 * 60 * 1000;
@@ -18,10 +19,6 @@ const SUSPICIOUS_PATTERNS = [
 ];
 
 const SUSPICIOUS_NAMES = ["hacker", "red team", "test", "admin", "root", "anonymous"];
-
-const orderAttempts = new Map<string, { count: number; firstAttempt: number; blocked: boolean }>();
-const SUSPICIOUS_THRESHOLD = 5;
-const SUSPICIOUS_WINDOW = 10 * 60 * 1000;
 
 function isSuspiciousName(name: string): boolean {
   const lower = name.toLowerCase().trim();
@@ -49,28 +46,8 @@ function isSuspiciousField(value: string): boolean {
   return false;
 }
 
-function checkSpamPattern(ip: string): boolean {
-  const now = Date.now();
-  const entry = orderAttempts.get(ip);
-
-  if (!entry || now - entry.firstAttempt > SUSPICIOUS_WINDOW) {
-    orderAttempts.set(ip, { count: 1, firstAttempt: now, blocked: false });
-    return false;
-  }
-
-  entry.count++;
-  if (entry.blocked) return true;
-
-  if (entry.count >= SUSPICIOUS_THRESHOLD) {
-    entry.blocked = true;
-    return true;
-  }
-
-  return false;
-}
-
 export async function POST(req: NextRequest) {
-  const rateLimitRes = checkRateLimit(req, 10);
+  const rateLimitRes = await checkRateLimit(req, 10);
   if (rateLimitRes) return rateLimitRes;
 
   const csrfRes = checkCSRF(req);
@@ -130,7 +107,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Total pesanan terlalu rendah" }, { status: 400 });
     }
 
-    if (checkSpamPattern(ip)) {
+    if (await checkOrderSpam(ip)) {
       console.warn(`Blocked spam order from IP ${ip}`);
       return NextResponse.json({ error: "Terlalu banyak percobaan. Silakan hubungi admin via WA." }, { status: 429 });
     }
