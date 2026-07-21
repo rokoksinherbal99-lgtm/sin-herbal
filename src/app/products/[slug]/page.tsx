@@ -138,8 +138,11 @@ export default async function ProductDetailPage({ params }: Props) {
             </div>
           </div>
           <AddToCartButton
+            id={product.id}
             name={product.name}
+            slug={product.slug}
             price={product.price}
+            image={product.images}
             disabled={product.stock < 1}
           />
         </div>
