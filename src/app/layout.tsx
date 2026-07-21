@@ -43,6 +43,7 @@ export const metadata: Metadata = {
     description: "Rokok herbal SKT/SKM, teh herbal, dan suplemen. 100% alami, terdaftar Bea Cukai. Gratis ongkir!",
     images: [OG_IMAGE],
   },
+  verification: { google: "googleee199d17c14a3d1c" },
   robots: {
     index: true,
     follow: true,
