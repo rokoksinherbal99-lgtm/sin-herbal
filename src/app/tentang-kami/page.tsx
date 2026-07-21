@@ -144,6 +144,7 @@ export default function AboutPage() {
           <a
             href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456"}`}
             target="_blank"
+            rel="noopener noreferrer"
             className="btn-primary mt-8 inline-flex items-center gap-2 border-[#ABC1A7]/30 bg-[white] text-[#1A3626] hover:bg-white"
           >
             <MessageCircle className="h-5 w-5" strokeWidth={1.5} />

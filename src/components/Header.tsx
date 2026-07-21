@@ -46,7 +46,7 @@ export default function Header() {
               {isActive(l.href) && <span className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full bg-[#2C4C3B]" />}
             </Link>
           ))}
-          <Link href="/cart" className="relative ml-2 rounded-sm p-2 text-[#5D8356] transition hover:bg-[#EDF2ED] hover:text-[#1A3626]">
+          <Link href="/cart" aria-label="Keranjang Belanja" className="relative ml-2 rounded-sm p-2 text-[#5D8356] transition hover:bg-[#EDF2ED] hover:text-[#1A3626]">
             <ShoppingCart className="h-5 w-5" strokeWidth={1.5} />
             {hydrated && count > 0 && (
               <span className="absolute -right-0.5 -top-0.5 flex h-4.5 min-w-[18px] items-center justify-center rounded-full bg-[#2C4C3B] px-1 text-[10px] font-bold text-white shadow-sm animate-scale-in">
@@ -56,7 +56,7 @@ export default function Header() {
           </Link>
         </nav>
         <div className="flex items-center gap-2 md:hidden">
-          <Link href="/cart" className="relative rounded-sm p-2 text-[#5D8356]">
+          <Link href="/cart" aria-label="Keranjang Belanja" className="relative rounded-sm p-2 text-[#5D8356]">
             <ShoppingCart className="h-5 w-5" strokeWidth={1.5} />
             {hydrated && count > 0 && (
               <span className="absolute -right-0.5 -top-0.5 flex h-4.5 min-w-[18px] items-center justify-center rounded-full bg-[#2C4C3B] px-1 text-[10px] font-bold text-white shadow-sm">

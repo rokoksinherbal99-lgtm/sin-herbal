@@ -107,6 +107,7 @@ export default function JournalPage() {
           <a
             href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456"}`}
             target="_blank"
+            rel="noopener noreferrer"
             className="btn-primary mt-8 gap-2.5"
           >
             Hubungi Kami
