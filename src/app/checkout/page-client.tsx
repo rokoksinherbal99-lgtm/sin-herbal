@@ -11,7 +11,7 @@ import { ChevronLeft, ShoppingBag, Building2, Landmark } from "lucide-react";
 export default function CheckoutPage() {
   const { items, total, clearCart } = useCart();
   const router = useRouter();
-  const [waPhone, setWaPhone] = useState("6281383863456");
+  const [waPhone, setWaPhone] = useState("6285161835757");
   const [form, setForm] = useState({
     customer: "", email: "", phone: "", address: "", city: "", province: "", postalCode: "",
   });

@@ -38,7 +38,7 @@ const faqs = (displayPhone: string) => [
 
 export default function FAQPage() {
   const [open, setOpen] = useState<number | null>(null);
-  const [waPhone, setWaPhone] = useState("6281383863456");
+  const [waPhone, setWaPhone] = useState("6285161835757");
 
   useEffect(() => {
     fetch("/api/settings")

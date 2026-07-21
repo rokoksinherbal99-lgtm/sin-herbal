@@ -3,7 +3,7 @@
 import { Landmark, Building2, MessageCircle, Check } from "lucide-react";
 import { useState } from "react";
 
-const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456";
+const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE || "6285161835757";
 
 const BANKS = [
   { name: "BCA", account: "1234567890", icon: Landmark },

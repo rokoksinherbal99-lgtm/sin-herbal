@@ -15,7 +15,7 @@ interface UserData {
 }
 
 export function generateWhatsAppMessage(items: CartItem[], userData: UserData, orderId?: string) {
-  const phone = process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456";
+  const phone = process.env.NEXT_PUBLIC_WA_PHONE || "6285161835757";
   const itemsText = items.map((i) =>
     `✅ ${i.name}\n   ${i.quantity} x Rp ${i.price.toLocaleString("id-ID")} = *Rp ${(i.price * i.quantity).toLocaleString("id-ID")}*`
   ).join("\n");
@@ -50,7 +50,7 @@ export function generateWhatsAppMessage(items: CartItem[], userData: UserData, o
 }
 
 export function generateSingleProductMessage(name: string, price: number) {
-  const phone = process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456";
+  const phone = process.env.NEXT_PUBLIC_WA_PHONE || "6285161835757";
   const msg = `🌿 Halo Sin Herbal! Saya mau order:\n\n📦 ${name}\n💰 Rp ${price.toLocaleString("id-ID")}\n\nMohon info ketersediaan stok dan ongkir. 🙏`;
   return {
     text: msg,

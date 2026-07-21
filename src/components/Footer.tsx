@@ -4,7 +4,7 @@ import { db } from "@/db";
 import { settings } from "@/db/schema";
 
 const DEFAULTS: Record<string, string> = {
-  wa_phone: "6281383863456",
+  wa_phone: "6285161835757",
   address: "Ruko Sentra Niaga Blok A1 No. 5, Pakisaji, Malang 65162",
   email: "info@sinherbal.com",
   shipping_info: "Gratis ongkir untuk area tertentu (syarat & ketentuan berlaku)",

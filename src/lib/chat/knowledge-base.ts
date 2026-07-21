@@ -46,12 +46,12 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k14", category: "stok", keywords: ["stok", "tersedia", "ready", "kosong", "habis"], question: "Bagaimana cara cek stok produk?", answer: `Cek langsung di halaman produk: ${url("/products")}. Kalau habis, chat WA admin ya, kadang stok belum diupdate.` },
 
   // ===== CARA ORDER =====
-  { id: "k15", category: "order", keywords: ["cara order", "beli", "pesan", "membeli", "transaksi"], question: "Bagaimana cara order?", answer: `Masuk ke ${url("")}, pilih produk, klik 'Miliki Sekarang' atau tambah ke keranjang. Lanjut checkout, isi data diri & alamat. Transfer ke rekening yang tertera, kirim bukti via WA ke 6281383863456.` },
+  { id: "k15", category: "order", keywords: ["cara order", "beli", "pesan", "membeli", "transaksi"], question: "Bagaimana cara order?", answer: `Masuk ke ${url("")}, pilih produk, klik 'Miliki Sekarang' atau tambah ke keranjang. Lanjut checkout, isi data diri & alamat. Transfer ke rekening yang tertera, kirim bukti via WA ke 6285161835757.` },
   { id: "k16", category: "order", keywords: ["minimal order", "min beli", "minimum"], question: "Ada minimal order?", answer: "Tidak ada minimal order Kak. Bisa beli 1 bungkus pun kami layani." },
 
   // ===== PEMBAYARAN =====
   { id: "k17", category: "pembayaran", keywords: ["bayar", "pembayaran", "transfer", "bank", "ewallet", "gopay", "ovo", "dana", "qris", "cod"], question: "Apa metode pembayarannya?", answer: `Transfer bank (${BANK_BCA}, ${BANK_MANDIRI}, BNI, BRI), e-wallet (GoPay, OVO, DANA, ShopeePay), QRIS semua bank. COD khusus Jabodetabek min. 50k.` },
-  { id: "k18", category: "pembayaran", keywords: ["konfirmasi bayar", "bukti transfer", "kirim bukti"], question: "Bagaimana konfirmasi pembayaran?", answer: "Transfer ke rekening kami, lalu kirim bukti transfer via WhatsApp ke 6281383863456. Sertakan ID pesanan biar cepat diproses." },
+  { id: "k18", category: "pembayaran", keywords: ["konfirmasi bayar", "bukti transfer", "kirim bukti"], question: "Bagaimana konfirmasi pembayaran?", answer: "Transfer ke rekening kami, lalu kirim bukti transfer via WhatsApp ke 6285161835757. Sertakan ID pesanan biar cepat diproses." },
   { id: "k19", category: "pembayaran", keywords: ["bca", "mandiri", "bni", "bri", "nomor rekening"], question: "Nomor rekening Sin Herbal?", answer: `${BANK_BCA}\n${BANK_MANDIRI}` },
 
   // ===== PENGIRIMAN =====
@@ -65,7 +65,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k25", category: "tracking", keywords: ["lacak", "tracking", "status", "cek pesanan", "dimana pesanan"], question: "Bagaimana cara lacak pesanan?", answer: `Masuk ke ${url("/lacak-pesanan")}, masukkan ID pesanan yang dikirim setelah checkout. Bisa lihat status: Diterima → Diproses → Dikirim → Selesai.` },
 
   // ===== RETUR =====
-  { id: "k26", category: "retur", keywords: ["retur", "refund", "kembali", "komplain", "rusak", "salah"], question: "Bagaimana jika ada masalah dengan pesanan?", answer: "Hubungi WA 6281383863456 dalam 1x24 jam setelah paket diterima. Kami ganti jika ada kerusakan atau kesalahan. Sertakan foto barang & packing." },
+  { id: "k26", category: "retur", keywords: ["retur", "refund", "kembali", "komplain", "rusak", "salah"], question: "Bagaimana jika ada masalah dengan pesanan?", answer: "Hubungi WA 6285161835757 dalam 1x24 jam setelah paket diterima. Kami ganti jika ada kerusakan atau kesalahan. Sertakan foto barang & packing." },
 
   // ===== USIA =====
   { id: "k27", category: "usia", keywords: ["umur", "usia", "minimal", "boleh", "21", "18", "anak"], question: "Minimal usia pembelian?", answer: "Produk ini untuk 21+ ya Kak. Tidak boleh untuk anak di bawah umur. Nikmati dengan bijak." },
@@ -77,10 +77,10 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
 
   // ===== CHATBOT =====
   { id: "k31", category: "chatbot", keywords: ["kamu siapa", "siapa kamu", "nama kamu", "kamu robot"], question: "Kamu siapa?", answer: "Halo Kak! 👋 Aku Sin, asisten virtual Sin Herbal. Aku di sini bantu jawab pertanyaan seputar produk, order, atau apa pun soal Sin Herbal. Ada yang bisa aku bantu?" },
-  { id: "k32", category: "chatbot", keywords: ["orang", "manusia", "admin", "cs", "customer service"], question: "Bisa bicara dengan admin?", answer: "Tentu! Untuk order, komplain, atau pertanyaan kompleks, langsung chat admin kami di WhatsApp ya: https://wa.me/6281383863456. Admin lebih detail." },
+  { id: "k32", category: "chatbot", keywords: ["orang", "manusia", "admin", "cs", "customer service"], question: "Bisa bicara dengan admin?", answer: "Tentu! Untuk order, komplain, atau pertanyaan kompleks, langsung chat admin kami di WhatsApp ya: https://wa.me/6285161835757. Admin lebih detail." },
 
   // ===== KONTAK =====
-  { id: "k33", category: "kontak", keywords: ["wa", "whatsapp", "kontak", "hubungi", "telepon", "telp"], question: "Kontak Sin Herbal?", answer: "WhatsApp: 6281383863456\nEmail: info@sinherbal.com\nAlamat: Ruko Sentra Niaga Blok A1 No. 5, Pakisaji, Malang 65162" },
+  { id: "k33", category: "kontak", keywords: ["wa", "whatsapp", "kontak", "hubungi", "telepon", "telp"], question: "Kontak Sin Herbal?", answer: "WhatsApp: 6285161835757\nEmail: info@sinherbal.com\nAlamat: Ruko Sentra Niaga Blok A1 No. 5, Pakisaji, Malang 65162" },
 
   // ===== JAM OPERASIONAL =====
   { id: "k34", category: "operasional", keywords: ["jam", "operasional", "buka", "tutup", "senin", "minggu"], question: "Jam operasional?", answer: "Senin-Sabtu 08.00-17.00, Minggu 09.00-14.00. Di luar jam itu, tetap bisa chat WA ya, besok dibales." },
@@ -99,7 +99,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k41", category: "pengiriman", keywords: ["luar negeri", "luar negri", "internasional", "mancanegara"], question: "Kirim ke luar negeri?", answer: "Saat ini kami kirim ke seluruh Indonesia dulu ya Kak. Belum buka pengiriman internasional." },
 
   // ===== GROSIR =====
-  { id: "k42", category: "grosir", keywords: ["grosir", "reseller", "dropship", "mitra", "agen", "distributor"], question: "Mau jadi reseller/grosir?", answer: "Wah, tertarik jadi mitra? Langsung chat admin WA ya 6281383863456. Admin akan jelaskan terms & pricing khusus mitra." },
+  { id: "k42", category: "grosir", keywords: ["grosir", "reseller", "dropship", "mitra", "agen", "distributor"], question: "Mau jadi reseller/grosir?", answer: "Wah, tertarik jadi mitra? Langsung chat admin WA ya 6285161835757. Admin akan jelaskan terms & pricing khusus mitra." },
 
   // ===== KEMASAN =====
   { id: "k43", category: "produk", keywords: ["kemasan", "packaging", "bungkus", "isi"], question: "Isi produk berapa?", answer: "Rokok 12 batang per bungkus. Teh Herbal 10 teabag per kotak. Minyak & Kapsul 1 botol." },

@@ -112,9 +112,9 @@ export async function seed() {
   const existingSettings = await db.select().from(schema.settings);
   if (existingSettings.length === 0) {
     await db.insert(schema.settings).values([
-      { key: "wa_phone", value: "6281383863456" },
-      { key: "address", value: "Ruko Sentra Niaga Blok A1 No. 5, Pakisaji, Malang 65162" },
-      { key: "email", value: "info@sinherbal.com" },
+      { key: "wa_phone", value: "6285161835757" },
+      { key: "address", value: "Sukmajaya, Depok" },
+      { key: "email", value: "rokoksinherbal99@gmail.com" },
       { key: "shipping_info", value: "Gratis ongkir untuk area tertentu (syarat & ketentuan berlaku)" },
       { key: "operating_hours", value: "Senin - Sabtu 08.00 - 17.00\nMinggu 09.00 - 14.00" },
     ]);
