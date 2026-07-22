@@ -15,7 +15,7 @@ const slides = [
     href: "/products",
     gradient: "from-[#1A3626] via-[#2C4C3B] to-[#1A3626]",
     accent: "text-[#ABC1A7]",
-    image: "https://www.tridayasinergi.com/images/content/logo/TRST.png",
+    image: "/images/sin-trust.jpg",
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ const slides = [
     href: "/products/kopi-mana-kopi",
     gradient: "from-[#2C4C3B] via-[#1A3626] to-[#2C4C3B]",
     accent: "text-[#ABC1A7]",
-    image: "https://www.tridayasinergi.com/images/content/prod_kmk.jpg",
+    image: "/images/kopi-mana-kopi.jpg",
   },
 ];
 
