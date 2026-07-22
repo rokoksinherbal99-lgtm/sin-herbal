@@ -22,8 +22,8 @@ const SYNONYMS: Record<string, string[]> = {
 };
 
 const CATEGORY_KEYWORDS: Record<string, string[]> = {
-  produk: ["rokok", "teh", "minyak", "kapsul", "original", "menthol", "light", "herbal", "product"],
-  harga: ["harga", "berapa", "mahal", "murah", "biaya", "25", "27", "23", "15", "35", "45", "ribu"],
+  produk: ["rokok", "kopi", "original", "menthol", "light", "herbal", "product"],
+  harga: ["harga", "berapa", "mahal", "murah", "biaya", "13", "15", "17", "24", "25", "26", "27", "30", "31", "57", "40", "ribu", "k"],
   promo: ["promo", "diskon", "kupon", "voucher", "gratis", "kode", "sinherbal10"],
   pembayaran: ["bayar", "transfer", "bank", "bca", "mandiri", "gopay", "ovo", "dana", "qris", "cod", "rekening"],
   pengiriman: ["kirim", "ongkir", "kurir", "sampai", "estimasi", "jne", "j&t", "sicepat", "free ongkir"],

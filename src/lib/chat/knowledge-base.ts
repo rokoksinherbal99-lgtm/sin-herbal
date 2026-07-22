@@ -21,6 +21,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k1", category: "produk", keywords: ["sin herbal", "tentang", "apa itu", "perusahaan"], question: "Apa itu Sin Herbal?", answer: "Sin Herbal adalah agen resmi produk Sin dari PT Tridaya Sinergi Indonesia (TSI). Kami menyediakan berbagai varian rokok herbal dan kopi. Info lengkap: https://www.tridayasinergi.com", priority: 1 },
   { id: "k2", category: "produk", keywords: ["platinum", "sin platinum"], question: "Apa itu Sin Platinum?", answer: "Sin Platinum TSI (Rp17.500) — Sigaret Kretek Tangan (SKT) pertama yang dipercayakan PR UD Putra Bintang Timur untuk dipasarkan TSI. Kretek khas Nusantara." },
   { id: "k3", category: "produk", keywords: ["kujang mas", "sin kujang mas"], question: "Apa itu Sin Kujang Mas?", answer: "Sin Kujang Mas TSI (Rp17.500) — SKT dengan aroma kretek khas Nusantara. Juga tersedia versi Filter (Rp24.500)." },
+  { id: "k3b", category: "perbandingan", keywords: ["platinum kujang", "beda platinum kujang", "platinum sama kujang"], question: "Apa beda Sin Platinum dan Sin Kujang Mas?", answer: "Sin Platinum dan Sin Kujang Mas sama-sama SKT harga Rp17.500. Perbedaannya pada desain kemasan dan nama varian — Platinum menggunakan kemasan silver/putih, Kujang Mas menggunakan kemasan emas. Rasa dan kualitasnya setara, Kak." },
   { id: "k4", category: "produk", keywords: ["trust", "sin trust"], question: "Apa itu Sin Trust?", answer: "Sin Trust (Rp31.000) — SKM premium dari racikan KH R Abdul Malik. Juga ada versi Menthol (Rp27.000) dengan sensasi segar." },
   { id: "k5", category: "produk", keywords: ["provost", "sin provost"], question: "Apa itu Sin Provost 19?", answer: "Sin Provost 19 TSI (Rp24.500) — produk unggulan dari Sang Peracik KH R Abdul Malik. SKT premium." },
   { id: "k6", category: "produk", keywords: ["sapu jagat", "sin sapu jagat"], question: "Apa itu Sin Sapu Jagat?", answer: "Sin Sapu Jagat (Rp24.500) — SKT dengan harga terjangkau sesuai permintaan pasar TSI. Kualitas terbaik." },
@@ -54,7 +55,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
 
   // ===== CARA ORDER =====
   { id: "k15", category: "order", keywords: ["cara order", "beli", "pesan", "membeli", "transaksi"], question: "Bagaimana cara order?", answer: `Masuk ke ${url("")}, pilih produk, klik 'Miliki Sekarang' atau tambah ke keranjang. Lanjut checkout, isi data diri & alamat. Transfer ke rekening yang tertera, kirim bukti via WA ke 6285161835757.` },
-  { id: "k16", category: "order", keywords: ["minimal order", "min beli", "minimum"], question: "Ada minimal order?", answer: "Tidak ada minimal order Kak. Bisa beli 1 bungkus pun kami layani." },
+  { id: "k16", category: "order", keywords: ["minimal order", "min beli", "minimum", "satuan", "beli satuan", "beli satu", "beli dikit"], question: "Ada minimal order?", answer: "Tidak ada minimal order Kak. Bisa beli 1 bungkus pun kami layani." },
 
   // ===== PEMBAYARAN =====
   { id: "k17", category: "pembayaran", keywords: ["bayar", "pembayaran", "transfer", "bank", "ewallet", "gopay", "ovo", "dana", "qris", "cod"], question: "Apa metode pembayarannya?", answer: `Transfer bank (${BANK_BCA}, ${BANK_MANDIRI}, BNI, BRI), e-wallet (GoPay, OVO, DANA, ShopeePay), QRIS semua bank. COD khusus Jabodetabek min. 50k.` },
@@ -126,7 +127,6 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
 
   // ===== CARA PAKAI =====
   { id: "k49", category: "produk", keywords: ["cara pakai", "cara hisap", "cara nikmati", "gimana ngerokok"], question: "Bagaimana cara menikmati Rokok Sin Herbal?", answer: "Tinggal hisap seperti rokok biasa Kak. Bedanya, rasanya lebih ringan dan smooth. Nikmati pelan-pelan, biarkan rasa rempahnya terasa. Cocok ditemani teh hangat atau kopi." },
-  { id: "k50", category: "produk", keywords: ["cara seduh", "cara buat teh", "cara minum teh"], question: "Bagaimana cara seduh Teh Herbal Sin?", answer: "1 teabag + 200ml air panas, tunggu 3-5 menit. Boleh ditambah madu atau jeruk nipis kalau suka. Nikmati selagi hangat." },
 
   // ===== EFEK SAMPING =====
   { id: "k51", category: "kesehatan", keywords: ["efek samping", "pusing", "mual", "batuk", "pusing habis"], question: "Ada efek samping?", answer: "Umumnya enggak ada efek samping berarti Kak. Tapi kalau baru pertama coba rokok herbal, mungkin tenggorokan agak berbeda karena rempahnya. Kalau merasa tidak cocok, stop dan konsultasi ke dokter ya." },

@@ -12,7 +12,7 @@ export type Intent =
 
 const INTENT_PATTERNS: Record<Intent, RegExp[]> = {
   greeting: [/^(halo|hi|hai|helo|pagi|siang|malam|selamat)\b/i, /^(makasih|thanks|terima kasih|trims)/i, /^(dadah|bye|sampai jumpa)/i, /baik|sehat|kabar/i],
-  product_info: [/(rokok|teh|minyak|kapsul|herbal|original|menthol|light|varian|produk|katalog|jenis|rasa|kandungan|bahan|komposisi)/i],
+  product_info: [/(rokok|kopi|herbal|original|menthol|light|varian|produk|katalog|jenis|rasa|kandungan|bahan|komposisi)/i],
   order: [/(beli|order|pesan|mau.*(?:beli|order|pesan)|cara.*(?:beli|order|pesan|checkout)|min.*order|minimal.*beli)/i],
   complaint: [/(komplain|rusak|cacat|pecah|salah|tidak sesuai|kecewa|masalah|error|retur|refund|kembalikan|ganti|tukar)/i],
   recommendation: [/(rekomendasi|saran|cocok|bingung|belum.*tahu|rekomend|saranku)/i],
