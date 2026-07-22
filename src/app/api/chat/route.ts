@@ -70,6 +70,10 @@ const EXACT_MATCHES: { pattern: RegExp; answer: string }[] = [
   { pattern: /batang.*bungkus|isi.*bungkus|berapa.*batang/i, answer: "Rokok 12 batang per bungkus Kak. Kopi kemasan 200gr." },
   { pattern: /buka.*minggu|minggu.*buka|jam.*minggu/i, answer: "Minggu 09.00-14.00 Kak. Senin-Sabtu 08.00-17.00." },
   { pattern: /coklat|chocolate/i, answer: "Tidak ada produk Sin Herbal dengan rasa coklat Kak. Varian rokok: kretek herbal (SKT/SKM). Varian kopi: Original dan Mana Kopi (kopi + jahe + madu)." },
+  { pattern: /mana.kopi.*madu|madu.*mana.kopi|kopi.*madu/i, answer: "Kopi Mana Kopi mengandung madu Kak. Racikan kopi dengan jahe, madu, adas, kapulaga. Harganya Rp57.600." },
+  { pattern: /encode.*rasa|rasa.*encode|encode.*apa/i, answer: "Sin Sinergi Encode (Rp30.000) — SKM dengan formula spesial ekstrak sari buah nanas yang membawa kesegaran unik." },
+  { pattern: /krakatau.*luncur|luncur.*krakatau|krakatau.*kapan|kapan.*krakatau/i, answer: "Sin Krakatau diluncurkan 17 Agustus 2018 di Kota Serang. SKT premium terbaik dari semua produk Sin, harga Rp57.500." },
+  { pattern: /new.normal.*lahir|lahir.*new.normal|new.normal.*kapan|kapan.*new.normal/i, answer: "Sin New Normal lahir di tengah pandemi Covid-19. Tiga varian: ORG (Rp13.500, SKT), Mind (Rp23.000, SKM), Menthol (Rp27.500, SKM)." },
 ];
 
 function getExactMatch(message: string): string | null {

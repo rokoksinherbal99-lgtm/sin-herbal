@@ -20,7 +20,7 @@ const INTENT_PATTERNS: Record<Intent, RegExp[]> = {
   payment: [/(bayar|transfer|bank|bca|mandiri|gopay|ovo|dana|qris|rekening|pembayaran|konfirmasi.*bayar|bukti.*transfer)/i],
   promo: [/(promo|diskon|kupon|voucher|gratis|kode|sinherbal10|hemat)/i],
   general_question: [/(apa|bagaimana|kenapa|mengapa|kapan|siapa|di mana|berapa|bisakah|bolehkah|apakah)/i],
-  off_topic: [/\b(politik|presiden|partai|agama|tuhan|allah|sex|seks|porno|narkoba|judi|togel|slot)\b/i],
+  off_topic: [/\b(politik|presiden|partai|agama|tuhan|allah|sex|seks|porno|narkoba|judi|togel|slot|sabu|shabu|ganja|kokain|heroin|pil|ekstasi|obat.*terlarang|narkotika)\b/i],
 };
 
 export function classifyIntent(message: string): Intent {
