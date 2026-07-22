@@ -123,7 +123,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
 
   // ===== FILOSOFI BRAND =====
   { id: "k47", category: "brand", keywords: ["filosofi", "makna", "hisapan tenang", "tagline", "tentang brand"], question: "Apa makna 'Hisapan yang Tenang'?", answer: "'Hisapan yang Tenang' adalah filosofi Sin Herbal — mengajak menikmati setiap hembusan dengan kesadaran penuh. Produk dari rempah-rempah Nusantara pilihan." },
-  { id: "k48", category: "brand", keywords: ["sin", "arti sin", "nama sin", "tsi", "tridayasinergi", "tridaya"], question: "Apa arti nama 'Sin'?", answer: "Sin adalah merk produk dari PT Tridaya Sinergi Indonesia (TSI), didirikan 2007 di Tasikmalaya. Produsen: PR UD Putra Bintang Timur, Malang. Info: https://www.tridayasinergi.com" },
+  { id: "k48", category: "brand", keywords: ["sin", "arti sin", "nama sin", "tsi", "tridayasinergi", "tridaya", "arti nama", "artinya apa"], question: "Apa arti nama 'Sin'?", answer: "Sin adalah merk produk dari PT Tridaya Sinergi Indonesia (TSI), didirikan 2007 di Tasikmalaya. Produsen: PR UD Putra Bintang Timur, Malang. Info: https://www.tridayasinergi.com" },
 
   // ===== CARA PAKAI =====
   { id: "k49", category: "produk", keywords: ["cara pakai", "cara hisap", "cara nikmati", "gimana ngerokok"], question: "Bagaimana cara menikmati Rokok Sin Herbal?", answer: "Tinggal hisap seperti rokok biasa Kak. Bedanya, rasanya lebih ringan dan smooth. Nikmati pelan-pelan, biarkan rasa rempahnya terasa. Cocok ditemani teh hangat atau kopi." },
