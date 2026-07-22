@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.public.blob.vercel-storage.com",
       },
+      {
+        protocol: "https",
+        hostname: "www.tridayasinergi.com",
+      },
     ],
   },
   async headers() {
@@ -26,7 +30,7 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline'",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com",
+              "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com https://www.tridayasinergi.com",
               "font-src 'self' data:",
               "connect-src 'self' https://rokoksin.vercel.app https://*.biteship.com https://nominatim.openstreetmap.org",
               "form-action 'self'",

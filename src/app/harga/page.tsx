@@ -13,11 +13,31 @@ export const metadata: Metadata = {
 };
 
 const typeStyles: Record<string, string> = {
-  "Rokok Herbal SKT": "bg-amber-50 text-amber-700",
-  "Rokok Herbal SKM": "bg-blue-50 text-blue-700",
-  "Minuman Herbal": "bg-teal-50 text-teal-700",
-  "Minyak Herbal": "bg-orange-50 text-orange-700",
-  Suplemen: "bg-purple-50 text-purple-700",
+  SKT: "bg-amber-50 text-amber-700",
+  SKM: "bg-blue-50 text-blue-700",
+  Kopi: "bg-teal-50 text-teal-700",
+};
+
+const productTypes: Record<string, string> = {
+  "Sin Platinum TSI": "SKT",
+  "Sin Kujang Mas TSI": "SKT",
+  "Sin Provost 19 TSI": "SKT",
+  "Sin Sapu Jagat": "SKT",
+  "Sin Krakatau": "SKT",
+  "Sin New Normal ORG": "SKT",
+  "Sin Precision White": "SKT",
+  "Sin Precision": "SKT",
+  "Sin Sinergi Mind": "SKM",
+  "Sin Platinum Filter": "SKM",
+  "Sin Sinergi Mind Menthol": "SKM",
+  "Sin Trust Menthol": "SKM",
+  "Sin Trust": "SKM",
+  "Sin Kujang Mas Filter": "SKM",
+  "Sin New Normal Mind": "SKM",
+  "Sin New Normal Menthol": "SKM",
+  "Sin Sinergi Encode": "SKM",
+  "Kopi Mana Kopi": "Kopi",
+  "Kopi Original": "Kopi",
 };
 
 interface CatGroup {
@@ -31,7 +51,7 @@ export default async function PriceListPage() {
   for (const r of rows) {
     const catName = r.categories?.name || "Lainnya";
     if (!grouped[catName]) grouped[catName] = { category: catName, items: [] };
-    grouped[catName].items.push({ name: r.products.name, type: "-", price: r.products.price });
+    grouped[catName].items.push({ name: r.products.name, type: productTypes[r.products.name] || "-", price: r.products.price });
   }
 
   return (

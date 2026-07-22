@@ -6,7 +6,17 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Shield, Package, CheckCircle } from "lucide-react";
+import { Shield, Package, CheckCircle, Tag } from "lucide-react";
+
+const productTypes: Record<string, string> = {
+  "Sin Platinum TSI": "SKT", "Sin Kujang Mas TSI": "SKT", "Sin Provost 19 TSI": "SKT",
+  "Sin Sapu Jagat": "SKT", "Sin Krakatau": "SKT", "Sin New Normal ORG": "SKT",
+  "Sin Precision White": "SKT", "Sin Precision": "SKT",
+  "Sin Sinergi Mind": "SKM", "Sin Platinum Filter": "SKM", "Sin Sinergi Mind Menthol": "SKM",
+  "Sin Trust Menthol": "SKM", "Sin Trust": "SKM", "Sin Kujang Mas Filter": "SKM",
+  "Sin New Normal Mind": "SKM", "Sin New Normal Menthol": "SKM", "Sin Sinergi Encode": "SKM",
+  "Kopi Mana Kopi": "Kopi", "Kopi Original": "Kopi",
+};
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://rokoksin.vercel.app";
 import AddToCartButton from "./add-to-cart-button";
@@ -55,7 +65,7 @@ export default async function ProductDetailPage({ params }: Props) {
     category: product.category.name,
     offers: {
       "@type": "Offer",
-      price: product.price / 1000,
+      price: product.price,
       priceCurrency: "IDR",
       availability: product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       url: `${BASE_URL}/products/${product.slug}`,
@@ -94,6 +104,12 @@ export default async function ProductDetailPage({ params }: Props) {
               <Package className="h-3.5 w-3.5" strokeWidth={1.5} />
               {product.category.name}
             </span>
+            {productTypes[product.name] && (
+              <span className={`inline-flex items-center gap-1.5 rounded-sm px-3 py-1 text-xs font-semibold ${productTypes[product.name] === "SKT" ? "bg-amber-50 text-amber-700" : productTypes[product.name] === "SKM" ? "bg-blue-50 text-blue-700" : "bg-teal-50 text-teal-700"}`}>
+                <Tag className="h-3.5 w-3.5" strokeWidth={1.5} />
+                {productTypes[product.name]}
+              </span>
+            )}
           </div>
           <h1 className="mt-3 text-3xl font-bold text-[#1A3626] md:text-4xl">{product.name}</h1>
           <div className="mt-6 flex items-baseline gap-3">
@@ -132,8 +148,8 @@ export default async function ProductDetailPage({ params }: Props) {
                 <p className="font-semibold text-[#1A3626]">{product.category.name}</p>
               </div>
               <div className="rounded-sm bg-[#EDF2ED] p-3">
-                <p className="text-xs text-[#5D8356]">Legalitas</p>
-                <p className="font-semibold text-[#1A3626]">Terdaftar Bea Cukai</p>
+                <p className="text-xs text-[#5D8356]">Jenis</p>
+                <p className="font-semibold text-[#1A3626]">{productTypes[product.name] || "-"}</p>
               </div>
             </div>
           </div>
