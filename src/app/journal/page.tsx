@@ -27,11 +27,11 @@ const ARTICLES = [
     readTime: "7 menit",
   },
   {
-    slug: "teh-herbal-nusantara",
-    title: "Mengenal Teh Herbal Nusantara dan Khasiatnya",
-    excerpt: "Dari daun mint hingga jahe merah, Indonesia kaya akan bahan teh herbal. Simak khasiat dan cara penyajiannya.",
+    slug: "kopi-herbal-nusantara",
+    title: "Mengenal Kopi Herbal Nusantara dan Khasiatnya",
+    excerpt: "Dari jahe hingga madu, Indonesia kaya akan bahan kopi herbal. Simak khasiat dan cara menikmatinya.",
     icon: BookOpen,
-    category: "Teh Herbal",
+    category: "Kopi Herbal",
     date: "5 Juli 2026",
     readTime: "6 menit",
   },
@@ -61,7 +61,7 @@ export default function JournalPage() {
           <span className="inline-block rounded-full border border-[#ABC1A7]/30 bg-[#D5E0D3]/50 px-5 py-1 font-serif text-sm font-semibold italic text-[#2C4C3B]">Jurnal Herbal</span>
           <h1 className="mt-4 text-4xl font-bold text-white md:text-5xl">Artikel & Informasi</h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-[#F9F6F0]/80">
-            Seputar rokok herbal, teh herbal, gaya hidup sehat, dan tips berhenti merokok.
+            Seputar rokok herbal, kopi herbal, gaya hidup sehat, dan tips berhenti merokok.
           </p>
         </div>
       </section>
@@ -105,7 +105,7 @@ export default function JournalPage() {
           <h2 className="text-3xl font-bold text-white">Ingin Berkontribusi?</h2>
           <p className="mt-3 text-lg text-[#ABC1A7]">Punya artikel atau pengalaman seputar herbal? Kirimkan ke kami.</p>
           <a
-            href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456"}`}
+            href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6285161835757"}`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary mt-8 gap-2.5"

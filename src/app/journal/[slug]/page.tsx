@@ -66,27 +66,27 @@ const ARTICLES = [
     `,
   },
   {
-    slug: "teh-herbal-nusantara",
-    title: "Mengenal Teh Herbal Nusantara dan Khasiatnya",
-    excerpt: "Dari daun mint hingga jahe merah, Indonesia kaya akan bahan teh herbal. Simak khasiat dan cara penyajiannya.",
+    slug: "kopi-herbal-nusantara",
+    title: "Mengenal Kopi Herbal Nusantara dan Khasiatnya",
+    excerpt: "Dari jahe hingga madu, Indonesia kaya akan bahan kopi herbal. Simak khasiat dan cara menikmatinya.",
     icon: BookOpen,
-    category: "Teh Herbal",
+    category: "Kopi Herbal",
     date: "5 Juli 2026",
     readTime: "6 menit",
     content: `
-      <h2>Kekayaan Herbal Nusantara</h2>
-      <p>Indonesia memiliki kekayaan rempah dan tanaman herbal yang luar biasa. Setiap daerah memiliki racikan teh herbal tradisional yang diwariskan turun-temurun dengan berbagai khasiat untuk kesehatan.</p>
+      <h2>Kekayaan Herbal Nusantara dalam Secangkir Kopi</h2>
+      <p>Indonesia memiliki kekayaan rempah dan tanaman herbal yang luar biasa. Perpaduan kopi dengan bahan herbal tradisional menciptakan minuman yang tidak hanya nikmat tapi juga menyehatkan.</p>
 
-      <h2>Jenis Teh Herbal Populer</h2>
+      <h2>Bahan Herbal dalam Kopi Nusantara</h2>
       <ul>
-        <li><strong>Teh Jahe</strong> — Menghangatkan tubuh, meredakan masuk angin, dan melancarkan pencernaan</li>
-        <li><strong>Teh Kayu Manis</strong> — Membantu mengontrol gula darah dan meningkatkan metabolisme</li>
-        <li><strong>Teh Serai</strong> — Aromanya menenangkan, baik untuk relaksasi dan detoksifikasi</li>
-        <li><strong>Teh Daun Mint</strong> — Menyegarkan, meredakan sakit kepala, dan mengatasi gangguan pencernaan</li>
+        <li><strong>Jahe</strong> — Menghangatkan tubuh, membantu pencernaan, dan mengurangi peradangan</li>
+        <li><strong>Madu</strong> — Sumber energi alami, menjaga daya tahan tubuh, dan menambah rasa manis sehat</li>
+        <li><strong>Adas</strong> — Membantu meredakan masuk angin dan melancarkan pencernaan</li>
+        <li><strong>Kapulaga</strong> — Aromanya khas, membantu menjaga kesehatan saluran pernapasan</li>
       </ul>
 
-      <h2>Cara Penyajian yang Tepat</h2>
-      <p>Untuk mendapatkan manfaat maksimal, seduh teh herbal dengan air panas bersuhu 80-90°C selama 3-5 menit. Hindari menambahkan gula berlebihan agar khasiatnya tidak berkurang.</p>
+      <h2>Cara Menikmati Kopi Herbal</h2>
+      <p>Untuk mendapatkan manfaat maksimal, seduh kopi herbal dengan air panas bersuhu 85-95°C. Aduk perlahan dan nikmati selagi hangat. Bisa ditambahkan gula atau madu sesuai selera.</p>
     `,
   },
   {
