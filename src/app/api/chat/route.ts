@@ -74,6 +74,10 @@ const EXACT_MATCHES: { pattern: RegExp; answer: string }[] = [
   { pattern: /encode.*rasa|rasa.*encode|encode.*apa/i, answer: "Sin Sinergi Encode (Rp30.000) — SKM dengan formula spesial ekstrak sari buah nanas yang membawa kesegaran unik." },
   { pattern: /krakatau.*luncur|luncur.*krakatau|krakatau.*kapan|kapan.*krakatau/i, answer: "Sin Krakatau diluncurkan 17 Agustus 2018 di Kota Serang. SKT premium terbaik dari semua produk Sin, harga Rp57.500." },
   { pattern: /new.normal.*lahir|lahir.*new.normal|new.normal.*kapan|kapan.*new.normal/i, answer: "Sin New Normal lahir di tengah pandemi Covid-19. Tiga varian: ORG (Rp13.500, SKT), Mind (Rp23.000, SKM), Menthol (Rp27.500, SKM)." },
+  { pattern: /paling.*ringan|ringan.*paling|paling.*halus|yang.*light|light.*apa/i, answer: "Yang paling ringan: Sin New Normal ORG (Rp13.500, SKT) atau Sin Sinergi Mind Menthol (Rp15.000, SKM). Cocok buat yang suka rasa ringan dan halus." },
+  { pattern: /paling.*kuat|kuat.*paling|yang.*kuat|paling.*nendang/i, answer: "Yang paling kuat rasanya: Sin Krakatau (Rp57.500, SKT premium terbaik). Atau Sin Precision (Rp25.500) pakai tembakau Srintil yang khas." },
+  { pattern: /ongkir.*surabaya|surabaya.*ongkir|kirim.*surabaya/i, answer: "Ongkir ke Surabaya mulai Rp15.000. Estimasi 2-4 hari kerja. Gratis ongkir min. belanja Rp100.000." },
+  { pattern: /ada.*filter|filter.*ada|produk.*filter/i, answer: "Ada Kak! Sin Platinum Filter (Rp30.500) dan Sin Kujang Mas Filter (Rp24.500). Keduanya SKM dengan filter." },
 ];
 
 function getExactMatch(message: string): string | null {
