@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Produk Herbal",
-  description: "Koleksi lengkap produk herbal alami Sin Herbal. Jamu, rempah, dan suplemen herbal berkualitas.",
+  description: "Koleksi lengkap produk herbal Sin Herbal. Rokok herbal SKT/SKM dan kopi premium terdaftar Bea Cukai.",
 };
 
 export const dynamic = "force-dynamic";

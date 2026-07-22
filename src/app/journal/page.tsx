@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Jurnal Herbal - Sin Herbal",
-  description: "Artikel dan informasi seputar rokok herbal, teh herbal, gaya hidup sehat alami, dan tips berhenti merokok dari Sin Herbal.",
+  description: "Artikel dan informasi seputar rokok herbal, gaya hidup sehat alami, dan tips berhenti merokok dari Sin Herbal.",
 };
 
 const ARTICLES = [

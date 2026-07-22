@@ -47,7 +47,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k12", category: "harga", keywords: ["harga", "berapa", "mahal", "murah", "biaya"], question: "Berapa harga produk Sin Herbal?", answer: "Harga terbaru 2025: Sin Platinum/Kujang Mas Rp17.500, New Normal ORG Rp13.500, Sapu Jagat/Provost Rp24.500, Precision White Rp24.500, Precision Rp25.500, Sinergi Mind Rp26.000, Trust Menthol Rp27.000, New Normal Menthol Rp27.500, Sinergi Encode Rp30.000, Platinum Filter Rp30.500, Trust Rp31.000, Krakatau Rp57.500. Cek katalog: https://rokoksin.vercel.app/harga" },
 
   // ===== PROMO =====
-  { id: "k13", category: "promo", keywords: ["promo", "diskon", "kupon", "voucher", "gratis", "kode"], question: "Apa promo yang sedang aktif?", answer: "1. Gratis ongkir min. belanja 100k. 2. Beli 5 rokok gratis 1 teh herbal. 3. Diskon 10% pertama dengan kode: SINHERBAL10" },
+  { id: "k13", category: "promo", keywords: ["promo", "diskon", "kupon", "voucher", "gratis", "kode"], question: "Apa promo yang sedang aktif?", answer: "1. Gratis ongkir min. belanja 100k. 2. Bonus untuk pembelian grosir. Hubungi WhatsApp kami untuk info lebih lanjut." },
 
   // ===== STOK =====
   { id: "k14", category: "stok", keywords: ["stok", "tersedia", "ready", "kosong", "habis"], question: "Bagaimana cara cek stok produk?", answer: `Cek langsung di halaman produk: ${url("/products")}. Kalau habis, chat WA admin ya, kadang stok belum diupdate.` },
@@ -112,7 +112,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k43", category: "produk", keywords: ["kemasan", "packaging", "bungkus", "isi"], question: "Isi produk berapa?", answer: "Rokok 12 batang per bungkus. Kopi kemasan sachet. Tersedia berbagai varian SKT dan SKM." },
 
   // ===== KADALUWARSA =====
-  { id: "k44", category: "produk", keywords: ["kadaluwarsa", "expired", "kedaluwarsa", "tahan lama"], question: "Berapa lama masa simpan?", answer: "Produk rokok & teh herbal tahan 12-18 bulan dari tanggal produksi. Simpan di tempat kering, hindari sinar matahari langsung." },
+  { id: "k44", category: "produk", keywords: ["kadaluwarsa", "expired", "kedaluwarsa", "tahan lama"], question: "Berapa lama masa simpan?", answer: "Produk rokok herbal tahan 12-18 bulan dari tanggal produksi. Simpan di tempat kering, hindari sinar matahari langsung." },
 
   // ===== ONLINE PAYMENT =====
   { id: "k45", category: "pembayaran", keywords: ["kartu kredit", "kartu debit", "cc", "visa", "mastercard"], question: "Bayar pakai kartu kredit?", answer: "Bisa Kak! Transfer bank atau QRIS. Kartu kredit belum tersedia langsung, tapi bisa via QRIS dari aplikasi bank." },

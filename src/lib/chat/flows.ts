@@ -41,7 +41,7 @@ export const FLOWS: Flow[] = [
     name: "Rekomendasi Produk",
     triggerKeywords: ["rekomendasi", "saran", "cocok", "bingung", "belum tahu", "rekomend"],
     steps: [
-      { question: "Kakak mau coba yang dihisap (rokok herbal) atau diminum (teh herbal)?", options: ["Rokok Herbal", "Teh Herbal", "Belum tahu"] },
+      { question: "Kakak mau coba yang dihisap (rokok herbal SKT/SKM) atau diminum (kopi herbal)?", options: ["Rokok SKT", "Rokok SKM", "Kopi", "Belum tahu"] },
       { question: "Kalau rokok: suka rasa original, menthol (segar), atau light (ringan)?", options: ["Original", "Menthol", "Light", "Gak tahu"] },
     ],
     completeMessage: "Saran saya Kakak coba Rokok Light atau Teh Herbal dulu. Rasanya ringan dan cocok buat pemula. Kalau mau, langsung order lewat website atau chat WA admin ya!",

@@ -22,25 +22,25 @@ import { ToastProvider } from "@/components/Toast";
 import { CartProvider } from "@/lib/cart-context";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://rokoksin.vercel.app";
-const OG_IMAGE = `${BASE_URL}/images/product-1.svg`;
+const OG_IMAGE = "https://www.tridayasinergi.com/images/content/logo/TRST.png";
 
 export const metadata: Metadata = {
-  title: { default: "Sin Herbal - Rokok & Teh Herbal Premium Nusantara", template: "%s | Sin Herbal" },
-  description: "Toko herbal Nusantara terpercaya. Jual rokok herbal SKT/SKM premium, teh herbal, minyak herbal, dan suplemen. 100% bahan alami, terdaftar resmi Bea Cukai, harga terjangkau. Gratis ongkir min. belanja Rp100rb.",
-  keywords: ["rokok herbal", "teh herbal", "sin herbal", "rokok sin herbal", "herbal nusantara", "SKT", "SKM", "tembakau herbal", "obat herbal", "toko herbal online"],
+  title: { default: "Sin Herbal - Agen Resmi Produk Sin Herbal Premium", template: "%s | Sin Herbal" },
+  description: "Agen resmi produk Sin dari PT Tridaya Sinergi Indonesia. Rokok herbal SKT/SKM dan kopi premium. Terdaftar Bea Cukai, harga terjangkau. Gratis ongkir min. belanja Rp100rb.",
+  keywords: ["rokok herbal", "sin herbal", "SKT", "SKM", "kretek", "tembakau herbal", "kopi herbal", "tridaya sinergi", "toko herbal online"],
   openGraph: {
-    title: "Sin Herbal - Rokok & Teh Herbal Premium Nusantara",
-    description: "Rokok herbal SKT/SKM, teh herbal, minyak herbal, & suplemen. 100% bahan alami pilihan. Terdaftar Bea Cukai. Gratis ongkir min. Rp100rb!",
+    title: "Sin Herbal - Agen Resmi Produk Sin Herbal Premium",
+    description: "Rokok herbal SKT/SKM dan kopi premium dari PT Tridaya Sinergi Indonesia. Terdaftar Bea Cukai, harga terjangkau!",
     type: "website",
     locale: "id_ID",
     siteName: "Sin Herbal",
     url: BASE_URL,
-    images: [{ url: OG_IMAGE, width: 800, height: 800, alt: "Sin Herbal - Produk Herbal Premium Nusantara" }],
+    images: [{ url: OG_IMAGE, width: 800, height: 800, alt: "Sin Herbal - Produk Herbal Premium" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sin Herbal - Rokok & Teh Herbal Premium Nusantara",
-    description: "Rokok herbal SKT/SKM, teh herbal, dan suplemen. 100% alami, terdaftar Bea Cukai. Gratis ongkir!",
+    title: "Sin Herbal - Agen Resmi Produk Sin Herbal Premium",
+    description: "Rokok herbal SKT/SKM dan kopi premium. Terdaftar Bea Cukai, harga terjangkau!",
     images: [OG_IMAGE],
   },
   verification: { google: "jfqbB0vDy3sffngMeXLnGpnukeZigUMygJQWhUO3rfM" },
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   alternates: { canonical: BASE_URL },
   manifest: "/manifest.json",
   icons: {
-    apple: "/images/product-1.svg",
+    apple: OG_IMAGE,
   },
   appleWebApp: {
     capable: true,
@@ -68,11 +68,11 @@ const jsonLd = {
       "@id": `${BASE_URL}/#website`,
       url: BASE_URL,
       name: "Sin Herbal",
-      description: "Toko herbal terpercaya menyediakan berbagai produk herbal alami berkualitas.",
+      description: "Agen resmi produk Sin dari PT Tridaya Sinergi Indonesia. Rokok herbal SKT/SKM dan kopi premium.",
       inLanguage: "id-ID",
       potentialAction: {
         "@type": "SearchAction",
-        target: { "@type": "EntryPoint", urlTemplate: `${BASE_URL}/cari?q={search_term_string}` },
+        target: { "@type": "EntryPoint", urlTemplate: `${BASE_URL}/products?q={search_term_string}` },
         "query-input": "required name=search_term_string",
       },
     },
@@ -81,10 +81,10 @@ const jsonLd = {
       "@id": `${BASE_URL}/#organization`,
       name: "Sin Herbal",
       url: BASE_URL,
-      logo: `${BASE_URL}/images/product-1.svg`,
-      image: `${BASE_URL}/images/product-1.svg`,
-      address: { "@type": "PostalAddress", addressCountry: "ID" },
-      contactPoint: { "@type": "ContactPoint", telephone: "+62-812-3456-7890", contactType: "customer service", language: "id" },
+      logo: OG_IMAGE,
+      image: OG_IMAGE,
+      address: { "@type": "PostalAddress", addressLocality: "Depok", addressCountry: "ID" },
+      contactPoint: { "@type": "ContactPoint", telephone: "+62-851-6183-5757", contactType: "customer service", language: "id" },
       sameAs: [`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6285161835757"}`],
     },
   ],
