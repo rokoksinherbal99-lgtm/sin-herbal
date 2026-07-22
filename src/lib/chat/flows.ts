@@ -17,7 +17,7 @@ export const FLOWS: Flow[] = [
     name: "Bantuan Order",
     triggerKeywords: ["order", "beli", "pesan", "cara beli", "mau order", "pengen order"],
     steps: [
-      { question: "Produk apa yang mau Kakak beli?", options: ["Rokok Original (25k)", "Rokok Menthol (27k)", "Rokok Light (23k)", "Teh Herbal (15k)", "Minyak Herbal (35k)", "Kapsul Herbal (45k)"] },
+      { question: "Produk apa yang mau Kakak beli?", options: ["Sin Platinum TSI (17.5k)", "Sin Kujang Mas TSI (17.5k)", "Sin Trust (31k)", "Sin Provost 19 (24.5k)", "Sin Precision (25.5k)", "Sin Krakatau (57.5k)", "Kopi Mana Kopi (57.6k)", "Kopi Original (40k)", "Lainnya"] },
       { question: "Berapa banyak yang mau dipesan?" },
       { question: "Nama Kakak siapa?" },
       { question: "Alamat lengkap dikirim ke mana? (Kecamatan, Kota, Provinsi, Kode Pos)" },
@@ -42,20 +42,19 @@ export const FLOWS: Flow[] = [
     triggerKeywords: ["rekomendasi", "saran", "cocok", "bingung", "belum tahu", "rekomend"],
     steps: [
       { question: "Kakak mau coba yang dihisap (rokok herbal SKT/SKM) atau diminum (kopi herbal)?", options: ["Rokok SKT", "Rokok SKM", "Kopi", "Belum tahu"] },
-      { question: "Kalau rokok: suka rasa original, menthol (segar), atau light (ringan)?", options: ["Original", "Menthol", "Light", "Gak tahu"] },
+      { question: "Kalau rokok: suka rasa original, menthol (segar), atau yang premium?", options: ["Original", "Menthol", "Premium", "Gak tahu"] },
     ],
-    completeMessage: "Saran saya Kakak coba Rokok Light atau Teh Herbal dulu. Rasanya ringan dan cocok buat pemula. Kalau mau, langsung order lewat website atau chat WA admin ya!",
+    completeMessage: "Saran saya Kakak coba Sin New Normal ORG (13.5k, termurah) atau Sin Sinergi Mind Menthol (15k, ringan). Untuk kopi, Kopi Original (40k) paling pas buat pemula. Langsung order lewat website atau chat WA admin ya!",
   },
   {
     id: "info_produk",
     name: "Info Produk",
     triggerKeywords: ["info produk", "detail produk", "jelasin", "spesifikasi", "kandungan produk"],
     steps: [
-      { question: "Produk apa yang mau Kakak tanyakan?", options: ["Rokok Original", "Rokok Menthol", "Rokok Light", "Teh Herbal", "Minyak Herbal", "Kapsul Herbal"] },
+      { question: "Produk apa yang mau Kakak tanyakan?", options: ["Sin Platinum TSI", "Sin Trust", "Sin Krakatau", "Sin Precision", "Kopi Mana Kopi", "Lainnya"] },
       { question: "Mau tahu tentang apa? (rasa, harga, kandungan, cara pakai)", options: ["Rasa", "Harga", "Kandungan", "Cara pakai"] },
     ],
     completeMessage: "Info detailnya sudah aku jelasin di atas Kak. Ada lagi yang ditanyakan? 😊",
-
   },
 ];
 

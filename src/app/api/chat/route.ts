@@ -142,7 +142,7 @@ export async function POST(req: NextRequest) {
       const best = searchKnowledge(message);
       reply = best
         ? best.item.answer
-        : "Maaf, Sin sedang offline. Silakan hubungi WA https://wa.me/6281383863456";
+        : "Maaf, Sin sedang offline. Silakan hubungi WA https://wa.me/6285161835757";
     } else {
       const { model, prompt, maxTokens } = selectModel(message, conversationHistory.length, intent);
       const intentHint = intentPrompt(intent);
@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
         const best = searchKnowledge(message);
         reply = best
           ? best.item.answer
-          : "Mohon maaf, sistem sibuk. Coba lagi atau hubungi WA https://wa.me/6281383863456";
+          : "Mohon maaf, sistem sibuk. Coba lagi atau hubungi WA https://wa.me/6285161835757";
       }
     }
 
@@ -185,7 +185,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         reply:
-          "Mohon maaf, sistem sedang sibuk. Silakan coba lagi, atau hubungi admin di WA ya Kak. 📱 wa.me/6281383863456",
+          "Mohon maaf, sistem sedang sibuk. Silakan coba lagi, atau hubungi admin di WA ya Kak. 📱 wa.me/6285161835757",
       },
       { status: 500 }
     );
