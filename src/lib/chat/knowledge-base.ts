@@ -60,7 +60,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
 
   // ===== PEMBAYARAN =====
   { id: "k17", category: "pembayaran", keywords: ["bayar", "pembayaran", "transfer", "bank", "ewallet", "gopay", "ovo", "dana", "qris", "cod"], question: "Apa metode pembayarannya?", answer: `Transfer bank (${BANK_BCA}, ${BANK_MANDIRI}, BNI, BRI), e-wallet (GoPay, OVO, DANA, ShopeePay), QRIS semua bank. COD khusus Jabodetabek min. 50k.` },
-  { id: "k17b", category: "pembayaran", keywords: ["dana", "transfer dana", "bayar dana"], question: "Bisa bayar pakai DANA?", answer: "Bisa Kak! Kami support DANA, GoPay, OVO, ShopeePay, dan QRIS semua bank. Tinggal pilih metode yang paling nyaman." },
+  { id: "k17b", category: "pembayaran", keywords: ["dana", "transfer dana", "bayar dana", "via dana", "pakai dana"], question: "Bisa bayar pakai DANA?", answer: "Bisa Kak! Kami support DANA, GoPay, OVO, ShopeePay, dan QRIS semua bank. Tinggal pilih metode yang paling nyaman." },
   { id: "k18", category: "pembayaran", keywords: ["konfirmasi bayar", "bukti transfer", "kirim bukti"], question: "Bagaimana konfirmasi pembayaran?", answer: "Transfer ke rekening kami, lalu kirim bukti transfer via WhatsApp ke 6285161835757. Sertakan ID pesanan biar cepat diproses." },
   { id: "k19", category: "pembayaran", keywords: ["bca", "mandiri", "bni", "bri", "nomor rekening"], question: "Nomor rekening Sin Herbal?", answer: `${BANK_BCA}\n${BANK_MANDIRI}` },
 
@@ -93,7 +93,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k33", category: "kontak", keywords: ["wa", "whatsapp", "kontak", "hubungi", "telepon", "telp"], question: "Kontak Sin Herbal?", answer: "WhatsApp: 6285161835757\nEmail: rokoksinherbal99@gmail.com\nAlamat: Sukmajaya, Depok" },
 
   // ===== JAM OPERASIONAL =====
-  { id: "k34", category: "operasional", keywords: ["jam", "operasional", "buka", "tutup", "senin", "minggu"], question: "Jam operasional?", answer: "Senin-Sabtu 08.00-17.00, Minggu 09.00-14.00. Di luar jam itu, tetap bisa chat WA ya, besok dibales." },
+  { id: "k34", category: "operasional", keywords: ["jam", "operasional", "buka", "tutup", "senin", "minggu", "hari", "jam buka", "jam tutup"], question: "Jam operasional?", answer: "Senin-Sabtu 08.00-17.00, Minggu 09.00-14.00. Di luar jam itu, tetap bisa chat WA ya, besok dibales." },
 
   // ===== PERCAKAPAN UMUM =====
   { id: "k35", category: "sapa", keywords: ["halo", "hi", "hai", "helo", "pagi", "siang", "malam", "selamat"], question: "Sapaan", answer: "Halo Kak! 👋 Ada yang bisa Sin bantu hari ini? Mau tanya produk, order, atau sekadar ngobrol?" },

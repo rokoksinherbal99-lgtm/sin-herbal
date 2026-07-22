@@ -148,7 +148,7 @@ export async function POST(req: NextRequest) {
       const intentHint = intentPrompt(intent);
 
       const directAnswer = searchKnowledge(message);
-      if (directAnswer && directAnswer.score <= 0.25) {
+      if (directAnswer && directAnswer.score <= 0.35) {
         reply = directAnswer.item.answer;
       } else {
         const systemContent = context
