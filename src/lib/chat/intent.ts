@@ -26,7 +26,12 @@ const INTENT_PATTERNS: Record<Intent, RegExp[]> = {
 export function classifyIntent(message: string): Intent {
   const lower = message.toLowerCase().trim();
 
+  for (const re of INTENT_PATTERNS.off_topic) {
+    if (re.test(lower)) return "off_topic";
+  }
+
   for (const [intent, patterns] of Object.entries(INTENT_PATTERNS)) {
+    if (intent === "off_topic") continue;
     for (const re of patterns) {
       if (re.test(lower)) return intent as Intent;
     }
