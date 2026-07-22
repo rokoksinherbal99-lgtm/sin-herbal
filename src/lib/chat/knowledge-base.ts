@@ -18,26 +18,33 @@ function url(path: string) { return `${BASE_URL}${path}`; }
 
 export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   // ===== PRODUK =====
-  { id: "k1", category: "produk", keywords: ["sin herbal", "tentang", "apa itu", "perusahaan"], question: "Apa itu Sin Herbal?", answer: "Sin Herbal adalah brand rokok & teh herbal premium Nusantara. Kami meracik produk dari rempah-rempah Nusantara pilihan sejak 2020. Kantor: Pakisaji, Malang. Produksi: Abadijaya, Depok.", priority: 1 },
-  { id: "k2", category: "produk", keywords: ["original", "rokok original", "varian original"], question: "Apa itu Rokok Sin Herbal Original?", answer: "Rokok Original (25k/bungkus, isi 12 batang) — rasa khas cengkeh & rempah, sedikit manis, smooth. Nikotin rendah, cocok untuk transisi ke herbal." },
-  { id: "k3", category: "produk", keywords: ["menthol", "dingin", "segar"], question: "Apa itu Rokok Sin Herbal Menthol?", answer: "Rokok Menthol (27k/bungkus, isi 12 batang) — original + ekstrak mint alami. Sensasi segar & dingin di tenggorokan." },
-  { id: "k4", category: "produk", keywords: ["light", "ringan"], question: "Apa itu Rokok Sin Herbal Light?", answer: "Rokok Light (23k/bungkus, isi 12 batang) — blend tembakau organik paling ringan. Nikotin sangat rendah, cocok untuk pemula." },
-  { id: "k5", category: "produk", keywords: ["teh", "teh herbal"], question: "Apa itu Teh Herbal Sin?", answer: "Teh Herbal Sin (15k/kotak, isi 10 teabag) — campuran serai, jahe, daun sirih, madu alami. Hangat, sedikit pedas, menenangkan. Seduh 1 teabag + 200ml air panas 3-5 menit." },
-  { id: "k6", category: "produk", keywords: ["minyak", "minyak herbal"], question: "Apa itu Minyak Herbal Sin?", answer: "Minyak Herbal Sin (35k) — minyak pijat & terapi dari ekstrak herbal pilihan. Memberikan rasa hangat dan nyaman." },
-  { id: "k7", category: "produk", keywords: ["kapsul", "suplemen"], question: "Apa itu Kapsul Herbal Sin?", answer: "Kapsul Herbal Sin (45k) — ekstrak alami untuk menjaga daya tahan tubuh. Praktis dikonsumsi sehari-hari." },
+  { id: "k1", category: "produk", keywords: ["sin herbal", "tentang", "apa itu", "perusahaan"], question: "Apa itu Sin Herbal?", answer: "Sin Herbal adalah agen resmi produk Sin dari PT Tridaya Sinergi Indonesia (TSI). Kami menyediakan berbagai varian rokok herbal dan kopi. Info lengkap: https://www.tridayasinergi.com", priority: 1 },
+  { id: "k2", category: "produk", keywords: ["platinum", "sin platinum"], question: "Apa itu Sin Platinum?", answer: "Sin Platinum TSI (Rp17.500) — Sigaret Kretek Tangan (SKT) pertama yang dipercayakan PR UD Putra Bintang Timur untuk dipasarkan TSI. Kretek khas Nusantara." },
+  { id: "k3", category: "produk", keywords: ["kujang mas", "sin kujang mas"], question: "Apa itu Sin Kujang Mas?", answer: "Sin Kujang Mas TSI (Rp17.500) — SKT dengan aroma kretek khas Nusantara. Juga tersedia versi Filter (Rp24.500)." },
+  { id: "k4", category: "produk", keywords: ["trust", "sin trust"], question: "Apa itu Sin Trust?", answer: "Sin Trust (Rp31.000) — SKM premium dari racikan KH R Abdul Malik. Juga ada versi Menthol (Rp27.000) dengan sensasi segar." },
+  { id: "k5", category: "produk", keywords: ["provost", "sin provost"], question: "Apa itu Sin Provost 19?", answer: "Sin Provost 19 TSI (Rp24.500) — produk unggulan dari Sang Peracik KH R Abdul Malik. SKT premium." },
+  { id: "k6", category: "produk", keywords: ["sapu jagat", "sin sapu jagat"], question: "Apa itu Sin Sapu Jagat?", answer: "Sin Sapu Jagat (Rp24.500) — SKT dengan harga terjangkau sesuai permintaan pasar TSI. Kualitas terbaik." },
+  { id: "k7", category: "produk", keywords: ["krakatau", "sin krakatau"], question: "Apa itu Sin Krakatau?", answer: "Sin Krakatau (Rp57.500) — SKT premium diluncurkan 17 Agustus 2018 di Kota Serang. Kualitas terbaik dari semua produk SIN." },
+  { id: "k8", category: "produk", keywords: ["precision", "sin precision"], question: "Apa itu Sin Precision?", answer: "Sin Precision (Rp25.500) — SKT premium menggunakan tembakau Srintil terbaik Indonesia. Juga ada versi White (Rp24.500)." },
+  { id: "k9", category: "produk", keywords: ["encode", "sin encode", "sinergi encode"], question: "Apa itu Sin Sinergi Encode?", answer: "Sin Sinergi Encode (Rp30.000) — SKM dengan formula spesial ekstrak sari buah nanas yang membawa kesegaran unik." },
+  { id: "k10", category: "produk", keywords: ["sinergi mind", "mind menthol"], question: "Apa itu Sin Sinergi Mind?", answer: "Sin Sinergi Mind (Rp26.000) — SKM Mild pertama untuk TSI. Tersedia juga versi Menthol (Rp15.000)." },
+  { id: "k11", category: "produk", keywords: ["platinum filter"], question: "Apa itu Sin Platinum Filter?", answer: "Sin Platinum Filter (Rp30.500) — SKM reguler untuk yang terbiasa produk filter. Kemasan apik dan mudah dibawa." },
+  { id: "k12", category: "produk", keywords: ["new normal", "sin new normal"], question: "Apa itu Sin New Normal?", answer: "Sin New Normal — lahir di tengah pandemi Covid-19. Tiga varian: ORG (Rp13.500, SKT), Mind (Rp23.000, SKM), Menthol (Rp27.500, SKM). Harga terjangkau." },
+  { id: "k13", category: "produk", keywords: ["kopi mana kopi", "kmk"], question: "Apa itu Kopi Mana Kopi?", answer: "Kopi Mana Kopi (Rp57.600) — racikan kopi dengan jahe, madu, adas, kapulaga. Memenuhi kebutuhan kafein sekaligus menjaga daya tahan tubuh." },
+  { id: "k14", category: "produk", keywords: ["kopi original", "kopi sin"], question: "Apa itu Kopi Original?", answer: "Kopi Original (Rp40.000) — 100% biji kopi pilihan tanpa pemanis buatan, tambahan madu asli. Cita rasa kopi otentik." },
 
   // ===== PERBANDINGAN PRODUK =====
-  { id: "k8", category: "perbandingan", keywords: ["beda original menthol", "perbedaan original menthol", "mana lebih"], question: "Apa beda Original, Menthol, dan Light?", answer: "Original (25k) rasa cengkeh khas, Menthol (27k) ada sensasi dingin dari mint, Light (23k) paling ringan. Kalau baru coba herbal, mulai dari Light dulu aja Kak." },
+  { id: "k8b", category: "perbandingan", keywords: ["beda skt skm", "perbedaan skt", "mana lebih", "pilihan"], question: "Apa beda SKT dan SKM?", answer: "SKT (Sigaret Kretek Tangan) = handmade, tekstur kasar, rasa lebih kuat. SKM (Sigaret Kretek Mesin) = mesin, tekstur halus, lebih ringan. Harga SKT mulai Rp13.500, SKM mulai Rp15.000." },
 
   // ===== KANDUNGAN =====
-  { id: "k9", category: "kandungan", keywords: ["bahan", "kandungan", "komposisi", "terbuat dari", "rempah"], question: "Apa saja kandungan produk Sin Herbal?", answer: `Daun mint, sirih, kemangi, cengkeh, jahe merah, tembakau organik. Tanpa nikotin sintetis, tanpa pengawet. Detail lengkap: ${url("/transparansi")}` },
-  { id: "k10", category: "kandungan", keywords: ["nikotin", "adiktif", "kecanduan"], question: "Apakah produk ini mengandung nikotin?", answer: "Iya, ada nikotin dari tembakau organik — tapi kadarnya JAUH lebih rendah dari rokok konvensional. Tetap tidak disarankan untuk ibu hamil & anak di bawah 21 tahun." },
+  { id: "k9", category: "kandungan", keywords: ["bahan", "kandungan", "komposisi", "terbuat dari", "rempah"], question: "Apa saja kandungan produk Sin Herbal?", answer: "Semua produk terbuat dari tembakau pilihan dan rempah-rempah Nusantara. Produsen: PR UD Putra Bintang Timur, Malang. Detail: https://www.tridayasinergi.com" },
+  { id: "k10", category: "kandungan", keywords: ["nikotin", "adiktif", "kecanduan"], question: "Apakah produk ini mengandung nikotin?", answer: "Iya, mengandung nikotin dari tembakau. Tetap tidak disarankan untuk ibu hamil & anak di bawah 21 tahun." },
 
   // ===== LEGALITAS =====
   { id: "k11", category: "legal", keywords: ["legal", "bea cukai", "terdaftar", "izin", "halal"], question: "Apakah produk Sin Herbal legal?", answer: "Legal dan terdaftar di Bea & Cukai. Bukan barang ilegal. Kami transparan soal kandungan & izin edar." },
 
   // ===== HARGA =====
-  { id: "k12", category: "harga", keywords: ["harga", "berapa", "mahal", "murah", "biaya"], question: "Berapa harga produk Sin Herbal?", answer: `Original 25k, Menthol 27k, Light 23k (isi 12 batang). Teh Herbal 15k (10 teabag). Minyak Herbal 35k. Kapsul Herbal 45k. Cek katalog: ${url("/harga")}` },
+  { id: "k12", category: "harga", keywords: ["harga", "berapa", "mahal", "murah", "biaya"], question: "Berapa harga produk Sin Herbal?", answer: "Harga terbaru 2025: Sin Platinum/Kujang Mas Rp17.500, New Normal ORG Rp13.500, Sapu Jagat/Provost Rp24.500, Precision White Rp24.500, Precision Rp25.500, Sinergi Mind Rp26.000, Trust Menthol Rp27.000, New Normal Menthol Rp27.500, Sinergi Encode Rp30.000, Platinum Filter Rp30.500, Trust Rp31.000, Krakatau Rp57.500. Cek katalog: https://rokoksin.vercel.app/harga" },
 
   // ===== PROMO =====
   { id: "k13", category: "promo", keywords: ["promo", "diskon", "kupon", "voucher", "gratis", "kode"], question: "Apa promo yang sedang aktif?", answer: "1. Gratis ongkir min. belanja 100k. 2. Beli 5 rokok gratis 1 teh herbal. 3. Diskon 10% pertama dengan kode: SINHERBAL10" },
@@ -59,7 +66,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k21", category: "pengiriman", keywords: ["lama", "sampai", "estimasi", "berapa hari"], question: "Berapa lama pengiriman?", answer: `Jabodetabek 1-2 hari, Jawa 2-4 hari, luar Jawa 3-8 hari. Kalau sudah dikirim, kamu bisa lacak di ${url("/lacak-pesanan")}` },
   { id: "k22", category: "pengiriman", keywords: ["gratis ongkir", "free ongkir", "gratis kirim"], question: "Syarat gratis ongkir?", answer: "Minimal belanja Rp 100.000, gratis ongkir ke seluruh Indonesia." },
   { id: "k23", category: "pengiriman", keywords: ["cod", "bayar di tempat"], question: "Apakah bisa COD?", answer: "Bisa Kak, khusus area Jabodetabek dengan minimal order Rp 50.000." },
-  { id: "k24", category: "pengiriman", keywords: ["lokasi", "alamat", "dimana", "malang", "depok", "abadijaya"], question: "Dimana lokasi Sin Herbal?", answer: "Kantor: Pakisaji, Malang. Produksi: Abadijaya, Depok." },
+  { id: "k24", category: "pengiriman", keywords: ["lokasi", "alamat", "dimana", "malang", "depok", "abadijaya", "sukmajaya"], question: "Dimana lokasi Sin Herbal?", answer: "Lokasi: Sukmajaya, Depok. Kami agen resmi produk Sin dari PT Tridaya Sinergi Indonesia." },
 
   // ===== TRACKING =====
   { id: "k25", category: "tracking", keywords: ["lacak", "tracking", "status", "cek pesanan", "dimana pesanan"], question: "Bagaimana cara lacak pesanan?", answer: `Masuk ke ${url("/lacak-pesanan")}, masukkan ID pesanan yang dikirim setelah checkout. Bisa lihat status: Diterima → Diproses → Dikirim → Selesai.` },
@@ -80,7 +87,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k32", category: "chatbot", keywords: ["orang", "manusia", "admin", "cs", "customer service"], question: "Bisa bicara dengan admin?", answer: "Tentu! Untuk order, komplain, atau pertanyaan kompleks, langsung chat admin kami di WhatsApp ya: https://wa.me/6285161835757. Admin lebih detail." },
 
   // ===== KONTAK =====
-  { id: "k33", category: "kontak", keywords: ["wa", "whatsapp", "kontak", "hubungi", "telepon", "telp"], question: "Kontak Sin Herbal?", answer: "WhatsApp: 6285161835757\nEmail: info@sinherbal.com\nAlamat: Ruko Sentra Niaga Blok A1 No. 5, Pakisaji, Malang 65162" },
+  { id: "k33", category: "kontak", keywords: ["wa", "whatsapp", "kontak", "hubungi", "telepon", "telp"], question: "Kontak Sin Herbal?", answer: "WhatsApp: 6285161835757\nEmail: rokoksinherbal99@gmail.com\nAlamat: Sukmajaya, Depok" },
 
   // ===== JAM OPERASIONAL =====
   { id: "k34", category: "operasional", keywords: ["jam", "operasional", "buka", "tutup", "senin", "minggu"], question: "Jam operasional?", answer: "Senin-Sabtu 08.00-17.00, Minggu 09.00-14.00. Di luar jam itu, tetap bisa chat WA ya, besok dibales." },
@@ -92,8 +99,8 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k38", category: "sapa", keywords: ["baik", "sehat", "kabar"], question: "Apa kabar?", answer: "Baik kak! Alhamdulillah. Sin siap bantu kapan pun. Ada yang ditanyakan? 😊" },
 
   // ===== REKOMENDASI =====
-  { id: "k39", category: "rekomendasi", keywords: ["rekomendasi", "saran", "cocok", "recomend"], question: "Produk yang cocok untuk pemula?", answer: "Kalau baru mau coba rokok herbal, saran saya mulai dari Rokok Light (23k) — paling ringan. Atau kalau mau yang tanpa hisap, Teh Herbal (15k) bisa jadi pilihan." },
-  { id: "k40", category: "rekomendasi", keywords: ["transisi", "berhenti", "stop merokok", "ganti"], question: "Mau transisi dari rokok konvensional?", answer: "Bisa coba Rokok Original atau Light. Kadar nikotinnya jauh lebih rendah, jadi cocok buat transisi bertahap. Kombinasikan dengan Teh Herbal untuk teman santai." },
+  { id: "k39", category: "rekomendasi", keywords: ["rekomendasi", "saran", "cocok", "recomend", "pemula"], question: "Produk yang cocok untuk pemula?", answer: "Mulai dari Sin New Normal ORG (Rp13.500, SKT) yang paling terjangkau, atau Sin Sinergi Mind Menthol (Rp15.000, SKM) yang ringan. Untuk kopi, Kopi Original (Rp40.000) paling pas." },
+  { id: "k40", category: "rekomendasi", keywords: ["transisi", "berhenti", "stop merokok", "ganti"], question: "Mau transisi dari rokok konvensional?", answer: "Bisa coba Sin Sinergi Mind (Rp26.000) atau Sin Platinum Filter (Rp30.500). Keduanya SKM yang lebih ringan. Atau langsung SKT seperti Sin Sapu Jagat (Rp24.500)." },
 
   // ===== KIRIM KE LUAR NEGERI =====
   { id: "k41", category: "pengiriman", keywords: ["luar negeri", "luar negri", "internasional", "mancanegara"], question: "Kirim ke luar negeri?", answer: "Saat ini kami kirim ke seluruh Indonesia dulu ya Kak. Belum buka pengiriman internasional." },
@@ -102,7 +109,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k42", category: "grosir", keywords: ["grosir", "reseller", "dropship", "mitra", "agen", "distributor"], question: "Mau jadi reseller/grosir?", answer: "Wah, tertarik jadi mitra? Langsung chat admin WA ya 6285161835757. Admin akan jelaskan terms & pricing khusus mitra." },
 
   // ===== KEMASAN =====
-  { id: "k43", category: "produk", keywords: ["kemasan", "packaging", "bungkus", "isi"], question: "Isi produk berapa?", answer: "Rokok 12 batang per bungkus. Teh Herbal 10 teabag per kotak. Minyak & Kapsul 1 botol." },
+  { id: "k43", category: "produk", keywords: ["kemasan", "packaging", "bungkus", "isi"], question: "Isi produk berapa?", answer: "Rokok 12 batang per bungkus. Kopi kemasan sachet. Tersedia berbagai varian SKT dan SKM." },
 
   // ===== KADALUWARSA =====
   { id: "k44", category: "produk", keywords: ["kadaluwarsa", "expired", "kedaluwarsa", "tahan lama"], question: "Berapa lama masa simpan?", answer: "Produk rokok & teh herbal tahan 12-18 bulan dari tanggal produksi. Simpan di tempat kering, hindari sinar matahari langsung." },
@@ -114,8 +121,8 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k46", category: "testimoni", keywords: ["testimoni", "review", "ulasan", "kata orang"], question: "Ada testimoni?", answer: `Banyak Kak! Cek di halaman depan ${url("")} — ada testimoni dari pembeli di Surabaya, Jakarta, Bandung, Malang, Semarang, Medan.` },
 
   // ===== FILOSOFI BRAND =====
-  { id: "k47", category: "brand", keywords: ["filosofi", "makna", "hisapan tenang", "tagline", "tentang brand"], question: "Apa makna 'Hisapan yang Tenang'?", answer: "'Hisapan yang Tenang' adalah filosofi Sin Herbal — mengajak menikmati setiap hembusan dengan kesadaran penuh. Bukan sekadar produk, tapi gaya hidup yang lebih tenang dan selaras dengan alam." },
-  { id: "k48", category: "brand", keywords: ["sin", "arti sin", "nama sin"], question: "Apa arti nama 'Sin Herbal'?", answer: "'Sin' berasal dari bahasa Sansekerta 'Siddhi' yang berarti kesempurnaan atau pencapaian — melambangkan harmoni sempurna antara tradisi herbal Nusantara dan gaya hidup modern." },
+  { id: "k47", category: "brand", keywords: ["filosofi", "makna", "hisapan tenang", "tagline", "tentang brand"], question: "Apa makna 'Hisapan yang Tenang'?", answer: "'Hisapan yang Tenang' adalah filosofi Sin Herbal — mengajak menikmati setiap hembusan dengan kesadaran penuh. Produk dari rempah-rempah Nusantara pilihan." },
+  { id: "k48", category: "brand", keywords: ["sin", "arti sin", "nama sin", "tsi", "tridayasinergi", "tridaya"], question: "Apa arti nama 'Sin'?", answer: "Sin adalah merk produk dari PT Tridaya Sinergi Indonesia (TSI), didirikan 2007 di Tasikmalaya. Produsen: PR UD Putra Bintang Timur, Malang. Info: https://www.tridayasinergi.com" },
 
   // ===== CARA PAKAI =====
   { id: "k49", category: "produk", keywords: ["cara pakai", "cara hisap", "cara nikmati", "gimana ngerokok"], question: "Bagaimana cara menikmati Rokok Sin Herbal?", answer: "Tinggal hisap seperti rokok biasa Kak. Bedanya, rasanya lebih ringan dan smooth. Nikmati pelan-pelan, biarkan rasa rempahnya terasa. Cocok ditemani teh hangat atau kopi." },

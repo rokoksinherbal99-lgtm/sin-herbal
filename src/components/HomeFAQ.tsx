@@ -8,7 +8,7 @@ const faqs = [
   { q: "Apakah produknya ori?", a: "Kami hanya menyediakan produk dengan kualitas 100% original sehingga sangat terjamin. Ini karena kami adalah agen resmi produk Sin." },
   { q: "Apakah ada garansi?", a: "Tentu saja semua produk yang kami pasarkan dilengkapi dengan jaminan garansi resmi, garansi uang kembali jika produk tidak ori, tidak sampai ke lokasi, atau pun rusak." },
   { q: "Bagaimana cara pesan nya?", a: "Cukup mudah, Anda hanya perlu menghubungi kami melalui kontak yang ada di website ini baik via telepon maupun WhatsApp, ataupun pesan melalui website ini." },
-  { q: "Apa khasiat kopi mega remeng?", a: "Kopi Mega Remeng sendiri adalah kopi yang dibuat dari biji kopi pilihan, ekstrak nabati dan akar tanaman yang berkhasiat menghilangkan pengaruh kafein yang terkandung dalam kopi diantaranya Jahe, Adas, Pulosari, Jinten Hitam, Kapulaga dan Madu sehingga Kopi Turkey ini aman diminum bagi penderita diabetes, kolesterol, asam urat, darah tinggi dan penderita penyakit yang lain." },
+  { q: "Apa khasiat Kopi Mana Kopi?", a: "Kopi Mana Kopi adalah racikan kopi yang dipadukan dengan jahe, madu, adas, dan kapulaga dalam komposisi yang PAS. Melahirkan cita rasa yang unik untuk memenuhi kebutuhan kafein Anda sekaligus menjaga daya tahan tubuh." },
 ];
 
 export default function HomeFAQ() {
