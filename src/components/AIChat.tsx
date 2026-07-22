@@ -108,6 +108,7 @@ export default function AIChat() {
       )}
       <button
         onClick={() => setOpen(!open)}
+        aria-label={open ? "Tutup chat" : "Buka chat"}
         className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-[#1A3626] text-white shadow-lg shadow-[#2C4C3B]/30 transition-all duration-200 hover:scale-110 hover:shadow-xl active:scale-95"
       >
         <span className="absolute -top-1 -right-1 flex h-4 w-4">

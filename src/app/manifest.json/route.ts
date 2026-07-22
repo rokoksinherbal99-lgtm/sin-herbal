@@ -13,7 +13,7 @@ export async function GET() {
     theme_color: "#059669",
     orientation: "portrait-primary",
     icons: [
-      { src: "/images/product-1.svg", sizes: "any", type: "image/svg+xml", purpose: "any maskable" },
+      { src: "/images/TRST.png", sizes: "any", type: "image/png", purpose: "any maskable" },
       { src: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
     ],
     categories: ["shopping", "health", "lifestyle"],

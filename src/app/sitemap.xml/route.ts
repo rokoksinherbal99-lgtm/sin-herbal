@@ -21,6 +21,10 @@ export async function GET() {
       { loc: "/transparansi", priority: "0.3", changefreq: "monthly" },
       { loc: "/ritual", priority: "0.3", changefreq: "monthly" },
       { loc: "/journal", priority: "0.6", changefreq: "weekly" },
+      { loc: "/journal/manfaat-rokok-herbal", priority: "0.5", changefreq: "monthly" },
+      { loc: "/journal/cara-berhenti-merokok-alami", priority: "0.5", changefreq: "monthly" },
+      { loc: "/journal/kopi-herbal-nusantara", priority: "0.5", changefreq: "monthly" },
+      { loc: "/journal/legalitas-produk-herbal", priority: "0.5", changefreq: "monthly" },
     ];
 
     const urls = [

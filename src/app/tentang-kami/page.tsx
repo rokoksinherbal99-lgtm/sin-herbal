@@ -142,7 +142,7 @@ export default function AboutPage() {
           <h2 className="font-serif text-3xl font-bold tracking-tight text-[white]">Jadi Bagian dari Perjalanan Kami?</h2>
           <p className="mt-3 font-sans text-lg text-[#D5E0D3]/70">Jadilah reseller atau distributor Sin Herbal. Dapatkan harga khusus dan dukungan pemasaran.</p>
           <a
-            href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456"}`}
+            href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6285161835757"}`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary mt-8 inline-flex items-center gap-2 border-[#ABC1A7]/30 bg-[white] text-[#1A3626] hover:bg-white"

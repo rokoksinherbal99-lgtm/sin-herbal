@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { checkAuth, hashToken, unauthorized, destroyAllSessions, createSession } from "@/lib/admin-auth";
+import { checkAuth, hashPassword, verifyPassword, unauthorized, destroyAllSessions, createSession } from "@/lib/admin-auth";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -34,13 +34,20 @@ export async function POST(req: Request) {
     const dbHash = dbRow.length > 0 ? dbRow[0].value : null;
 
     const envMatch = currentPassword === ADMIN_PASSWORD;
-    const dbMatch = dbHash ? hashToken(currentPassword) === dbHash : false;
+    let dbMatch = false;
+    if (dbHash) {
+      if (dbHash.startsWith("$2")) {
+        dbMatch = await verifyPassword(currentPassword, dbHash);
+      } else {
+        dbMatch = currentPassword === ADMIN_PASSWORD;
+      }
+    }
 
     if (!envMatch && !dbMatch) {
       return NextResponse.json({ error: "Password saat ini salah" }, { status: 401 });
     }
 
-    const newHash = hashToken(newPassword);
+    const newHash = await hashPassword(newPassword);
 
     if (dbRow.length > 0) {
       await db.update(settings).set({ value: newHash, updatedAt: new Date() }).where(eq(settings.key, "admin_password_hash"));

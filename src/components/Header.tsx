@@ -64,7 +64,7 @@ export default function Header() {
               </span>
             )}
           </Link>
-          <button onClick={() => setMenuOpen(!menuOpen)} className="rounded-sm p-2 text-[#5D8356] transition hover:bg-[#EDF2ED] hover:text-[#1A3626]">
+          <button onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Tutup menu" : "Buka menu"} className="rounded-sm p-2 text-[#5D8356] transition hover:bg-[#EDF2ED] hover:text-[#1A3626]">
             {menuOpen ? <X className="h-5 w-5" strokeWidth={1.5} /> : <Menu className="h-5 w-5" strokeWidth={1.5} />}
           </button>
         </div>

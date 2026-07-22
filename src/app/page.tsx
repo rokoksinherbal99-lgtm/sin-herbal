@@ -220,7 +220,7 @@ export default async function HomePage() {
             <h2 className="font-serif text-3xl font-bold tracking-tight text-white md:text-4xl">Mulai Percakapan</h2>
             <p className="mt-3 font-sans text-lg text-[#D5E0D3]/70">Kami hadir di WhatsApp. Untuk pesanan, pertanyaan, atau sekadar ngobrol tentang daun.</p>
             <a
-              href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6281383863456"}`}
+              href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_PHONE || "6285161835757"}`}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-8 inline-flex items-center gap-2 border border-[#ABC1A7]/30 bg-white px-7 py-3.5 font-sans text-sm font-semibold text-[#1A3626] transition-all duration-200 hover:bg-white active:scale-[0.97]"

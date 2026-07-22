@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { products } from "@/db/schema";
+import { products, orderItems } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
 import { validateProductInput, PRODUCT_ALLOWED_FIELDS } from "@/lib/api/validation";
@@ -52,6 +52,10 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     const [existing] = await db.select({ id: products.id, name: products.name }).from(products).where(eq(products.id, id)).limit(1);
     if (!existing) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    }
+    const [orderRef] = await db.select({ id: orderItems.id }).from(orderItems).where(eq(orderItems.productId, id)).limit(1);
+    if (orderRef) {
+      return NextResponse.json({ error: "Produk tidak bisa dihapus karena sudah ada pesanan terkait. Nonaktifkan produk sebagai gantinya." }, { status: 400 });
     }
     await db.delete(products).where(eq(products.id, id));
     await logProductDelete(id, existing.name);

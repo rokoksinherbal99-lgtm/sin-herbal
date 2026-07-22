@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
+import bcrypt from "bcrypt";
 import { db } from "@/db";
 import { sessions } from "@/db/schema";
 import { eq, lt } from "drizzle-orm";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const SALT = process.env.ADMIN_SALT || "sinherbal";
 const SESSION_DURATION = 24 * 60 * 60 * 1000;
+const BCRYPT_ROUNDS = 12;
 
 if (!ADMIN_PASSWORD) {
   console.warn("ADMIN_PASSWORD environment variable not set. Admin login will be disabled.");
@@ -17,8 +18,12 @@ if (ADMIN_PASSWORD && ADMIN_PASSWORD.length < 8) {
   console.warn("ADMIN_PASSWORD is too short (min 8 characters). Please set a stronger password.");
 }
 
-export function hashToken(password: string): string {
-  return crypto.createHash("sha256").update(password + SALT).digest("hex");
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, BCRYPT_ROUNDS);
+}
+
+export async function verifyPassword(password: string, hash: string): Promise<boolean> {
+  return bcrypt.compare(password, hash);
 }
 
 export async function createSession(): Promise<string> {

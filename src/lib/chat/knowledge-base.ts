@@ -46,7 +46,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k11", category: "legal", keywords: ["legal", "bea cukai", "terdaftar", "izin", "halal"], question: "Apakah produk Sin Herbal legal?", answer: "Legal dan terdaftar di Bea & Cukai. Bukan barang ilegal. Kami transparan soal kandungan & izin edar." },
 
   // ===== HARGA =====
-  { id: "k12", category: "harga", keywords: ["harga", "berapa", "mahal", "murah", "biaya"], question: "Berapa harga produk Sin Herbal?", answer: "Harga terbaru 2025: Sin Platinum/Kujang Mas Rp17.500, New Normal ORG Rp13.500, Sapu Jagat/Provost Rp24.500, Precision White Rp24.500, Precision Rp25.500, Sinergi Mind Rp26.000, Trust Menthol Rp27.000, New Normal Menthol Rp27.500, Sinergi Encode Rp30.000, Platinum Filter Rp30.500, Trust Rp31.000, Krakatau Rp57.500. Cek katalog: https://rokoksin.vercel.app/harga" },
+  { id: "k12", category: "harga", keywords: ["harga", "berapa", "mahal", "murah", "biaya"], question: "Berapa harga produk Sin Herbal?", answer: "Harga terbaru: Sin Platinum/Kujang Mas Rp17.500, New Normal ORG Rp13.500, Sapu Jagat/Provost Rp24.500, Precision White Rp24.500, Precision Rp25.500, Sinergi Mind Rp26.000, Trust Menthol Rp27.000, New Normal Menthol Rp27.500, Sinergi Encode Rp30.000, Platinum Filter Rp30.500, Trust Rp31.000, Krakatau Rp57.500, Kopi Mana Kopi Rp57.600, Kopi Original Rp40.000. Cek katalog: https://rokoksin.vercel.app/harga" },
 
   // ===== PROMO =====
   { id: "k13", category: "promo", keywords: ["promo", "diskon", "kupon", "voucher", "gratis", "kode"], question: "Apa promo yang sedang aktif?", answer: "1. Gratis ongkir min. belanja 100k. 2. Bonus untuk pembelian grosir. Hubungi WhatsApp kami untuk info lebih lanjut." },

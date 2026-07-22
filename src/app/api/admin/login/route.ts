@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { hashToken, getAdminUsername, createSession } from "@/lib/admin-auth";
+import { hashPassword, verifyPassword, getAdminUsername, createSession } from "@/lib/admin-auth";
 import { checkLoginRateLimit } from "@/lib/rate-limit";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
@@ -34,7 +34,18 @@ export async function POST(req: Request) {
     const dbHash = dbRow.length > 0 ? dbRow[0].value : null;
 
     const envMatch = password === ADMIN_PASSWORD;
-    const dbMatch = dbHash ? hashToken(password) === dbHash : false;
+    let dbMatch = false;
+    if (dbHash) {
+      if (dbHash.startsWith("$2")) {
+        dbMatch = await verifyPassword(password, dbHash);
+      } else {
+        const newHash = await hashPassword(password);
+        dbMatch = password === ADMIN_PASSWORD;
+        if (dbMatch) {
+          await db.update(settings).set({ value: newHash, updatedAt: new Date() }).where(eq(settings.key, "admin_password_hash"));
+        }
+      }
+    }
 
     if (!envMatch && !dbMatch) {
       await logLogin(username, false);

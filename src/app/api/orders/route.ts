@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { orders, orderItems } from "@/db/schema";
+import { orders, orderItems, products } from "@/db/schema";
+import { eq, inArray } from "drizzle-orm";
 import { checkCSRF } from "@/lib/api/security";
 import { checkRateLimit, getClientIp, checkOrderSpam } from "@/lib/rate-limit";
 
@@ -112,6 +113,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Terlalu banyak percobaan. Silakan hubungi admin via WA." }, { status: 429 });
     }
 
+    const productIds = body.items.map((item: any) => item.id);
+    const dbProducts = await db.select().from(products).where(inArray(products.id, productIds));
+    const priceMap = new Map(dbProducts.map((p) => [p.id, p.price]));
+
+    for (const item of body.items) {
+      if (!priceMap.has(item.id)) {
+        return NextResponse.json({ error: `Produk ${item.id} tidak ditemukan` }, { status: 400 });
+      }
+    }
+
+    const serverTotal = body.items.reduce((sum: number, item: any) => {
+      return sum + (priceMap.get(item.id) ?? 0) * item.quantity;
+    }, 0);
+
+    if (body.total !== serverTotal) {
+      console.warn(`Price tampering from IP ${ip}: client=${body.total} server=${serverTotal}`);
+      return NextResponse.json({ error: "Harga tidak valid, silakan muat ulang halaman" }, { status: 400 });
+    }
+
     const orderId = crypto.randomUUID();
 
     const itemRows = body.items.map((item: any) => ({
@@ -119,7 +139,7 @@ export async function POST(req: NextRequest) {
       orderId,
       productId: item.id,
       quantity: item.quantity,
-      price: item.price,
+      price: priceMap.get(item.id) ?? 0,
     }));
 
     await db.insert(orders).values({
@@ -131,7 +151,7 @@ export async function POST(req: NextRequest) {
       city: body.city,
       province: body.province,
       postalCode: body.postalCode,
-      total: body.total,
+      total: serverTotal,
     });
 
     await db.insert(orderItems).values(itemRows);

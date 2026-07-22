@@ -103,7 +103,7 @@ export default function AdminLoginPage() {
               </Link>
             </p>
             <p>
-              <a href="https://wa.me/6281383863456?text=Halo%20Sin%20Herbal%2C%20saya%20lupa%20password%20admin." target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 transition hover:text-emerald-600">
+              <a href="https://wa.me/6285161835757?text=Halo%20Sin%20Herbal%2C%20saya%20lupa%20password%20admin." target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 transition hover:text-emerald-600">
                 Lupa password? Hubungi kami
               </a>
             </p>

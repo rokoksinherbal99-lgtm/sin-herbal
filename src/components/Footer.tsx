@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Leaf, MapPin, Phone, Mail, Clock } from "lucide-react";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
+import { unstable_cache } from "next/cache";
 
 const DEFAULTS: Record<string, string> = {
   wa_phone: "6285161835757",
@@ -11,20 +12,24 @@ const DEFAULTS: Record<string, string> = {
   operating_hours: "Senin - Sabtu 08.00 - 17.00\nMinggu 09.00 - 14.00",
 };
 
-async function getSettings() {
-  try {
-    const rows = await db.select().from(settings);
-    const result = { ...DEFAULTS };
-    for (const row of rows) {
-      if (row.key in result) {
-        result[row.key as keyof typeof result] = row.value;
+const getSettings = unstable_cache(
+  async () => {
+    try {
+      const rows = await db.select().from(settings);
+      const result = { ...DEFAULTS };
+      for (const row of rows) {
+        if (row.key in result) {
+          result[row.key as keyof typeof result] = row.value;
+        }
       }
+      return result;
+    } catch {
+      return DEFAULTS;
     }
-    return result;
-  } catch {
-    return DEFAULTS;
-  }
-}
+  },
+  ["footer-settings"],
+  { revalidate: 300, tags: ["settings"] }
+);
 
 function formatPhone(phone: string) {
   const cleaned = phone.replace(/\D/g, "");
