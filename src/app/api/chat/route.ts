@@ -146,29 +146,34 @@ export async function POST(req: NextRequest) {
     } else {
       const { model, prompt, maxTokens } = selectModel(message, conversationHistory.length, intent);
       const intentHint = intentPrompt(intent);
-      const systemContent = context
-        ? `${prompt}\n\n${intentHint}\n\n${context}`
-        : `${prompt}\n\n${intentHint}`;
 
-      try {
-        const completion = await groq.chat.completions.create({
-          model,
-          messages: [
-            { role: "system", content: systemContent },
-            ...conversationHistory.slice(-10),
-            { role: "user", content: message },
-          ],
-          max_tokens: maxTokens,
-          temperature: 0.7,
-          top_p: 0.9,
-        });
-        reply = completion.choices[0]?.message?.content?.trim() || "";
-      } catch (err) {
-        console.error("Chat inner error:", err);
-        const best = searchKnowledge(message);
-        reply = best
-          ? best.item.answer
-          : "Mohon maaf, sistem sibuk. Coba lagi atau hubungi WA https://wa.me/6285161835757";
+      const directAnswer = searchKnowledge(message);
+      if (directAnswer && directAnswer.score <= 0.25) {
+        reply = directAnswer.item.answer;
+      } else {
+        const systemContent = context
+          ? `${prompt}\n\n${intentHint}\n\n${context}`
+          : `${prompt}\n\n${intentHint}`;
+
+        try {
+          const completion = await groq.chat.completions.create({
+            model,
+            messages: [
+              { role: "system", content: systemContent },
+              ...conversationHistory.slice(-10),
+              { role: "user", content: message },
+            ],
+            max_tokens: maxTokens,
+            temperature: 0.7,
+            top_p: 0.9,
+          });
+          reply = completion.choices[0]?.message?.content?.trim() || "";
+        } catch (err) {
+          console.error("Chat inner error:", err);
+          reply = directAnswer
+            ? directAnswer.item.answer
+            : "Mohon maaf, sistem sibuk. Coba lagi atau hubungi WA https://wa.me/6285161835757";
+        }
       }
     }
 
