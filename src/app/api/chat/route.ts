@@ -65,6 +65,21 @@ function buildSmartContext(message: string, intent: Intent, session?: SessionSta
 
 const sessions = new Map<string, SessionState>();
 
+const EXACT_MATCHES: { pattern: RegExp; answer: string }[] = [
+  { pattern: /dana/i, answer: "Bisa Kak! Kami support DANA, GoPay, OVO, ShopeePay, dan QRIS semua bank. Tinggal pilih metode yang paling nyaman." },
+  { pattern: /batang.*bungkus|isi.*bungkus|berapa.*batang/i, answer: "Rokok 12 batang per bungkus Kak. Kopi kemasan 200gr." },
+  { pattern: /buka.*minggu|minggu.*buka|jam.*minggu/i, answer: "Minggu 09.00-14.00 Kak. Senin-Sabtu 08.00-17.00." },
+  { pattern: /coklat|chocolate/i, answer: "Tidak ada produk Sin Herbal dengan rasa coklat Kak. Varian rokok: kretek herbal (SKT/SKM). Varian kopi: Original dan Mana Kopi (kopi + jahe + madu)." },
+];
+
+function getExactMatch(message: string): string | null {
+  const lower = message.toLowerCase();
+  for (const { pattern, answer } of EXACT_MATCHES) {
+    if (pattern.test(lower)) return answer;
+  }
+  return null;
+}
+
 function handleFlow(flow: Flow, message: string, state: SessionState, sessionId: string): { reply: string; newState: SessionState } {
   const stepIndex = state.stepIndex ?? 0;
 
@@ -109,6 +124,10 @@ export async function POST(req: NextRequest) {
     const flow = detectFlow(message);
     const currentSession = sessions.get(sessionId) ?? {};
 
+    const directKB = searchKnowledge(message);
+    const directMatch = directKB && directKB.score <= 0.35;
+    const exactMatch = getExactMatch(message);
+
     let reply: string;
 
     if (intent === "off_topic") {
@@ -147,9 +166,10 @@ export async function POST(req: NextRequest) {
       const { model, prompt, maxTokens } = selectModel(message, conversationHistory.length, intent);
       const intentHint = intentPrompt(intent);
 
-      const directAnswer = searchKnowledge(message);
-      if (directAnswer && directAnswer.score <= 0.35) {
-        reply = directAnswer.item.answer;
+      if (exactMatch) {
+        reply = exactMatch;
+      } else if (directMatch) {
+        reply = directKB!.item.answer;
       } else {
         const systemContent = context
           ? `${prompt}\n\n${intentHint}\n\n${context}`
@@ -170,8 +190,8 @@ export async function POST(req: NextRequest) {
           reply = completion.choices[0]?.message?.content?.trim() || "";
         } catch (err) {
           console.error("Chat inner error:", err);
-          reply = directAnswer
-            ? directAnswer.item.answer
+          reply = directKB
+            ? directKB.item.answer
             : "Mohon maaf, sistem sibuk. Coba lagi atau hubungi WA https://wa.me/6285161835757";
         }
       }
