@@ -60,7 +60,7 @@ export const FLOWS: Flow[] = [
 
 export function detectFlow(message: string): Flow | null {
   const lower = message.toLowerCase().trim();
-  const excludePatterns = ["beli satuan", "beli satu", "beli dikit", "beli 5", "beli 10", "beli banyak", "minimal order", "min order", "minimum order", "ada minimum", "ada minimal", "gak ada minimum", "nggak ada minimum", "no minimum"];
+  const excludePatterns = ["beli satuan", "beli satu", "beli dikit", "beli 5", "beli 10", "beli banyak", "beli langsung", "beli langsung ke toko", "minimal order", "min order", "minimum order", "ada minimum", "ada minimal", "gak ada minimum", "nggak ada minimum", "no minimum", "anak", "umur", "usia", "lacak", "tracking", "ganti alamat", "ubah alamat"];
   if (excludePatterns.some((p) => lower.includes(p))) return null;
   for (const flow of FLOWS) {
     if (flow.triggerKeywords.some((k) => lower.includes(k))) return flow;

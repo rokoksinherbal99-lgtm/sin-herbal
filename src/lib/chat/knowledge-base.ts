@@ -32,6 +32,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k11", category: "produk", keywords: ["platinum filter"], question: "Apa itu Sin Platinum Filter?", answer: "Sin Platinum Filter (Rp30.500) — SKM reguler untuk yang terbiasa produk filter. Kemasan apik dan mudah dibawa." },
   { id: "k12", category: "produk", keywords: ["new normal", "sin new normal"], question: "Apa itu Sin New Normal?", answer: "Sin New Normal — lahir di tengah pandemi Covid-19. Tiga varian: ORG (Rp13.500, SKT), Mind (Rp23.000, SKM), Menthol (Rp27.500, SKM). Harga terjangkau." },
   { id: "k13", category: "produk", keywords: ["kopi mana kopi", "kmk"], question: "Apa itu Kopi Mana Kopi?", answer: "Kopi Mana Kopi (Rp57.600) — racikan kopi dengan jahe, madu, adas, kapulaga. Memenuhi kebutuhan kafein sekaligus menjaga daya tahan tubuh." },
+  { id: "k13b", category: "produk", keywords: ["coklat", "rasa coklat", "chocolate"], question: "Sin Herbal ada rasa coklat?", answer: "Tidak ada produk Sin Herbal dengan rasa coklat Kak. Varian rokok: kretek herbal (SKT/SKM). Varian kopi: Original dan Mana Kopi (kopi + jahe + madu). Tidak ada rasa coklat." },
   { id: "k14", category: "produk", keywords: ["kopi original", "kopi sin"], question: "Apa itu Kopi Original?", answer: "Kopi Original (Rp40.000) — 100% biji kopi pilihan tanpa pemanis buatan, tambahan madu asli. Cita rasa kopi otentik." },
 
   // ===== PERBANDINGAN PRODUK =====
@@ -59,6 +60,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
 
   // ===== PEMBAYARAN =====
   { id: "k17", category: "pembayaran", keywords: ["bayar", "pembayaran", "transfer", "bank", "ewallet", "gopay", "ovo", "dana", "qris", "cod"], question: "Apa metode pembayarannya?", answer: `Transfer bank (${BANK_BCA}, ${BANK_MANDIRI}, BNI, BRI), e-wallet (GoPay, OVO, DANA, ShopeePay), QRIS semua bank. COD khusus Jabodetabek min. 50k.` },
+  { id: "k17b", category: "pembayaran", keywords: ["dana", "transfer dana", "bayar dana"], question: "Bisa bayar pakai DANA?", answer: "Bisa Kak! Kami support DANA, GoPay, OVO, ShopeePay, dan QRIS semua bank. Tinggal pilih metode yang paling nyaman." },
   { id: "k18", category: "pembayaran", keywords: ["konfirmasi bayar", "bukti transfer", "kirim bukti"], question: "Bagaimana konfirmasi pembayaran?", answer: "Transfer ke rekening kami, lalu kirim bukti transfer via WhatsApp ke 6285161835757. Sertakan ID pesanan biar cepat diproses." },
   { id: "k19", category: "pembayaran", keywords: ["bca", "mandiri", "bni", "bri", "nomor rekening"], question: "Nomor rekening Sin Herbal?", answer: `${BANK_BCA}\n${BANK_MANDIRI}` },
 
@@ -110,7 +112,7 @@ export const KNOWLEDGE_BASE: KnowledgeItem[] = [
   { id: "k42", category: "grosir", keywords: ["grosir", "reseller", "dropship", "mitra", "agen", "distributor"], question: "Mau jadi reseller/grosir?", answer: "Wah, tertarik jadi mitra? Langsung chat admin WA ya 6285161835757. Admin akan jelaskan terms & pricing khusus mitra." },
 
   // ===== KEMASAN =====
-  { id: "k43", category: "produk", keywords: ["kemasan", "packaging", "bungkus", "isi"], question: "Isi produk berapa?", answer: "Rokok 12 batang per bungkus. Kopi kemasan sachet. Tersedia berbagai varian SKT dan SKM." },
+  { id: "k43", category: "produk", keywords: ["kemasan", "packaging", "bungkus", "isi", "batang"], question: "Isi produk berapa?", answer: "Rokok 12 batang per bungkus. Kopi kemasan 200gr. Tersedia berbagai varian SKT dan SKM." },
 
   // ===== KADALUWARSA =====
   { id: "k44", category: "produk", keywords: ["kadaluwarsa", "expired", "kedaluwarsa", "tahan lama"], question: "Berapa lama masa simpan?", answer: "Produk rokok herbal tahan 12-18 bulan dari tanggal produksi. Simpan di tempat kering, hindari sinar matahari langsung." },
