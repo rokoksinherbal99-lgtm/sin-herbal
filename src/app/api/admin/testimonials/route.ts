@@ -24,6 +24,10 @@ export async function GET(req: Request) {
   }
 }
 
+const ALLOWED_FIELDS = new Set(["name", "text", "productId", "city", "rating", "visible"]);
+
+const ALLOWED_INSERT = ["name", "text", "productId", "city", "rating"];
+
 export async function POST(req: Request) {
   if (!await checkAuth(req)) return unauthorized();
   const csrfRes = checkCSRF(req);
@@ -33,13 +37,36 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const id = `t${Date.now()}`;
-    const clean = { ...body };
+
+    const clean: Record<string, any> = {};
+    for (const key of Object.keys(body)) {
+      if (ALLOWED_INSERT.includes(key)) clean[key] = body[key];
+    }
+
     if (typeof clean.name === "string") clean.name = sanitize(clean.name.trim());
     if (typeof clean.text === "string") clean.text = sanitize(clean.text.trim());
     if (typeof clean.city === "string") clean.city = sanitize(clean.city.trim());
     if (typeof clean.rating !== "number") clean.rating = 5;
     if (clean.rating < 1 || clean.rating > 5) clean.rating = 5;
-    await db.insert(testimonials).values({ id, ...clean });
+
+    if (typeof clean.name !== "string" || clean.name.trim().length === 0) {
+      return NextResponse.json({ error: "Nama wajib diisi" }, { status: 400 });
+    }
+    if (typeof clean.text !== "string" || clean.text.trim().length === 0) {
+      return NextResponse.json({ error: "Teks testimoni wajib diisi" }, { status: 400 });
+    }
+    if (typeof clean.city !== "string" || clean.city.trim().length === 0) {
+      return NextResponse.json({ error: "Kota wajib diisi" }, { status: 400 });
+    }
+
+    await db.insert(testimonials).values({
+      id,
+      name: clean.name,
+      text: clean.text,
+      city: clean.city,
+      rating: clean.rating ?? 5,
+      productId: clean.productId ?? null,
+    });
     await logTestimonialCreate(id);
     return NextResponse.json({ id });
   } catch (err) {
@@ -47,8 +74,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Gagal menyimpan testimoni" }, { status: 500 });
   }
 }
-
-const ALLOWED_FIELDS = new Set(["name", "text", "productId", "city", "rating", "visible"]);
 
 export async function PUT(req: Request) {
   if (!await checkAuth(req)) return unauthorized();

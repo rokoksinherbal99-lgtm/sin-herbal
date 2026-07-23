@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { products, orderItems } from "@/db/schema";
+import { products, orderItems, testimonials } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
 import { validateProductInput, PRODUCT_ALLOWED_FIELDS } from "@/lib/api/validation";
@@ -56,6 +56,10 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     const [orderRef] = await db.select({ id: orderItems.id }).from(orderItems).where(eq(orderItems.productId, id)).limit(1);
     if (orderRef) {
       return NextResponse.json({ error: "Produk tidak bisa dihapus karena sudah ada pesanan terkait. Nonaktifkan produk sebagai gantinya." }, { status: 400 });
+    }
+    const [testimonialRef] = await db.select({ id: testimonials.id }).from(testimonials).where(eq(testimonials.productId, id)).limit(1);
+    if (testimonialRef) {
+      return NextResponse.json({ error: "Produk tidak bisa dihapus karena masih ada testimoni terkait. Hapus testimoni terlebih dahulu." }, { status: 400 });
     }
     await db.delete(products).where(eq(products.id, id));
     await logProductDelete(id, existing.name);

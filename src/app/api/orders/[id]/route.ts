@@ -9,14 +9,23 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const [order] = await db.select().from(orders).where(eq(orders.id, id)).limit(1);
+    if (!id || typeof id !== "string") {
+      return NextResponse.json({ error: "Invalid order ID" }, { status: 400 });
+    }
+
+    const [order] = await db.select({
+      id: orders.id,
+      status: orders.status,
+      total: orders.total,
+      createdAt: orders.createdAt,
+    }).from(orders).where(eq(orders.id, id)).limit(1);
+
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
     const items = await db
       .select({
-        id: orderItems.id,
         quantity: orderItems.quantity,
         price: orderItems.price,
         productName: products.name,

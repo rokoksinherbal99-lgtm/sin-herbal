@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
 import { logOrderStatusChange } from "@/lib/api/audit";
 import { checkCSRF } from "@/lib/api/security";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 const VALID_STATUSES = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
 
@@ -20,6 +21,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   if (!await checkAuth(req)) return unauthorized();
   const csrfRes = checkCSRF(req);
   if (csrfRes) return csrfRes;
+  const rl = await checkRateLimit(req, 20);
+  if (rl) return rl;
   try {
     const { id } = await params;
     const { status: newStatus } = await req.json();

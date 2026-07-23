@@ -4,14 +4,17 @@ import path from "node:path";
 import { put } from "@vercel/blob";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
 import { checkCSRF } from "@/lib/api/security";
+import { checkRateLimit } from "@/lib/rate-limit";
 
-const ALLOWED = ["jpg", "jpeg", "png", "webp", "svg", "gif"];
+const ALLOWED = ["jpg", "jpeg", "png", "webp", "gif"];
 const MAX_SIZE = 2 * 1024 * 1024;
 
 export async function POST(req: NextRequest) {
   if (!await checkAuth(req)) return unauthorized();
   const csrfRes = checkCSRF(req);
   if (csrfRes) return csrfRes;
+  const rl = await checkRateLimit(req, 5);
+  if (rl) return rl;
 
   try {
     const formData = await req.formData();

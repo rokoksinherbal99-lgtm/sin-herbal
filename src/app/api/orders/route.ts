@@ -142,19 +142,20 @@ export async function POST(req: NextRequest) {
       price: priceMap.get(item.id) ?? 0,
     }));
 
-    await db.insert(orders).values({
-      id: orderId,
-      customer: body.customer,
-      email: body.email,
-      phone: body.phone,
-      address: body.address,
-      city: body.city,
-      province: body.province,
-      postalCode: body.postalCode,
-      total: serverTotal,
+    await db.transaction(async (tx) => {
+      await tx.insert(orders).values({
+        id: orderId,
+        customer: body.customer,
+        email: body.email,
+        phone: body.phone,
+        address: body.address,
+        city: body.city,
+        province: body.province,
+        postalCode: body.postalCode,
+        total: serverTotal,
+      });
+      await tx.insert(orderItems).values(itemRows);
     });
-
-    await db.insert(orderItems).values(itemRows);
 
     return NextResponse.json({ id: orderId });
   } catch (error) {

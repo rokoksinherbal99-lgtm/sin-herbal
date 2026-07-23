@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 import { checkAuth, hashPassword, verifyPassword, unauthorized, destroyAllSessions, createSession } from "@/lib/admin-auth";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
@@ -6,6 +7,16 @@ import { eq } from "drizzle-orm";
 import { logPasswordChange } from "@/lib/api/audit";
 import { checkCSRF } from "@/lib/api/security";
 import { checkRateLimit } from "@/lib/rate-limit";
+
+function safeCompare(a: string, b: string): boolean {
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) {
+    crypto.timingSafeEqual(bufA, Buffer.alloc(bufA.length));
+    return false;
+  }
+  return crypto.timingSafeEqual(bufA, bufB);
+}
 
 export async function POST(req: Request) {
   try {
@@ -33,13 +44,13 @@ export async function POST(req: Request) {
     const dbRow = await db.select().from(settings).where(eq(settings.key, "admin_password_hash")).limit(1);
     const dbHash = dbRow.length > 0 ? dbRow[0].value : null;
 
-    const envMatch = currentPassword === ADMIN_PASSWORD;
+    const envMatch = safeCompare(currentPassword, ADMIN_PASSWORD);
     let dbMatch = false;
     if (dbHash) {
       if (dbHash.startsWith("$2")) {
         dbMatch = await verifyPassword(currentPassword, dbHash);
       } else {
-        dbMatch = currentPassword === ADMIN_PASSWORD;
+        dbMatch = safeCompare(currentPassword, ADMIN_PASSWORD);
       }
     }
 
