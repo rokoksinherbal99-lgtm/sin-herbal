@@ -65,6 +65,60 @@ function buildSmartContext(message: string, intent: Intent, session?: SessionSta
 
 const sessions = new Map<string, SessionState>();
 
+const SESSION_TTL = 3600;
+
+let redisClient: any = null;
+let redisInitDone = false;
+
+function getRedis() {
+  if (redisInitDone) return redisClient;
+  redisInitDone = true;
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (url && token) {
+    try {
+      const { Redis } = require("@upstash/redis");
+      redisClient = new Redis({ url, token });
+    } catch {
+      console.warn("Redis unavailable for chat sessions, using in-memory fallback");
+    }
+  }
+  return redisClient;
+}
+
+async function getSession(sessionId: string): Promise<SessionState | undefined> {
+  const redis = getRedis();
+  if (redis) {
+    try {
+      const data = await redis.get(`chat:session:${sessionId}`);
+      return data ?? undefined;
+    } catch { /* fallback */ }
+  }
+  return sessions.get(sessionId);
+}
+
+async function setSession(sessionId: string, state: SessionState): Promise<void> {
+  const redis = getRedis();
+  if (redis) {
+    try {
+      await redis.set(`chat:session:${sessionId}`, state, { ex: SESSION_TTL });
+      return;
+    } catch { /* fallback */ }
+  }
+  sessions.set(sessionId, state);
+}
+
+async function deleteSession(sessionId: string): Promise<void> {
+  const redis = getRedis();
+  if (redis) {
+    try {
+      await redis.del(`chat:session:${sessionId}`);
+      return;
+    } catch { /* fallback */ }
+  }
+  sessions.delete(sessionId);
+}
+
 const EXACT_MATCHES: { pattern: RegExp; answer: string }[] = [
   { pattern: /dana/i, answer: "Bisa Kak! Kami support DANA, GoPay, OVO, ShopeePay, dan QRIS semua bank. Tinggal pilih metode yang paling nyaman." },
   { pattern: /batang.*bungkus|isi.*bungkus|berapa.*batang/i, answer: "Rokok 12 batang per bungkus Kak. Kopi kemasan 200gr." },
@@ -88,7 +142,7 @@ function getExactMatch(message: string): string | null {
   return null;
 }
 
-function handleFlow(flow: Flow, message: string, state: SessionState, sessionId: string): { reply: string; newState: SessionState } {
+function handleFlow(flow: Flow, message: string, state: SessionState): { reply: string; newState: SessionState; complete: boolean } {
   const stepIndex = state.stepIndex ?? 0;
 
   if (state.data) {
@@ -96,8 +150,7 @@ function handleFlow(flow: Flow, message: string, state: SessionState, sessionId:
   }
 
   if (stepIndex >= flow.steps.length) {
-    sessions.delete(sessionId);
-    return { reply: flow.completeMessage, newState: {} };
+    return { reply: flow.completeMessage, newState: {}, complete: true };
   }
 
   const step = flow.steps[stepIndex];
@@ -114,7 +167,7 @@ function handleFlow(flow: Flow, message: string, state: SessionState, sessionId:
     topicHistory: state.topicHistory,
   };
 
-  return { reply, newState };
+  return { reply, newState, complete: false };
 }
 
 export async function POST(req: NextRequest) {
@@ -128,9 +181,9 @@ export async function POST(req: NextRequest) {
     }
 
     const intent = classifyIntent(message);
-    const context = buildSmartContext(message, intent, sessions.get(sessionId));
+    const currentSession = (await getSession(sessionId)) ?? {};
+    const context = buildSmartContext(message, intent, currentSession);
     const flow = detectFlow(message);
-    const currentSession = sessions.get(sessionId) ?? {};
 
     const directKB = searchKnowledge(message);
     const directMatch = directKB && directKB.score <= 0.35;
@@ -143,23 +196,27 @@ export async function POST(req: NextRequest) {
         "Maaf Kak, Sin cuma bisa bantu soal Sin Herbal dan produk herbal Nusantara. 🙏 " +
         "Kalau ada yang ditanyakan seputar produk atau order, Sin siap bantu ya!";
     } else if (flow && !currentSession.flowId) {
-      const result = handleFlow(flow, message, { flowId: flow.id, stepIndex: 0, data: {} }, sessionId);
-      const newState = { ...result.newState, lastTopic: intent, topicHistory: [...(currentSession.topicHistory ?? []).slice(-4), intent] };
-      sessions.set(sessionId, newState);
-      reply = result.reply;
+      const result = handleFlow(flow, message, { flowId: flow.id, stepIndex: 0, data: {} });
+      if (result.complete) {
+        reply = result.reply;
+      } else {
+        const newState = { ...result.newState, lastTopic: intent, topicHistory: [...(currentSession.topicHistory ?? []).slice(-4), intent] };
+        await setSession(sessionId, newState);
+        reply = result.reply;
+      }
     } else if (currentSession.flowId) {
       const existingFlow = FLOWS.find((f) => f.id === currentSession.flowId);
       if (existingFlow) {
-        const result = handleFlow(existingFlow, message, currentSession, sessionId);
-        if (Object.keys(result.newState).length === 0) {
-          sessions.delete(sessionId);
+        const result = handleFlow(existingFlow, message, currentSession);
+        if (result.complete) {
+          await deleteSession(sessionId);
         } else {
           const newState = { ...result.newState, lastTopic: intent, topicHistory: [...(currentSession.topicHistory ?? []).slice(-4), intent] };
-          sessions.set(sessionId, newState);
+          await setSession(sessionId, newState);
         }
         reply = result.reply;
       } else {
-        sessions.delete(sessionId);
+        await deleteSession(sessionId);
         reply = "Oke, flow selesai. Ada lagi yang bisa Sin bantu?";
       }
     } else if (intent === "greeting") {
@@ -206,8 +263,8 @@ export async function POST(req: NextRequest) {
     }
 
     const newTopicHistory = [...(currentSession.topicHistory ?? []).slice(-4), intent];
-    sessions.set(sessionId, {
-      ...sessions.get(sessionId),
+    await setSession(sessionId, {
+      ...(await getSession(sessionId)),
       lastTopic: intent,
       topicHistory: newTopicHistory,
     });

@@ -139,21 +139,13 @@ export default function AdminOrdersPage() {
     if (!custName || cart.length === 0) { toast("Isi nama dan minimal 1 produk", "error"); return; }
     setSaving(true);
     try {
-      const res = await fetch("/api/orders", {
+      const res = await fetch("/api/admin/orders/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customer: custName,
-          email: `${custPhone || "manual"}@whatsapp.com`,
           phone: custPhone,
-          address: "Pesanan via WhatsApp",
-          city: "-",
-          province: "-",
-          postalCode: "-",
-          items: cart.map((c) => ({ id: c.productId, name: c.name, price: c.price, quantity: c.quantity })),
-          total: cart.reduce((sum, c) => sum + c.price * c.quantity, 0),
-          _website: "",
-          _timestamp: Date.now(),
+          items: cart.map((c) => ({ id: c.productId, quantity: c.quantity })),
         }),
       });
       if (!res.ok) throw new Error();

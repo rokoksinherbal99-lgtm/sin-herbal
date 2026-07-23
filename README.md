@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sin Herbal
+
+E-commerce & company profile untuk Sin Herbal — distributor resmi produk herbal berkualitas dari TSI (PT Triday Sinergi Indonesia).
+
+**Live:** [rokoksin.vercel.app](https://rokoksin.vercel.app)
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Database:** PostgreSQL (Neon) + Drizzle ORM
+- **Auth:** Bcrypt password hashing, DB sessions (24h sliding window)
+- **Rate Limiting:** Upstash Redis (with in-memory fallback)
+- **Chat AI:** Groq LLM (Llama 3.3 70B) + Fuse.js knowledge base
+- **PWA:** Service worker with stale-while-revalidate caching
+- **Styling:** Tailwind CSS v4
+
+## Features
+
+- Product catalog with 19 products from TSI (SKT, SKM, Kopi)
+- Shopping cart & order flow
+- Admin panel (CRUD products, manage orders, testimonials)
+- AI chatbot ("Sin") with knowledge base, conversational flows, anti-hallucination
+- Journal articles
+- PWA installable on mobile
+- SEO: OG tags, JSON-LD, sitemap, robots.txt
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
+cp .env.example .env.local   # fill in env vars
+npm run db:push               # push schema to Neon
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+See `.env.example` for the full list. Key vars:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Purpose |
+|---|---|
+| `DATABASE_URL` | Neon PostgreSQL connection string |
+| `ADMIN_PASSWORD` | Admin panel password |
+| `GROQ_API_KEY` | Groq API for chatbot LLM |
+| `UPSTASH_REDIS_REST_URL` | Upstash Redis (rate limiting + chat sessions) |
+| `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis auth token |
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Start dev server |
+| `npm run build` | Production build |
+| `npm run db:push` | Push Drizzle schema to database |
+| `npm run db:seed` | Seed database with products |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├── app/
+│   ├── api/
+│   │   ├── admin/         # Admin API (auth-protected)
+│   │   ├── chat/          # AI chatbot endpoint
+│   │   └── orders/        # Public order creation
+│   ├── admin/             # Admin panel pages
+│   ├── products/          # Product catalog
+│   ├── journal/           # Blog articles
+│   └── ...                # Other pages (FAQ, Harga, etc.)
+├── components/            # React components
+├── lib/
+│   ├── chat/              # Chatbot: knowledge base, flows, intent, matcher
+│   ├── admin-auth.ts      # Admin session management
+│   ├── rate-limit.ts      # Rate limiting (Redis + in-memory)
+│   └── systemPrompt.ts    # LLM system prompt
+├── db/
+│   ├── schema.ts          # Drizzle schema
+│   └── index.ts           # DB connection
+public/
+└── images/                # Product photos (local)
+```
 
-## Deploy on Vercel
+## Admin Access
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- URL: [rokoksin.vercel.app/admin](https://rokoksin.vercel.app/admin)
+- Credentials configured via `ADMIN_PASSWORD` env variable
