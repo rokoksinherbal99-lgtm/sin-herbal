@@ -48,6 +48,8 @@ export async function POST(req: Request) {
   }
 }
 
+const ALLOWED_FIELDS = new Set(["name", "text", "productId", "city", "rating", "visible"]);
+
 export async function PUT(req: Request) {
   if (!await checkAuth(req)) return unauthorized();
   const csrfRes = checkCSRF(req);
@@ -56,13 +58,27 @@ export async function PUT(req: Request) {
   if (rl) return rl;
   try {
     const { id, ...data } = await req.json();
-    const clean = { ...data };
+
+    if (!id || typeof id !== "string") {
+      return NextResponse.json({ error: "ID testimoni wajib diisi" }, { status: 400 });
+    }
+
+    const clean: Record<string, any> = {};
+    for (const key of Object.keys(data)) {
+      if (ALLOWED_FIELDS.has(key)) clean[key] = data[key];
+    }
+
     if (typeof clean.name === "string") clean.name = sanitize(clean.name.trim());
     if (typeof clean.text === "string") clean.text = sanitize(clean.text.trim());
     if (typeof clean.city === "string") clean.city = sanitize(clean.city.trim());
     if (typeof clean.rating === "number") {
       if (clean.rating < 1 || clean.rating > 5) clean.rating = 5;
     }
+
+    if (Object.keys(clean).length === 0) {
+      return NextResponse.json({ error: "Tidak ada field yang diupdate" }, { status: 400 });
+    }
+
     await db.update(testimonials).set(clean).where(eq(testimonials.id, id));
     await logTestimonialUpdate(id);
     return NextResponse.json({ ok: true });
@@ -80,6 +96,11 @@ export async function DELETE(req: Request) {
   if (rl) return rl;
   try {
     const { id } = await req.json();
+
+    if (!id || typeof id !== "string") {
+      return NextResponse.json({ error: "ID testimoni wajib diisi" }, { status: 400 });
+    }
+
     await db.delete(testimonials).where(eq(testimonials.id, id));
     await logTestimonialDelete(id);
     return NextResponse.json({ ok: true });

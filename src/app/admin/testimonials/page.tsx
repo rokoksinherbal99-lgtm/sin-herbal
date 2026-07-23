@@ -30,17 +30,20 @@ export default function AdminTestimonials() {
   const [edit, setEdit] = useState<Testimonial | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const { toast } = useToast();
 
   const fetchData = () => {
+    setFetching(true);
     fetch("/api/admin/testimonials")
       .then((r) => r.json())
       .then(setList)
-      .catch(() => toast("Gagal memuat testimoni", "error"));
+      .catch(() => toast("Gagal memuat testimoni", "error"))
+      .finally(() => setFetching(false));
     fetch("/api/admin/products")
       .then((r) => r.json())
       .then(setProducts)
-      .catch(() => {});
+      .catch(() => toast("Gagal memuat produk", "error"));
   };
 
   useEffect(() => { fetchData(); }, []);
@@ -135,7 +138,8 @@ export default function AdminTestimonials() {
       )}
 
       <div className="mt-6 space-y-3">
-        {list.map((t) => (
+        {fetching && <p className="text-center text-sm text-gray-400 py-10">Memuat...</p>}
+        {!fetching && list.map((t) => (
           <div key={t.id} className="flex items-start gap-4 rounded-xl border bg-white p-5 shadow-sm">
             <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-gray-100">
               {t.productImage ? (
@@ -165,7 +169,7 @@ export default function AdminTestimonials() {
             </div>
           </div>
         ))}
-        {list.length === 0 && <p className="text-center text-sm text-gray-400 py-10">Belum ada testimoni</p>}
+        {!fetching && list.length === 0 && <p className="text-center text-sm text-gray-400 py-10">Belum ada testimoni</p>}
       </div>
     </div>
   );

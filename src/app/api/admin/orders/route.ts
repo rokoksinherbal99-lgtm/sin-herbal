@@ -5,6 +5,10 @@ import { eq, desc, inArray } from "drizzle-orm";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
 import { logAudit } from "@/lib/api/audit";
 import { checkCSRF } from "@/lib/api/security";
+import { checkRateLimit } from "@/lib/rate-limit";
+
+const BLOCKED_STATUSES = ["shipped", "delivered"];
+const MAX_BULK_DELETE = 100;
 
 export async function GET(req: Request) {
   if (!await checkAuth(req)) return unauthorized();
@@ -43,6 +47,8 @@ export async function DELETE(req: NextRequest) {
   if (!await checkAuth(req)) return unauthorized();
   const csrfRes = checkCSRF(req);
   if (csrfRes) return csrfRes;
+  const rl = await checkRateLimit(req, 10);
+  if (rl) return rl;
 
   try {
     const { ids } = await req.json();
@@ -51,12 +57,29 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "IDs pesanan wajib diisi" }, { status: 400 });
     }
 
-    await db.delete(orderItems).where(inArray(orderItems.orderId, ids));
-    await db.delete(orders).where(inArray(orders.id, ids));
+    if (ids.length > MAX_BULK_DELETE) {
+      return NextResponse.json({ error: `Maksimal ${MAX_BULK_DELETE} pesanan per hapus` }, { status: 400 });
+    }
 
-    await logAudit("bulk_delete_orders", "order", ids.join(","), `Menghapus ${ids.length} pesanan spam`);
+    const orderRows = await db.select({ id: orders.id, status: orders.status }).from(orders).where(inArray(orders.id, ids));
 
-    return NextResponse.json({ success: true, deleted: ids.length });
+    const blocked = orderRows.filter((o) => BLOCKED_STATUSES.includes(o.status));
+    if (blocked.length > 0) {
+      return NextResponse.json({
+        error: `Tidak bisa menghapus pesanan dengan status: ${blocked.map((o) => `${o.id.slice(-6)} (${o.status})`).join(", ")}`,
+      }, { status: 400 });
+    }
+
+    const validIds = orderRows.map((o) => o.id);
+
+    await db.transaction(async (tx) => {
+      await tx.delete(orderItems).where(inArray(orderItems.orderId, validIds));
+      await tx.delete(orders).where(inArray(orders.id, validIds));
+    });
+
+    await logAudit("bulk_delete_orders", "order", validIds.join(","), `Menghapus ${validIds.length} pesanan`);
+
+    return NextResponse.json({ success: true, deleted: validIds.length });
   } catch (err) {
     console.error("Admin orders DELETE error:", err);
     return NextResponse.json({ error: "Gagal menghapus pesanan" }, { status: 500 });

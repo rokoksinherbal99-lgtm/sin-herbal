@@ -60,7 +60,7 @@ export default function AdminOrdersPage() {
     fetch("/api/admin/products")
       .then((r) => r.json())
       .then(setProducts)
-      .catch(() => {});
+      .catch(() => toast("Gagal memuat produk", "error"));
   }, []);
 
   const updateStatus = async (id: string, status: string) => {
@@ -86,8 +86,21 @@ export default function AdminOrdersPage() {
   const bulkUpdateStatus = async (newStatus: string) => {
     if (selected.size === 0) return;
     if (newStatus === "cancelled" && !confirm(`Batalkan ${selected.size} pesanan terpilih?`)) return;
-    for (const id of selected) await updateStatus(id, newStatus);
+    const ids = Array.from(selected);
+    const results = await Promise.allSettled(
+      ids.map((id) =>
+        fetch(`/api/admin/orders/${id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: newStatus }),
+        }).then((r) => { if (!r.ok) throw new Error(); return r; })
+      )
+    );
+    const failed = results.filter((r) => r.status === "rejected").length;
+    if (failed > 0) toast(`${ids.length - failed} berhasil, ${failed} gagal`, failed === ids.length ? "error" : "success");
+    else toast(`${ids.length} pesanan berhasil diubah`);
     setSelected(new Set());
+    fetchOrders();
   };
 
   const bulkDelete = async () => {
@@ -111,9 +124,10 @@ export default function AdminOrdersPage() {
   const bulkPrint = () => {
     if (selected.size === 0) return;
     const selectedOrders = orders.filter((o) => selected.has(o.id));
+    const escapeHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
     const text = selectedOrders.map((o) => {
-      const items = o.items.map((i) => `${i.name} x${i.quantity} = ${formatPrice(i.price * i.quantity)}`).join("\n");
-      return `INVOICE #${o.id.slice(-6)}\nPelanggan: ${o.customer}\nStatus: ${o.status}\n\n${items}\nTotal: ${formatPrice(o.total)}\n---`;
+      const items = o.items.map((i) => `${escapeHtml(i.name)} x${i.quantity} = ${formatPrice(i.price * i.quantity)}`).join("\n");
+      return `INVOICE #${o.id.slice(-6)}\nPelanggan: ${escapeHtml(o.customer)}\nStatus: ${escapeHtml(o.status)}\n\n${items}\nTotal: ${formatPrice(o.total)}\n---`;
     }).join("\n\n");
     const win = window.open("", "_blank");
     if (win) {

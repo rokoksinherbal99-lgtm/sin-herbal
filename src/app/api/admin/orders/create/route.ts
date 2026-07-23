@@ -1,22 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { orders, orderItems, products } from "@/db/schema";
-import { eq, inArray } from "drizzle-orm";
+import { inArray } from "drizzle-orm";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
+import { checkCSRF } from "@/lib/api/security";
+import { checkRateLimit } from "@/lib/rate-limit";
+
+const MAX_ITEMS = 50;
 
 export async function POST(req: NextRequest) {
   if (!(await checkAuth(req))) return unauthorized();
+  const csrfRes = checkCSRF(req);
+  if (csrfRes) return csrfRes;
+  const rl = await checkRateLimit(req, 20);
+  if (rl) return rl;
 
   try {
     const body = await req.json();
     const { customer, phone, items } = body;
 
-    if (!customer || typeof customer !== "string") {
+    if (!customer || typeof customer !== "string" || customer.trim().length === 0) {
       return NextResponse.json({ error: "Nama pelanggan wajib diisi" }, { status: 400 });
     }
 
     if (!Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: "Minimal 1 item" }, { status: 400 });
+    }
+
+    if (items.length > MAX_ITEMS) {
+      return NextResponse.json({ error: `Maksimal ${MAX_ITEMS} item per pesanan` }, { status: 400 });
+    }
+
+    for (const item of items) {
+      if (!item.id || typeof item.id !== "string") {
+        return NextResponse.json({ error: "ID produk tidak valid" }, { status: 400 });
+      }
+      if (!Number.isInteger(item.quantity) || item.quantity < 1) {
+        return NextResponse.json({ error: "Quantity harus bilangan bulat positif" }, { status: 400 });
+      }
     }
 
     const productIds = items.map((item: any) => item.id);
@@ -45,19 +66,20 @@ export async function POST(req: NextRequest) {
       };
     });
 
-    await db.insert(orders).values({
-      id: orderId,
-      customer,
-      email: `${phone || "manual"}@whatsapp.com`,
-      phone: phone || "",
-      address: "Pesanan via WhatsApp",
-      city: "-",
-      province: "-",
-      postalCode: "-",
-      total: serverTotal,
+    await db.transaction(async (tx) => {
+      await tx.insert(orders).values({
+        id: orderId,
+        customer: customer.trim(),
+        email: `${phone || "manual"}@whatsapp.com`,
+        phone: phone || "",
+        address: "Pesanan via WhatsApp",
+        city: "-",
+        province: "-",
+        postalCode: "-",
+        total: serverTotal,
+      });
+      await tx.insert(orderItems).values(itemRows);
     });
-
-    await db.insert(orderItems).values(itemRows);
 
     return NextResponse.json({ id: orderId });
   } catch (error) {

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { products, orders } from "@/db/schema";
-import { count, desc, lt } from "drizzle-orm";
+import { count, sum, eq, and, lt, desc } from "drizzle-orm";
 import { checkAuth, unauthorized } from "@/lib/admin-auth";
 
 export async function GET(req: Request) {
@@ -9,28 +9,84 @@ export async function GET(req: Request) {
   try {
     const [productCount] = await db.select({ value: count() }).from(products);
 
-    const allOrders = await db.select().from(orders).orderBy(desc(orders.createdAt));
-    const revenue = allOrders
-      .filter((o) => o.status !== "cancelled")
-      .reduce((sum, o) => sum + o.total, 0);
+    const [totalOrders] = await db.select({ value: count() }).from(orders);
+
+    const [revenueRow] = await db
+      .select({ value: sum(orders.total) })
+      .from(orders)
+      .where(and(
+        eq(orders.status, "pending"),
+      ));
+    const [revenueNonPending] = await db
+      .select({ value: sum(orders.total) })
+      .from(orders)
+      .where(and(
+        eq(orders.status, "confirmed"),
+      ));
+    const [revenueShipped] = await db
+      .select({ value: sum(orders.total) })
+      .from(orders)
+      .where(and(
+        eq(orders.status, "shipped"),
+      ));
+    const [revenueDelivered] = await db
+      .select({ value: sum(orders.total) })
+      .from(orders)
+      .where(and(
+        eq(orders.status, "delivered"),
+      ));
+    const [revenueProcessing] = await db
+      .select({ value: sum(orders.total) })
+      .from(orders)
+      .where(and(
+        eq(orders.status, "processing"),
+      ));
+
+    const revenue =
+      (Number(revenueRow?.value) || 0) +
+      (Number(revenueNonPending?.value) || 0) +
+      (Number(revenueShipped?.value) || 0) +
+      (Number(revenueDelivered?.value) || 0) +
+      (Number(revenueProcessing?.value) || 0);
+
+    const [pendingCount] = await db
+      .select({ value: count() })
+      .from(orders)
+      .where(and(
+        eq(orders.status, "pending"),
+      ));
+    const [processingCount] = await db
+      .select({ value: count() })
+      .from(orders)
+      .where(and(
+        eq(orders.status, "processing"),
+      ));
+
+    const pendingOrders = (Number(pendingCount?.value) || 0) + (Number(processingCount?.value) || 0);
 
     const lowStockItems = await db.select({ id: products.id, name: products.name, stock: products.stock })
       .from(products)
       .where(lt(products.stock, 11));
 
+    const recentOrders = await db
+      .select({
+        id: orders.id,
+        customer: orders.customer,
+        total: orders.total,
+        status: orders.status,
+        createdAt: orders.createdAt,
+      })
+      .from(orders)
+      .orderBy(desc(orders.createdAt))
+      .limit(5);
+
     return NextResponse.json({
       products: productCount?.value ?? 0,
-      orders: allOrders.length,
+      orders: totalOrders?.value ?? 0,
       revenue,
-      pendingOrders: allOrders.filter((o) => o.status === "pending" || o.status === "processing").length,
+      pendingOrders,
       lowStock: lowStockItems,
-      recentOrders: allOrders.slice(0, 5).map((o) => ({
-        id: o.id,
-        customer: o.customer,
-        total: o.total,
-        status: o.status,
-        createdAt: o.createdAt,
-      })),
+      recentOrders,
     });
   } catch (err) {
     console.error("Stats error:", err);

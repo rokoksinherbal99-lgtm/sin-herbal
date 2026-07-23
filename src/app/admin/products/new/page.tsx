@@ -30,7 +30,7 @@ export default function NewProductPage() {
       const arr = Array.from(cats.values());
       setCategories(arr);
       if (arr.length > 0 && !form.categoryId) setForm((prev) => ({ ...prev, categoryId: arr[0].id }));
-    }).catch(() => {});
+    }).catch(() => toast("Gagal memuat kategori", "error"));
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
